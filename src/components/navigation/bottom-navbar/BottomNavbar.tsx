@@ -2,16 +2,16 @@ import { Image, Pressable, StyleSheet, View } from "react-native";
 import type { ImageSourcePropType } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { theme } from "@/theme";
+import { theme } from '@theme';
 
 const ICON_SIZE = 24;
 const BAR_HEIGHT = 61;
 
-const homeIcon = require("../../../../assets/home.png");
-const foodIcon = require("../../../../assets/food.png");
-const favoritesIcon = require("../../../../assets/favorites.png");
-const ordersIcon = require("../../../../assets/orders.png");
-const supportIcon = require("../../../../assets/support.png");
+const homeIcon = require('@/assets/home.png');
+const foodIcon = require('@/assets/food.png');
+const favoritesIcon = require('@/assets/favorites.png');
+const ordersIcon = require('@/assets/orders.png');
+const supportIcon = require('@/assets/support.png');
 
 export const bottomNavTabs = [
   "home",

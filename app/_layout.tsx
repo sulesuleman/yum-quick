@@ -10,7 +10,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-import { theme } from "@/theme";
+import { theme } from '@theme';
 
 void SplashScreen.preventAutoHideAsync();
 

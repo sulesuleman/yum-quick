@@ -1,7 +1,7 @@
 import type { PressableProps, StyleProp, ViewStyle } from "react-native";
 import { Pressable, StyleSheet, Text } from "react-native";
 
-import { theme } from "@/theme";
+import { theme } from '@theme';
 
 export type ButtonVariant = "primary" | "signUp" | "cta";
 
