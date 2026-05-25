@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 
-import { theme } from '@/theme';
+import { theme } from '@theme';
 
 import { fieldStyles } from './fieldStyles';
 

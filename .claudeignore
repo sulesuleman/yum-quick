@@ -1,0 +1,21 @@
+# Build & cache
+node_modules/
+.expo/
+dist/
+web-build/
+.metro-health-check*
+*.tsbuildinfo
+
+# Lock file
+package-lock.json
+
+# Binary assets
+assets/
+
+# Git internals
+.git/
+
+# Native generated folders
+android/
+ios/
+.kotlin/

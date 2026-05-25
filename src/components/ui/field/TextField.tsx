@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import type { StyleProp, TextInputProps, ViewStyle } from 'react-native';
 
-import { theme } from '@/theme';
+import { theme } from '@theme';
 
 import { fieldStyles } from './fieldStyles';
 

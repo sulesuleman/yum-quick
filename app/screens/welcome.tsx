@@ -1,4 +1,4 @@
-import { WelcomeScreen } from '../../src/features/welcome/WelcomeScreen';
+import { WelcomeScreen } from '@features/welcome/WelcomeScreen';
 
 export default function WelcomeRoute() {
   return <WelcomeScreen />;

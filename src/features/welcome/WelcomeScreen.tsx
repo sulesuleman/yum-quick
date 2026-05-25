@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useRef } from "react";
-import { Animated, Easing, StyleSheet, Text, View } from "react-native";
+import { Animated, Easing, StyleSheet, Text } from "react-native";
 
-import { AppScreen, BrandLogo, Button } from "@/components";
-import { theme } from "@/theme";
+import { AppScreen, BrandLogo, Button } from '@components';
+import { theme } from '@theme';
 
-const welcomeLogo = require("../../../assets/yumQuick-welcome.png");
+const welcomeLogo = require('@/assets/yumQuick-welcome.png');
 
 const ENTER_MS = 500;
 const STAGGER_MS = 120;

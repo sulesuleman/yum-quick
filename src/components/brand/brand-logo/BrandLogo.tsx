@@ -2,7 +2,7 @@ import { Image } from 'react-native';
 import type { ImageSourcePropType, ImageStyle, StyleProp } from 'react-native';
 
 const BRAND_LOGO_ASPECT_RATIO = 216 / 244;
-const splashLogo = require('../../../../assets/yumQuick-splash.png');
+const splashLogo = require('@/assets/yumQuick-splash.png');
 
 export type BrandLogoProps = {
   width?: number;

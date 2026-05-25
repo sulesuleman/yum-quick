@@ -3,8 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
-import { AppScreen, BrandLogo } from '@/components';
-import { theme } from '@/theme';
+import { AppScreen, BrandLogo } from '@components';
+import { theme } from '@theme';
 
 const SPLASH_HOLD_MS = 1400;
 const FADE_IN_MS = 600;
