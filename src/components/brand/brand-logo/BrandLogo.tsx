@@ -10,21 +10,17 @@ export type BrandLogoProps = {
   source?: ImageSourcePropType;
 };
 
-export function BrandLogo({
-  width = 216,
-  style,
-  source = splashLogo,
-}: BrandLogoProps) {
+export function BrandLogo({ width = 216, style, source = splashLogo }: BrandLogoProps) {
   return (
     <Image
       source={source}
-      resizeMode="contain"
+      resizeMode='contain'
       style={[
         {
           width,
-          aspectRatio: BRAND_LOGO_ASPECT_RATIO,
+          aspectRatio: BRAND_LOGO_ASPECT_RATIO
         },
-        style,
+        style
       ]}
     />
   );

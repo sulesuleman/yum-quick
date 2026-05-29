@@ -1,6 +1,7 @@
-import { StatusBar } from "expo-status-bar";
-import { useEffect, useRef } from "react";
-import { Animated, Easing, StyleSheet, Text } from "react-native";
+import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect, useRef } from 'react';
+import { Animated, Easing, StyleSheet, Text } from 'react-native';
 
 import { AppScreen, BrandLogo, Button } from '@components';
 import { theme } from '@theme';
@@ -11,6 +12,7 @@ const ENTER_MS = 500;
 const STAGGER_MS = 120;
 
 export function WelcomeScreen() {
+  const router = useRouter();
   const screenOpacity = useRef(new Animated.Value(0)).current;
   const logoAnim = useRef(new Animated.Value(0)).current;
   const titleAnim = useRef(new Animated.Value(0)).current;
@@ -22,13 +24,13 @@ export function WelcomeScreen() {
         toValue: 1,
         duration: ENTER_MS,
         easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
+        useNativeDriver: true
       }),
       Animated.stagger(STAGGER_MS, [
         createEnterAnimation(logoAnim),
         createEnterAnimation(titleAnim),
-        createEnterAnimation(buttonsAnim),
-      ]),
+        createEnterAnimation(buttonsAnim)
+      ])
     ]).start();
   }, [buttonsAnim, logoAnim, screenOpacity, titleAnim]);
 
@@ -49,17 +51,17 @@ export function WelcomeScreen() {
                   {
                     translateY: logoAnim.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [24, -20],
-                    }),
+                      outputRange: [24, -20]
+                    })
                   },
                   {
                     scale: logoAnim.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0.92, 1],
-                    }),
-                  },
-                ],
-              },
+                      outputRange: [0.92, 1]
+                    })
+                  }
+                ]
+              }
             ]}
           >
             <BrandLogo source={welcomeLogo} />
@@ -74,16 +76,15 @@ export function WelcomeScreen() {
                   {
                     translateY: titleAnim.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [20, 0],
-                    }),
-                  },
-                ],
-              },
+                      outputRange: [20, 0]
+                    })
+                  }
+                ]
+              }
             ]}
           >
             <Text style={styles.title}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.
             </Text>
           </Animated.View>
 
@@ -96,15 +97,15 @@ export function WelcomeScreen() {
                   {
                     translateY: buttonsAnim.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [28, 0],
-                    }),
-                  },
-                ],
-              },
+                      outputRange: [28, 0]
+                    })
+                  }
+                ]
+              }
             ]}
           >
-            <Button title="Get Started" variant="primary" onPress={() => {}} />
-            <Button title="Sign Up" variant="signUp" onPress={() => {}} />
+            <Button title='Log In' variant='primary' onPress={() => router.push('/login')} />
+            <Button title='Sign Up' variant='signUp' onPress={() => router.push('/signup')} />
           </Animated.View>
         </AppScreen>
       </Animated.View>
@@ -117,37 +118,37 @@ function createEnterAnimation(value: Animated.Value) {
     toValue: 1,
     duration: ENTER_MS,
     easing: Easing.out(Easing.cubic),
-    useNativeDriver: true,
+    useNativeDriver: true
   });
 }
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
+    flex: 1
   },
   content: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   brandLockup: {
-    alignItems: "center",
+    alignItems: 'center'
   },
   titleContainer: {
     paddingTop: 30,
-    paddingBottom: 30,
+    paddingBottom: 30
   },
   title: {
     color: theme.colors.text.inverse,
     fontFamily: theme.typography.families.bold,
     fontSize: theme.typography.sizes.body,
-    textAlign: "center",
-    paddingHorizontal: 46,
+    textAlign: 'center',
+    paddingHorizontal: 46
   },
   buttonContainer: {
-    width: "100%",
-    flexDirection: "column",
+    width: '100%',
+    flexDirection: 'column',
     gap: 10,
-    alignItems: "stretch",
-    paddingHorizontal: 93,
-  },
+    alignItems: 'stretch',
+    paddingHorizontal: 93
+  }
 });

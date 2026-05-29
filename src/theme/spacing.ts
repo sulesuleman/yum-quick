@@ -7,5 +7,5 @@ export const spacing = {
   '2xl': 48,
   '3xl': 64,
   /** Gap between bottom navbar icons (Figma) */
-  navbarIconGap: 49,
+  navbarIconGap: 49
 } as const;

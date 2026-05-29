@@ -1,11 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
-import {
-  Pressable,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import type { StyleProp, TextInputProps, ViewStyle } from 'react-native';
 
 import { theme } from '@theme';
@@ -51,12 +46,7 @@ export function TextField({
     <View style={[fullWidth && fieldStyles.wrapper, containerStyle]}>
       {label ? <Text style={fieldStyles.label}>{label}</Text> : null}
 
-      <View
-        style={[
-          fieldStyles.container,
-          !editable && fieldStyles.containerDisabled,
-        ]}
-      >
+      <View style={[fieldStyles.container, !editable && fieldStyles.containerDisabled]}>
         <TextInput
           {...inputProps}
           editable={editable}
@@ -69,7 +59,7 @@ export function TextField({
 
         {isPassword ? (
           <Pressable
-            accessibilityRole="button"
+            accessibilityRole='button'
             accessibilityLabel={passwordVisible ? 'Hide password' : 'Show password'}
             hitSlop={8}
             onPress={() => setPasswordVisible((visible) => !visible)}

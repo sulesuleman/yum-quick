@@ -1,16 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
-import DateTimePicker, {
-  DateTimePickerAndroid,
-} from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useState } from 'react';
-import {
-  Modal,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 import { theme } from '@theme';
@@ -44,14 +35,14 @@ function formatValue(date: Date | null | undefined, mode: DatePickerFieldProps['
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit',
+      minute: '2-digit'
     });
   }
 
   return date.toLocaleDateString([], {
     year: 'numeric',
     month: 'short',
-    day: 'numeric',
+    day: 'numeric'
   });
 }
 
@@ -66,7 +57,7 @@ export function DatePickerField({
   mode = 'date',
   containerStyle,
   fullWidth = true,
-  disabled = false,
+  disabled = false
 }: DatePickerFieldProps) {
   const [showIosPicker, setShowIosPicker] = useState(false);
   const [iosDraft, setIosDraft] = useState(value ?? new Date());
@@ -90,7 +81,7 @@ export function DatePickerField({
           if (event.type === 'set' && selectedDate) {
             onChange(selectedDate);
           }
-        },
+        }
       });
       return;
     }
@@ -109,35 +100,28 @@ export function DatePickerField({
       {label ? <Text style={fieldStyles.label}>{label}</Text> : null}
 
       <Pressable
-        accessibilityRole="button"
+        accessibilityRole='button'
         disabled={disabled}
         onPress={openPicker}
         style={({ pressed }) => [
           fieldStyles.container,
           disabled && fieldStyles.containerDisabled,
-          pressed && !disabled && { opacity: 0.92 },
+          pressed && !disabled && { opacity: 0.92 }
         ]}
       >
-        <Text
-          style={[fieldStyles.valueText, !hasValue && styles.placeholder]}
-          numberOfLines={1}
-        >
+        <Text style={[fieldStyles.valueText, !hasValue && styles.placeholder]} numberOfLines={1}>
           {displayText}
         </Text>
 
         <View style={fieldStyles.adornment}>
-          <Ionicons
-            name="calendar-outline"
-            size={22}
-            color={theme.colors.background.orangeBase}
-          />
+          <Ionicons name='calendar-outline' size={22} color={theme.colors.background.orangeBase} />
         </View>
       </Pressable>
 
       {error ? <Text style={fieldStyles.error}>{error}</Text> : null}
 
       {Platform.OS === 'ios' ? (
-        <Modal transparent animationType="slide" visible={showIosPicker}>
+        <Modal transparent animationType='slide' visible={showIosPicker}>
           <View style={iosStyles.overlay}>
             <View style={iosStyles.sheet}>
               <View style={iosStyles.toolbar}>
@@ -145,15 +129,13 @@ export function DatePickerField({
                   <Text style={iosStyles.toolbarAction}>Cancel</Text>
                 </Pressable>
                 <Pressable onPress={confirmIosPicker}>
-                  <Text style={[iosStyles.toolbarAction, iosStyles.toolbarConfirm]}>
-                    Done
-                  </Text>
+                  <Text style={[iosStyles.toolbarAction, iosStyles.toolbarConfirm]}>Done</Text>
                 </Pressable>
               </View>
               <DateTimePicker
                 value={iosDraft}
                 mode={mode}
-                display="spinner"
+                display='spinner'
                 minimumDate={minimumDate}
                 maximumDate={maximumDate}
                 onChange={(_, selectedDate) => {
@@ -170,20 +152,20 @@ export function DatePickerField({
 
 const styles = StyleSheet.create({
   placeholder: {
-    opacity: 0.55,
-  },
+    opacity: 0.55
+  }
 });
 
 const iosStyles = StyleSheet.create({
   overlay: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.4)'
   },
   sheet: {
     backgroundColor: theme.colors.text.inverse,
     borderTopLeftRadius: theme.radii.screen,
-    borderTopRightRadius: theme.radii.screen,
+    borderTopRightRadius: theme.radii.screen
   },
   toolbar: {
     flexDirection: 'row',
@@ -191,15 +173,15 @@ const iosStyles = StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     paddingVertical: theme.spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.background.yellow2,
+    borderBottomColor: theme.colors.background.yellow2
   },
   toolbarAction: {
     fontFamily: theme.typography.families.medium,
     fontSize: theme.typography.sizes.body,
-    color: theme.colors.text.primary,
+    color: theme.colors.text.primary
   },
   toolbarConfirm: {
     color: theme.colors.background.orangeBase,
-    fontFamily: theme.typography.families.bold,
-  },
+    fontFamily: theme.typography.families.bold
+  }
 });

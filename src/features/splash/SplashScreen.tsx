@@ -23,20 +23,20 @@ export function SplashScreen() {
         toValue: 1,
         duration: FADE_IN_MS,
         easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
+        useNativeDriver: true
       }),
       Animated.timing(logoOpacity, {
         toValue: 1,
         duration: FADE_IN_MS,
         easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
+        useNativeDriver: true
       }),
       Animated.timing(logoScale, {
         toValue: 1,
         duration: FADE_IN_MS,
         easing: Easing.out(Easing.cubic),
-        useNativeDriver: true,
-      }),
+        useNativeDriver: true
+      })
     ]);
 
     const exit = Animated.parallel([
@@ -44,26 +44,22 @@ export function SplashScreen() {
         toValue: 0,
         duration: FADE_OUT_MS,
         easing: Easing.in(Easing.cubic),
-        useNativeDriver: true,
+        useNativeDriver: true
       }),
       Animated.timing(logoScale, {
         toValue: 1.06,
         duration: FADE_OUT_MS,
         easing: Easing.in(Easing.cubic),
-        useNativeDriver: true,
-      }),
+        useNativeDriver: true
+      })
     ]);
 
-    const sequence = Animated.sequence([
-      entrance,
-      Animated.delay(SPLASH_HOLD_MS),
-      exit,
-    ]);
+    const sequence = Animated.sequence([entrance, Animated.delay(SPLASH_HOLD_MS), exit]);
 
     sequence.start(({ finished }) => {
       if (!finished || hasNavigated.current) return;
       hasNavigated.current = true;
-      router.replace('/screens/welcome');
+      router.replace('/welcome');
     });
 
     return () => sequence.stop();
@@ -79,8 +75,8 @@ export function SplashScreen() {
               styles.brandLockup,
               {
                 opacity: logoOpacity,
-                transform: [{ scale: logoScale }, { translateY: -20 }],
-              },
+                transform: [{ scale: logoScale }, { translateY: -20 }]
+              }
             ]}
           >
             <BrandLogo />
@@ -93,13 +89,13 @@ export function SplashScreen() {
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
+    flex: 1
   },
   content: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   brandLockup: {
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });
