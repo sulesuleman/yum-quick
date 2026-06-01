@@ -9,34 +9,41 @@ npx expo start          # Start dev server (opens QR for Expo Go)
 npx expo start --android
 npx expo start --ios
 npx expo start --web
-npm run lint            # ESLint via expo lint
-npm run reset-project   # Wipe app/ back to blank starter
+npm run format          # Prettier write
+npm run format:check    # Prettier check
 ```
 
-No test suite is configured.
+No lint or test suite is configured.
 
 ## Architecture
 
-**Routing** — Expo Router (file-based). `app/` maps directly to routes:
-- `app/_layout.tsx` — root Stack navigator; owns the 2-second splash screen (rendered in React, not native) and wraps everything in React Navigation's `ThemeProvider`
-- `app/(tabs)/` — bottom-tab group; `_layout.tsx` configures two tabs (Home, Explore)
-- `app/welcome/` — standalone screen outside the tab group (currently empty)
-- `app/modal.tsx` — modal presentation route
+**Routing** — Expo Router v6 (file-based). Three navigation contexts, each owns its own `_layout.tsx`:
 
-**Design system** — all tokens live in `constants/theme.ts`:
-- `Palette` — raw hex values (yellow `#F5C518`, orange `#E95322`)
-- `Colors` — semantic tokens (`primary`, `tabBarBackground`, `inputBackground`, etc.). Dark mode mirrors light — this is intentionally a light-only app.
-- `Typography`, `Spacing`, `Fonts` — scale values used across components
+- `app/_layout.tsx` — root Stack. Loads League Spartan fonts, gates the native splash, wraps the tree in `SafeAreaProvider` and `<AuthProvider>` (from `@features/auth/AuthContext`). `headerShown: false` at the root so children opt in.
+- `app/index.tsx` — auth-aware entry redirect: `/(app)/(tabs)` when signed in, else `/splash`.
+- `app/splash.tsx`, `app/welcome.tsx` — onboarding routes at the root (no header, no tab bar). Splash auto-advances to Welcome via `router.replace('/welcome')`.
+- `app/(auth)/` — auth group (Log In, Hello, New Account, Set Password). The group's `_layout.tsx` configures a yellow native header with centered title + back chevron. **No bottom tab bar.** Per-screen titles are declared centrally in `(auth)/_layout.tsx`.
+- `app/(app)/` — main-app group, gated by `useAuth()`. The layout redirects unauthenticated users to `/welcome` (covers deep links into any `(app)/*` route). Outer Stack carries the yellow header so future detail pushes inherit it.
+- `app/(app)/(tabs)/` — five-tab navigator (`index`/Home, Dashboard, Favorites, Notifications, Profile). Orange tab bar with rounded top corners, icons only (`tabBarShowLabel: false`), header titles set per-tab via `Tabs.Screen options`. Icons sourced from `assets/*.png` with `tintColor: theme.colors.text.inverse`.
 
-**Theming hook** — `hooks/use-theme-color.ts` — resolves a `Colors.light` key (or a per-component override) based on the current color scheme. Prefer this over importing `Colors` directly in components.
+Navigation rule: use `router.replace` when the source screen must NOT be back-reachable (splash, post-login transition, logout). Use `router.push` when back navigation is part of the flow (auth multi-step).
 
-**Icons** — `components/ui/icon-symbol.tsx` uses SF Symbols on iOS and maps to Material Icons on Android/web. To add a new icon, extend the `MAPPING` object in that file.
+**Design system** — tokens live in `src/theme/`, re-exported as `theme` from `@theme`:
 
-**Platform-specific files** — follow Expo convention: `.ios.tsx` / `.web.ts` suffixes for platform overrides (e.g., `hooks/use-color-scheme.web.ts`, `components/ui/icon-symbol.ios.tsx`).
+- `colors` — `background.*`, `button.*`, `brand.*`, `text.*` semantic groups (light-only app; no dark variants).
+- `typography` — League Spartan family + `sizes`/`lineHeights`/`letterSpacing` scales.
+- `spacing`, `radii`, `field` — numeric scales.
 
-**Animations** — React Native Reanimated 4 + Worklets. `react-native-reanimated` is imported at the top of `app/_layout.tsx` to initialize the Reanimated runtime before any animated component mounts.
+Always import via `import { theme } from '@theme'` rather than reaching into individual files.
 
-**Path alias** — `@/` maps to the project root (configured in `tsconfig.json`).
+**Auth** — `src/features/auth/AuthContext.tsx` exposes `useAuth()` with `{ isAuthenticated, isLoading, signIn(token), signOut() }`. Token persisted in `AsyncStorage` under key `yumquick.authToken`. The `(app)/_layout.tsx` gate enforces this for the whole main-app group.
+
+**Path aliases** (`tsconfig.json`):
+
+- `@/*` → project root (used for `require('@/assets/...')`)
+- `@components` / `@components/*` → `src/components`
+- `@features` / `@features/*` → `src/features`
+- `@theme` / `@theme/*` → `src/theme`
 
 ## File & Folder Conventions
 
@@ -51,6 +58,7 @@ ComponentName/
 The styles file must be a hook (named `use<ComponentName>Styles.ts`) that returns the stylesheet. No inline `StyleSheet.create` calls inside `index.tsx`.
 
 **Example:**
+
 ```
 app/
   (tabs)/
@@ -64,5 +72,6 @@ app/
 ```
 
 **Component placement rule:**
+
 - If a component is used **only within one screen/feature**, place it in a `components/` subfolder inside that screen's folder.
 - If a component is used in **two or more places**, move it to the top-level `components/` folder at the project root.

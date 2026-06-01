@@ -3,23 +3,24 @@ import {
   LeagueSpartan_500Medium,
   LeagueSpartan_700Bold,
   LeagueSpartan_800ExtraBold,
-  useFonts,
-} from "@expo-google-fonts/league-spartan";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+  useFonts
+} from '@expo-google-fonts/league-spartan';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { AuthProvider } from '@features/auth/AuthContext';
 import { theme } from '@theme';
 
 void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
-    "LeagueSpartan-Regular": LeagueSpartan_400Regular,
-    "LeagueSpartan-Medium": LeagueSpartan_500Medium,
-    "LeagueSpartan-Bold": LeagueSpartan_700Bold,
-    "LeagueSpartan-ExtraBold": LeagueSpartan_800ExtraBold,
+    'LeagueSpartan-Regular': LeagueSpartan_400Regular,
+    'LeagueSpartan-Medium': LeagueSpartan_500Medium,
+    'LeagueSpartan-Bold': LeagueSpartan_700Bold,
+    'LeagueSpartan-ExtraBold': LeagueSpartan_800ExtraBold
   });
 
   useEffect(() => {
@@ -34,15 +35,17 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          animation: "none",
-          contentStyle: {
-            backgroundColor: theme.colors.background.card,
-          },
-        }}
-      />
+      <AuthProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            animation: 'none',
+            contentStyle: {
+              backgroundColor: theme.colors.background.card
+            }
+          }}
+        />
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }
