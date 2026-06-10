@@ -37,14 +37,18 @@ export default function TabsLayout() {
           paddingBottom: 0
         },
         tabBarItemStyle: {
+          height: 61,
           justifyContent: 'center',
           alignItems: 'center',
-          paddingVertical: 0
+          paddingTop: 0,
+          paddingBottom: 0
         },
         tabBarIconStyle: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
           marginTop: 0,
-          marginBottom: 0,
-          alignSelf: 'center'
+          marginBottom: 0
         },
         tabBarActiveTintColor: theme.colors.text.inverse,
         tabBarInactiveTintColor: theme.colors.text.inverse,
@@ -66,7 +70,7 @@ export default function TabsLayout() {
         }
       })}
     >
-      <Tabs.Screen name='index' options={{ title: 'Home' }} />
+      <Tabs.Screen name='index' options={{ title: 'Home', headerShown: false }} />
       <Tabs.Screen name='dashboard' options={{ title: 'Dashboard' }} />
       <Tabs.Screen name='favorites' options={{ title: 'Favorites' }} />
       <Tabs.Screen name='notifications' options={{ title: 'Notifications' }} />

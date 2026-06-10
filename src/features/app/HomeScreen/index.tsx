@@ -1,13 +1,27 @@
-import { Text, View } from 'react-native';
+import { useState } from 'react';
+import { View } from 'react-native';
 
+import { AppHeader } from '@components/AppHeader';
+import { ContentSheet } from '@components/ContentSheet';
+
+import { CategoryFilter } from './components/CategoryFilter';
 import { useHomeScreenStyles } from './useHomeScreenStyles';
 
 export function HomeScreen() {
   const styles = useHomeScreenStyles();
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
+  function handleCategorySelect(category: string) {
+    setActiveCategory((prev) => (prev === category ? null : category));
+  }
+
   return (
     <View style={styles.screen}>
-      <Text style={styles.title}>Home</Text>
-      <Text style={styles.body}>Welcome to Yum Quick.</Text>
+      <AppHeader showGreeting showSearch showActions />
+      <ContentSheet>
+        <CategoryFilter activeCategory={activeCategory} onSelect={handleCategorySelect} />
+      </ContentSheet>
     </View>
   );
 }
+

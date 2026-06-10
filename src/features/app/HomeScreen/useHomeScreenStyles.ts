@@ -9,20 +9,7 @@ export function useHomeScreenStyles() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: theme.colors.background.card,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: theme.spacing.lg
-  },
-  title: {
-    fontFamily: theme.typography.families.bold,
-    fontSize: theme.typography.sizes.title,
-    color: theme.colors.text.primary,
-    marginBottom: theme.spacing.sm
-  },
-  body: {
-    fontFamily: theme.typography.families.regular,
-    fontSize: theme.typography.sizes.body,
-    color: theme.colors.text.primary
+    backgroundColor: theme.colors.background.yellowBase
   }
 });
+
