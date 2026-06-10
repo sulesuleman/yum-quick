@@ -1,13 +1,21 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import type { SvgProps } from 'react-native-svg';
+
+import DessertsIcon from '@/assets/Desserts.svg';
+import DrinksIcon from '@/assets/Drinks.svg';
+import MealsIcon from '@/assets/Meals.svg';
+import SnacksIcon from '@/assets/Snacks.svg';
+import VeganIcon from '@/assets/Vegan.svg';
 
 import { useCategoryFilterStyles } from './useCategoryFilterStyles';
 
-const CATEGORIES = [
-  { id: 'Snacks', label: 'Snacks', icon: require('@/assets/Snacks.png') },
-  { id: 'Meals', label: 'Meal', icon: require('@/assets/Meals.png') },
-  { id: 'Vegan', label: 'Vegan', icon: require('@/assets/Vegan.png') },
-  { id: 'Desserts', label: 'Dessert', icon: require('@/assets/Desserts.png') },
-  { id: 'Drinks', label: 'Drinks', icon: require('@/assets/Drinks.png') }
+const CATEGORIES: { id: string; label: string; Icon: React.FC<SvgProps> }[] = [
+  { id: 'Snacks', label: 'Snacks', Icon: SnacksIcon },
+  { id: 'Meals', label: 'Meal', Icon: MealsIcon },
+  { id: 'Vegan', label: 'Vegan', Icon: VeganIcon },
+  { id: 'Desserts', label: 'Dessert', Icon: DessertsIcon },
+  { id: 'Drinks', label: 'Drinks', Icon: DrinksIcon }
 ];
 
 type Props = {
@@ -35,7 +43,7 @@ export function CategoryFilter({ activeCategory, onSelect }: Props) {
               activeOpacity={0.7}
             >
               <View style={[styles.oval, isActive && styles.ovalActive]}>
-                <Image source={cat.icon} style={[styles.icon]} resizeMode='contain' />
+                <cat.Icon width={36} height={36} />
               </View>
               <Text style={[styles.label, isActive && styles.labelActive]}>{cat.label}</Text>
             </TouchableOpacity>
@@ -46,4 +54,3 @@ export function CategoryFilter({ activeCategory, onSelect }: Props) {
     </View>
   );
 }
-

@@ -29,12 +29,6 @@ const styles = StyleSheet.create({
   ovalActive: {
     backgroundColor: theme.colors.background.yellowBase
   },
-  icon: {
-    width: 36,
-    height: 36,
-    tintColor: theme.colors.brand.primary
-  },
-
   label: {
     fontFamily: theme.typography.families.medium,
     fontSize: 12,
