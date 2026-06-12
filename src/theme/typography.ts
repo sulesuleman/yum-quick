@@ -5,12 +5,14 @@
 export const typography = {
   families: {
     /** Default body / UI copy */
+    light: 'LeagueSpartan-Light',
     regular: 'LeagueSpartan-Regular',
     medium: 'LeagueSpartan-Medium',
     bold: 'LeagueSpartan-Bold',
     extraBold: 'LeagueSpartan-ExtraBold'
   },
   weights: {
+    light: '300',
     regular: '400',
     medium: '500',
     bold: '700',
@@ -18,13 +20,18 @@ export const typography = {
   },
   sizes: {
     body: 14,
+    heading: 30,
     title: 24,
-    brand: 35
+    brand: 35,
+    subTitle: 13,
+    input: 12
   },
   lineHeights: {
     body: 24,
     title: 30,
-    brand: 38
+    brand: 38,
+    subTitle: 13,
+    input: 12,
   },
   letterSpacing: {
     body: 0,

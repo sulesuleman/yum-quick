@@ -29,6 +29,8 @@ export const colors = {
     /** font1: 391713 */
     primary: '#391713',
     /** font2: F8F8F8 */
-    inverse: '#F8F8F8'
+    inverse: '#F8F8F8',
+    placeholder: '#676767',
+    caption: '#070707' 
   }
 } as const;
