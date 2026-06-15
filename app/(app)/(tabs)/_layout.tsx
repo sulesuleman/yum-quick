@@ -39,7 +39,7 @@ export default function TabsLayout() {
         tabBarItemStyle: {
           justifyContent: 'center',
           alignItems: 'center',
-          paddingVertical: 0
+          paddingVertical: 13
         },
         tabBarIconStyle: {
           marginTop: 0,

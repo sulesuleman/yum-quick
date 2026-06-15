@@ -1,21 +1,42 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { Text, View } from 'react-native';
 
 import { AuthCard, Button, TextField } from '@components';
 import { useAuth } from '@features/auth/AuthContext';
+import { findAuthorizedUser } from '@features/auth/constants/authorizedUsers';
 
+import { LoginFormValues, loginSchema } from './loginSchema';
 import { useLoginScreenStyles } from './useLoginScreenStyles';
 
 export function LoginScreen() {
   const router = useRouter();
   const { signIn } = useAuth();
   const styles = useLoginScreenStyles();
-  const [identifier, setIdentifier] = useState('');
-  const [password, setPassword] = useState('');
 
-  const onSubmit = async () => {
-    await signIn('demo-token');
+  const {
+    control,         // connects each field to the form
+    handleSubmit,    // wraps your submit fn — only calls it when validation passes
+    setError,        // lets us add a server-side / credential error after submission
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormValues>({
+    resolver: yupResolver(loginSchema),
+    defaultValues: { email: '', password: '' },
+    mode: 'onBlur',            // validate a field when the user leaves it
+    reValidateMode: 'onChange', // re-validate on every keystroke once an error is showing
+  });
+
+  const onSubmit = async (values: LoginFormValues) => {
+    const isValid = findAuthorizedUser(values.email, values.password);
+
+    if (!isValid) {
+      // Set a root-level error — not tied to any single field
+      setError('root', { message: 'Invalid email or password' });
+      return;
+    }
+
+    await signIn(values.email);
     router.replace('/(app)/(tabs)');
   };
 
@@ -29,25 +50,55 @@ export function LoginScreen() {
         </Text>
 
         <View style={styles.form}>
-          <TextField
-            label='Email or Mobile Number'
-            placeholder='example@example.com'
-            type='email'
-            value={identifier}
-            onChangeText={setIdentifier}
+          {/* Email field */}
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextField
+                label="Email or Mobile Number"
+                placeholder="example@example.com"
+                type="email"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={errors.email?.message}
+              />
+            )}
           />
-          <TextField
-            label='Password'
-            placeholder='••••••••••'
-            type='password'
-            value={password}
-            onChangeText={setPassword}
+
+          {/* Password field */}
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextField
+                label="Password"
+                placeholder="••••••••••"
+                type="password"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={errors.password?.message}
+              />
+            )}
           />
+
           <Text style={styles.forgot}>Forget Password</Text>
         </View>
 
+        {/* Root-level error (wrong credentials) */}
+        {errors.root && (
+          <Text style={styles.rootError}>{errors.root.message}</Text>
+        )}
+
         <View style={styles.actions}>
-          <Button title='Log In' variant='cta' onPress={onSubmit} />
+          <Button
+            title="Log In"
+            variant="cta"
+            onPress={handleSubmit(onSubmit)}
+            disabled={isSubmitting}
+          />
           <Text style={styles.footerCopy} onPress={() => router.push('/signup')}>
             Don&apos;t have an account? <Text style={styles.footerLink}>Sign Up</Text>
           </Text>

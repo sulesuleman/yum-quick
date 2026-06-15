@@ -33,6 +33,13 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.body,
     color: theme.colors.brand.primary
   },
+  rootError: {
+    fontFamily: theme.typography.families.medium,
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.brand.primary,
+    marginTop: theme.spacing.sm,
+    textAlign: 'center',
+  },
   actions: {
     marginTop: theme.spacing.xl,
     gap: theme.spacing.md,
