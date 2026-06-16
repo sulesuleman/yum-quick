@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
+
+import { ProfileDrawer } from '@components/ProfileDrawer';
 import { Stack } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -49,6 +51,7 @@ export function HomeScreen() {
   const insets = useSafeAreaInsets();
   const greeting = getGreeting();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [drawerVisible, setDrawerVisible] = useState(false);
 
   return (
     <View style={styles.screen}>
@@ -63,7 +66,7 @@ export function HomeScreen() {
                 <View style={styles.iconGroup}>
                   <IconButton icon={require('@/assets/cart-icon.png')} />
                   <IconButton icon={require('@/assets/bell-icon.png')} />
-                  <IconButton icon={require('@/assets/profile-icon.png')} />
+                  <IconButton icon={require('@/assets/profile-icon.png')} onPress={() => setDrawerVisible(true)} />
                 </View>
               </View>
 
@@ -131,6 +134,7 @@ export function HomeScreen() {
 
       </View>
 
+      <ProfileDrawer visible={drawerVisible} onClose={() => setDrawerVisible(false)} />
     </View>
   );
 }

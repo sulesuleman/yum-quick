@@ -1,14 +1,21 @@
 import { Tabs } from 'expo-router';
-import { Image, type ImageSourcePropType } from 'react-native';
+import React from 'react';
+import type { SvgProps } from 'react-native-svg';
+
+import FavoritesIcon from '@/assets/heart-icon.svg';
+import HomeIcon from '@/assets/home-icon.svg';
+import FoodIcon from '@/assets/food-icon.svg';
+import TaskIcon from '@/assets/task-icon.svg';
+import SupportIcon from '@/assets/support-icon.svg';
 
 import { theme } from '@theme';
 
-const ICONS: Record<string, ImageSourcePropType> = {
-  index: require('@/assets/home.png'),
-  dashboard: require('@/assets/food.png'),
-  favorites: require('@/assets/favorites.png'),
-  notifications: require('@/assets/orders.png'),
-  profile: require('@/assets/support.png')
+const ICONS: Record<string, React.FC<SvgProps>> = {
+  index: HomeIcon,
+  dashboard: FoodIcon,
+  favorites: FavoritesIcon,
+  notifications: TaskIcon,
+  profile: SupportIcon
 };
 
 export default function TabsLayout() {
@@ -50,18 +57,13 @@ export default function TabsLayout() {
         tabBarActiveTintColor: theme.colors.text.inverse,
         tabBarInactiveTintColor: theme.colors.text.inverse,
         tabBarIcon: ({ focused }) => {
-          const icon = ICONS[route.name];
-          if (!icon) return null;
+          const Icon = ICONS[route.name];
+          if (!Icon) return null;
           return (
-            <Image
-              source={icon}
-              resizeMode='contain'
-              style={{
-                width: 24,
-                height: 24,
-                tintColor: theme.colors.text.inverse,
-                opacity: focused ? 1 : 0.7
-              }}
+            <Icon
+              width={24}
+              height={24}
+              opacity={focused ? 1 : 0.7}
             />
           );
         }
