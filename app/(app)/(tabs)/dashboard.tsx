@@ -1,5 +1,5 @@
-import { DashboardScreen } from '@features/app/DashboardScreen';
+import { OrdersScreen } from '@features/app/OrdersScreen';
 
 export default function DashboardRoute() {
-  return <DashboardScreen />;
+  return <OrdersScreen />;
 }
