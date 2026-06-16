@@ -1,4 +1,5 @@
 import {
+  LeagueSpartan_300Light,
   LeagueSpartan_400Regular,
   LeagueSpartan_500Medium,
   LeagueSpartan_700Bold,
@@ -17,6 +18,7 @@ void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
+    'LeagueSpartan-Light': LeagueSpartan_300Light,
     'LeagueSpartan-Regular': LeagueSpartan_400Regular,
     'LeagueSpartan-Medium': LeagueSpartan_500Medium,
     'LeagueSpartan-Bold': LeagueSpartan_700Bold,
