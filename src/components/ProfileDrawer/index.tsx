@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
+import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import type { SvgProps } from 'react-native-svg';
 
@@ -46,7 +47,18 @@ type Props = {
 export function ProfileDrawer({ visible, onClose, onItemPress }: Props) {
   const styles = useProfileDrawerStyles();
   const insets = useSafeAreaInsets();
-  const { userName, userEmail } = useAuth();
+  const { userName, userEmail, signOut } = useAuth();
+
+  const handleItemPress = async (id: string) => {
+    onItemPress?.(id);
+    onClose();
+    if (id === 'orders') {
+      router.push('/(app)/(tabs)/myOrders');
+    } else if (id === 'logout') {
+      await signOut();
+      router.replace('/welcome');
+    }
+  };
   const slideAnim = useRef(new Animated.Value(400)).current;
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -88,7 +100,10 @@ export function ProfileDrawer({ visible, onClose, onItemPress }: Props) {
             ]}
           >
             <View style={styles.profileHeader}>
-              <Image source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }} style={styles.avatar} />
+              <Image
+                source={{ uri: 'https://randomuser.me/api/portraits/men/32.jpg' }}
+                style={styles.avatar}
+              />
               <View>
                 <Text style={styles.profileName}>{userName ?? ''}</Text>
                 <Text style={styles.profileEmail}>{userEmail ?? ''}</Text>
@@ -99,10 +114,7 @@ export function ProfileDrawer({ visible, onClose, onItemPress }: Props) {
               <View key={item.id} style={item.id === 'logout' ? { marginTop: 48 } : undefined}>
                 <TouchableOpacity
                   style={styles.menuItem}
-                  onPress={() => {
-                    onItemPress?.(item.id);
-                    onClose();
-                  }}
+                  onPress={() => handleItemPress(item.id)}
                   activeOpacity={0.7}
                 >
                   <View style={item.id === 'logout' ? styles.iconBoxSmall : styles.iconBox}>
