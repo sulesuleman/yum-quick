@@ -28,15 +28,14 @@ export function LoginScreen() {
   });
 
   const onSubmit = async (values: LoginFormValues) => {
-    const isValid = findAuthorizedUser(values.email, values.password);
+    const user = findAuthorizedUser(values.email, values.password);
 
-    if (!isValid) {
-      // Set a root-level error — not tied to any single field
+    if (!user) {
       setError('root', { message: 'Invalid email or password' });
       return;
     }
 
-    await signIn(values.email);
+    await signIn(values.email, user.name);
     router.replace('/(app)/(tabs)');
   };
 
