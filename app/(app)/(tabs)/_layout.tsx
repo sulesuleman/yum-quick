@@ -29,14 +29,14 @@ export default function TabsLayout() {
         headerTitleStyle: {
           fontFamily: theme.typography.families.bold,
           fontSize: theme.typography.sizes.title,
-          color: theme.colors.text.inverse,
+          color: theme.colors.text.inverse
         },
         headerShadowVisible: false,
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: theme.colors.background.orangeBase,
           borderTopWidth: 0,
-          height: 61,
+          height: theme.layout.tabBarHeight,
           borderTopLeftRadius: theme.radii.navbar,
           borderTopRightRadius: theme.radii.navbar,
           position: 'absolute',
@@ -58,17 +58,11 @@ export default function TabsLayout() {
         tabBarIcon: ({ focused }) => {
           const Icon = ICONS[route.name];
           if (!Icon) return null;
-          return (
-            <Icon
-              width={24}
-              height={24}
-              opacity={focused ? 1 : 0.7}
-            />
-          );
+          return <Icon width={24} height={24} opacity={focused ? 1 : 0.7} />;
         }
       })}
     >
-      <Tabs.Screen name='index' options={{ title: 'Home'}} />
+      <Tabs.Screen name='index' options={{ title: 'Home' }} />
       <Tabs.Screen name='my-orders' options={{ title: 'My Orders' }} />
       <Tabs.Screen name='favorites' options={{ title: 'Favorites' }} />
       <Tabs.Screen name='notifications' options={{ title: 'Notifications' }} />

@@ -18,7 +18,11 @@ export function CategoryCard({ icon, label, selected = false, onPress }: Categor
       onPress={onPress}
     >
       <View style={[styles.iconWrapper, selected && styles.iconWrapperSelected]}>
-        <Image source={icon} style={[styles.icon, selected && styles.iconSelected]} />
+        <Image
+          source={icon}
+          resizeMode='contain'
+          style={[styles.icon, selected && styles.iconSelected]}
+        />
       </View>
       <Text style={styles.label}>{label}</Text>
     </Pressable>

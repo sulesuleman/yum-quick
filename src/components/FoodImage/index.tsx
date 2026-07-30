@@ -5,6 +5,7 @@ import { useFoodImageStyles } from './useFoodImageStyles';
 
 type Props = {
   source?: ImageSourcePropType;
+  SvgComponent?: React.ComponentType<{ width?: number; height?: number }>;
   width?: number;
   height?: number;
   borderRadius?: number;
@@ -15,6 +16,7 @@ type Props = {
 
 export function FoodImage({
   source,
+  SvgComponent,
   width = 72,
   height = 108,
   borderRadius = 19.12,
@@ -26,7 +28,9 @@ export function FoodImage({
 
   return (
     <View style={[styles.container, style]}>
-      {source ? (
+      {SvgComponent ? (
+        <SvgComponent width={width} height={height} />
+      ) : source ? (
         <Image source={source} style={styles.image} resizeMode='cover' />
       ) : (
         <View style={styles.placeholder} />
