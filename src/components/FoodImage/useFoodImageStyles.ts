@@ -14,7 +14,6 @@ export function useFoodImageStyles({ width, height, borderRadius }: Params) {
       width,
       height,
       borderRadius,
-      overflow: 'hidden'
     },
     image: {
       width: '100%',
@@ -28,16 +27,21 @@ export function useFoodImageStyles({ width, height, borderRadius }: Params) {
     priceOverlay: {
       position: 'absolute',
       bottom: 10,
-      right: 0,
+      right: -1.32,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: theme.colors.background.orangeBase,
-      paddingVertical: 5,
-      paddingHorizontal: 10,
-      borderTopLeftRadius: 10,
-      borderBottomLeftRadius: 10
+      height: 16,  
+      paddingLeft: 6,
+      paddingRight: 4,
+      borderTopLeftRadius: 30,
+      borderBottomLeftRadius: 30 ,
     },
     priceText: {
-      fontFamily: theme.typography.families.bold,
-      fontSize: 14,
+      fontFamily: theme.typography.families.regular,
+      fontSize: theme.typography.sizes.input,
+      fontWeight: theme.typography.weights.regular,
       color: '#FFFFFF'
     }
   });

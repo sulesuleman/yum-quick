@@ -3,11 +3,13 @@ import type { StatusBarStyle } from 'expo-status-bar';
 import { colors } from './colors';
 import { spacing } from './spacing';
 import { typography } from './typography';
+import { layout } from './layout';
 
 export const theme = {
   colors,
   spacing,
   typography,
+  layout,
   radii: {
     screen: 20,
     pill: 30,
@@ -23,4 +25,5 @@ export const theme = {
   statusBarStyle: 'dark' as StatusBarStyle
 } as const;
 
-export { colors, spacing, typography };
+export { colors, spacing, typography, layout };
+export { useScale, scale, getScaleFactor } from './responsive';

@@ -9,7 +9,8 @@ export const colors = {
     orangeBase: '#E95322',
     /** orange2: FFDECF */
     orange2: '#FFDECF',
-    card: '#FFFFFF'
+    card: '#FFFFFF',
+    divider: '#FFD8C7'
   },
 
   /** Button-specific mappings built on top of base tokens */
@@ -31,6 +32,6 @@ export const colors = {
     /** font2: F8F8F8 */
     inverse: '#F8F8F8',
     placeholder: '#676767',
-    caption: '#070707' 
+    caption: '#070707'
   }
 } as const;

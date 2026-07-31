@@ -8,6 +8,7 @@ export const typography = {
     light: 'LeagueSpartan-Light',
     regular: 'LeagueSpartan-Regular',
     medium: 'LeagueSpartan-Medium',
+    semiBold: 'LeagueSpartan-SemiBold',
     bold: 'LeagueSpartan-Bold',
     extraBold: 'LeagueSpartan-ExtraBold'
   },
@@ -15,6 +16,7 @@ export const typography = {
     light: '300',
     regular: '400',
     medium: '500',
+    semiBold: '600',
     bold: '700',
     extraBold: '800'
   },
@@ -24,7 +26,8 @@ export const typography = {
     title: 24,
     brand: 35,
     subTitle: 13,
-    input: 12
+    input: 12,
+    subHeading: 20,
   },
   lineHeights: {
     body: 24,
