@@ -14,10 +14,12 @@ export function useFoodImageStyles({ width, height, borderRadius }: Params) {
       width,
       height,
       borderRadius,
+      overflow: 'hidden'
     },
     image: {
       width: '100%',
-      height: '100%'
+      height: '100%',
+      borderRadius
     },
     placeholder: {
       width: '100%',
