@@ -1,9 +1,27 @@
 import React from 'react';
 import { ImageSourcePropType, StyleProp, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
 
+import OrderCancelledCross from '@/assets/order-cancelled-cross.svg';
+import OrderDeliveredCheck from '@/assets/order-delivered-check.svg';
+
 import { FoodImage } from '@components/FoodImage';
 
 import { useOrderCardStyles } from './useOrderCardStyles';
+
+export type OrderCardActionVariant = 'solid' | 'light';
+
+export type OrderCardAction = {
+  label: string;
+  onPress: () => void;
+  variant?: OrderCardActionVariant;
+};
+
+export type OrderCardStatusIcon = 'check' | 'cross';
+
+export type OrderCardStatus = {
+  label: string;
+  icon?: OrderCardStatusIcon;
+};
 
 type Props = {
   name: string;
@@ -12,8 +30,8 @@ type Props = {
   date?: string;
   itemCount?: number;
   showPrice?: boolean;
-  onCancel?: () => void;
-  onTrack?: () => void;
+  status?: OrderCardStatus;
+  actions?: OrderCardAction[];
   style?: StyleProp<ViewStyle>;
 };
 
@@ -24,8 +42,8 @@ export function OrderCard({
   date,
   itemCount,
   showPrice = false,
-  onCancel,
-  onTrack,
+  status,
+  actions,
   style
 }: Props) {
   const styles = useOrderCardStyles();
@@ -52,21 +70,30 @@ export function OrderCard({
         {(date || itemCount !== undefined) && (
           <View style={styles.metaRow}>
             {date && <Text style={styles.meta}>{date}</Text>}
-            {itemCount !== undefined && <Text style={styles.meta}>{itemCount} items</Text>}
+            {itemCount !== undefined && <Text style={styles.meta}>{itemCount} {itemCount === 1 ? 'item' : 'items'}</Text>}
           </View>
         )}
-        {(onCancel || onTrack) && (
+        {status && (
+          <View style={styles.statusRow}>
+            {status.icon === 'check' && <OrderDeliveredCheck width={13} height={13} />}
+            {status.icon === 'cross' && <OrderCancelledCross width={13} height={13} />}
+            <Text style={styles.statusText}>{status.label}</Text>
+          </View>
+        )}
+        {actions && actions.length > 0 && (
           <View style={styles.buttonsRow}>
-            {onCancel && (
-              <TouchableOpacity style={styles.cancelBtn} onPress={onCancel} activeOpacity={0.8}>
-                <Text style={styles.cancelText}>Cancel Order</Text>
+            {actions.map((action) => (
+              <TouchableOpacity
+                key={action.label}
+                style={action.variant === 'light' ? styles.actionLight : styles.actionSolid}
+                onPress={action.onPress}
+                activeOpacity={0.8}
+              >
+                <Text style={action.variant === 'light' ? styles.actionTextLight : styles.actionTextSolid}>
+                  {action.label}
+                </Text>
               </TouchableOpacity>
-            )}
-            {onTrack && (
-              <TouchableOpacity style={styles.trackBtn} onPress={onTrack} activeOpacity={0.8}>
-                <Text style={styles.trackText}>Track Driver</Text>
-              </TouchableOpacity>
-            )}
+            ))}
           </View>
         )}
       </View>

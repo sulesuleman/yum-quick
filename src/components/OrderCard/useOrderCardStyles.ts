@@ -9,7 +9,7 @@ export function useOrderCardStyles() {
 const { orangeBase, orange2 } = theme.colors.background;
 const { primary: textPrimary } = theme.colors.text;
 const { primary: brandPrimary } = theme.colors.brand;
-const { bold, medium, regular } = theme.typography.families;
+const { bold, medium, light, regular } = theme.typography.families;
 
 const styles = StyleSheet.create({
   card: {
@@ -53,32 +53,41 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#9B9B9B'
   },
+  statusRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5
+  },
+  statusText: {
+    fontFamily: light,
+    fontSize: 12,
+    color: orangeBase
+  },
   buttonsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 8
   },
-  cancelBtn: {
+  actionSolid: {
     borderRadius: 20,
     backgroundColor: orangeBase,
     paddingVertical: 5,
     paddingHorizontal: 10
   },
-  cancelText: {
+  actionTextSolid: {
     fontFamily: medium,
     fontSize: 11,
     color: '#FFFFFF'
   },
-  trackBtn: {
+  actionLight: {
     borderRadius: 20,
     backgroundColor: orange2,
     paddingVertical: 5,
     paddingHorizontal: 10
   },
-  trackText: {
+  actionTextLight: {
     fontFamily: medium,
     fontSize: 11,
     color: orangeBase
   }
 });
-

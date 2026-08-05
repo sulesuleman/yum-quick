@@ -1,4 +1,4 @@
-import type { PressableProps, StyleProp, ViewStyle } from 'react-native';
+import type { PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { theme } from '@theme';
@@ -10,6 +10,7 @@ export type ButtonProps = Omit<PressableProps, 'style' | 'children'> & {
   variant?: ButtonVariant;
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
 };
 
 const variantStyles = StyleSheet.create({
@@ -55,6 +56,7 @@ export function Button({
   variant = 'primary',
   fullWidth = true,
   style,
+  labelStyle,
   disabled,
   ...pressableProps
 }: ButtonProps) {
@@ -75,7 +77,9 @@ export function Button({
       ]}
       {...pressableProps}
     >
-      <Text style={[styles.label, variantLabelStyles[variant], disabled && styles.labelDisabled]}>
+      <Text
+        style={[styles.label, variantLabelStyles[variant], disabled && styles.labelDisabled, labelStyle]}
+      >
         {title}
       </Text>
     </Pressable>
