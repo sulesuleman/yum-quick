@@ -63,7 +63,11 @@ export default function TabsLayout() {
       })}
     >
       <Tabs.Screen name='index' options={{ title: 'Home' }} />
-      <Tabs.Screen name='my-orders' options={{ title: 'My Orders' }} />
+      <Tabs.Screen
+        name='my-orders'
+        options={{ title: 'My Orders' }}
+        listeners={{ tabPress: (e) => e.preventDefault() }}
+      />
       <Tabs.Screen name='favorites' options={{ title: 'Favorites' }} />
       <Tabs.Screen name='notifications' options={{ title: 'Notifications' }} />
       <Tabs.Screen name='profile' options={{ title: 'Profile' }} />
