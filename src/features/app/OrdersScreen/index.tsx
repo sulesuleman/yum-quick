@@ -135,7 +135,7 @@ export function OrdersScreen() {
       <ContentSheet contentStyle={filteredOrders.length === 0 ? styles.emptyContent : undefined}>
         <OrderTabs activeTab={activeTab} onTabChange={setActiveTab} />
         {filteredOrders.length === 0 ? (
-          <EmptyOrders />
+          <EmptyOrders tab={activeTab} />
         ) : (
           filteredOrders.map((order) => (
             <OrderCard
