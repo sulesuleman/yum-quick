@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Text, TextInput, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -76,7 +76,7 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
   };
 
   return (
-    <View style={styles.overlay}>
+    <KeyboardAvoidingView style={styles.overlay} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Animated.View
         style={[styles.layer, formAnimatedStyle]}
         pointerEvents={step === 'form' ? 'auto' : 'none'}
@@ -137,6 +137,6 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
           If you have any question reach directly to our customer support
         </Text>
       </Animated.View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

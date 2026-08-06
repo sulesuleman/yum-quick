@@ -117,12 +117,12 @@ export function OrdersScreen() {
       <Stack.Screen
         options={{
           header: () => (
-            <View style={[styles.customHeader, { paddingTop: insets.top + 30 }]}>
+            <View style={[styles.customHeader, { paddingTop: insets.top + 41 }]}>
               <TouchableOpacity
                 onPress={() => (isCancelling ? setCancelTargetId(null) : router.back())}
                 style={styles.backBtn}
               >
-                <BackArrowIcon width={12} height={12} />
+                <BackArrowIcon width={7} height={13} />
               </TouchableOpacity>
               <Text style={styles.title}>
                 {isCancelling ? (cancelStep === 'form' ? 'Cancel Order' : '') : 'My Orders'}

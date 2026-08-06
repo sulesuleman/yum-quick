@@ -24,17 +24,19 @@ export const typography = {
     body: 14,
     heading: 30,
     title: 24,
+
+    screenTitle: 28,
     brand: 35,
     subTitle: 13,
     input: 12,
-    subHeading: 20,
+    subHeading: 20
   },
   lineHeights: {
     body: 24,
     title: 30,
     brand: 38,
     subTitle: 13,
-    input: 12,
+    input: 12
   },
   letterSpacing: {
     body: 0,
