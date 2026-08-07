@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   customHeader: {
     backgroundColor: theme.colors.background.yellowBase,
     paddingHorizontal: theme.spacing.md * 2,
-    paddingBottom: theme.spacing.md,
+    paddingBottom: 22,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontFamily: theme.typography.families.bold,
-    fontSize: theme.typography.sizes.title,
+    fontSize: theme.typography.sizes.screenTitle,
     color: theme.colors.text.inverse
   },
   emptyContent: {
