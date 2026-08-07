@@ -72,6 +72,7 @@ export default function TabsLayout() {
       <Tabs.Screen name='notifications' options={{ title: 'Notifications' }} />
       <Tabs.Screen name='profile' options={{ title: 'Profile' }} />
       <Tabs.Screen name='my-profile' options={{ title: 'My profile', href: null }} />
+      <Tabs.Screen name='delivery-address' options={{ title: 'Delivery Address', href: null }} />
     </Tabs>
   );
 }
