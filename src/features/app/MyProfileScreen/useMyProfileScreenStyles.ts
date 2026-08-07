@@ -55,6 +55,12 @@ const styles = StyleSheet.create({
   field: {
     marginBottom: 38
   },
+  fieldLabel: {
+    fontSize: theme.typography.sizes.subHeading
+  },
+  fieldValue: {
+    fontSize: theme.typography.sizes.subHeading
+  },
   submitBtn: {
     alignSelf: 'center',
     width: 142,
