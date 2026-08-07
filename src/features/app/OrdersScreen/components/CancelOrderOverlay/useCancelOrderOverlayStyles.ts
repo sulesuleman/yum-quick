@@ -55,23 +55,20 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: theme.colors.text.primary
   },
+  othersField: {
+    marginTop: 9
+  },
   othersLabel: {
-    marginTop: 9,
     marginBottom: theme.spacing.sm,
     fontFamily: regular,
     fontSize: 15,
     color: theme.colors.text.primary
   },
-  othersInput: {
-    minHeight: 95,
-    borderRadius: 20,
-    backgroundColor: theme.colors.background.yellow2,
-    paddingHorizontal: theme.spacing.md,
-    paddingTop: 14,
-    fontFamily: light,
-    fontSize: 14,
-    color: theme.colors.text.primary,
-    textAlignVertical: 'top'
+  othersValue: {
+    fontFamily: light
+  },
+  othersBox: {
+    minHeight: 95
   },
   submitBtn: {
     alignSelf: 'center',
