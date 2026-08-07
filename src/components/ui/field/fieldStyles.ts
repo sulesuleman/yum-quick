@@ -20,6 +20,13 @@ export const fieldStyles = StyleSheet.create({
   containerDisabled: {
     opacity: 0.6
   },
+  containerMultiline: {
+    height: undefined,
+    minHeight: 65,
+    borderRadius: 20,
+    alignItems: 'flex-start',
+    paddingVertical: 14
+  },
   input: {
     flex: 1,
     height: '100%',
@@ -27,6 +34,10 @@ export const fieldStyles = StyleSheet.create({
     fontSize: theme.typography.sizes.body,
     color: theme.colors.text.primary,
     paddingVertical: 0
+  },
+  inputMultiline: {
+    height: undefined,
+    textAlignVertical: 'top'
   },
   valueText: {
     flex: 1,
