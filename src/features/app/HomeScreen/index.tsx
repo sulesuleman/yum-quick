@@ -28,6 +28,9 @@ import BestSeller4 from '@/assets/best-seller-4.svg';
 import BannerPizza from '@/assets/banner-pizza.svg';
 import Recommended1 from '@/assets/recommended-1.svg';
 import Recommended2 from '@/assets/recommended-2.svg';
+import CartIcon from '@/assets/cart-icon.svg';
+import BellIcon from '@/assets/bell-icon.svg';
+import ProfileIcon from '@/assets/profile-icon.svg';
 
 const MOCK_ITEMS = [
   {
@@ -150,10 +153,12 @@ export function HomeScreen() {
               <View style={styles.headerRow}>
                 <Searchbar />
                 <View style={styles.iconGroup}>
-                  <IconButton icon={require('@/assets/cart-icon.png')} />
-                  <IconButton icon={require('@/assets/bell-icon.png')} />
+                  <IconButton SvgIcon={CartIcon} iconWidth={16} iconHeight={16} />
+                  <IconButton SvgIcon={BellIcon} iconWidth={14} iconHeight={20} />
                   <IconButton
-                    icon={require('@/assets/profile-icon.png')}
+                    SvgIcon={ProfileIcon}
+                    iconWidth={13}
+                    iconHeight={18}
                     onPress={() => setDrawerVisible(true)}
                   />
                 </View>

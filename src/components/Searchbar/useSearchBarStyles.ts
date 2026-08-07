@@ -43,10 +43,4 @@ const styles = StyleSheet.create({
   filterButtonPressed: {
     opacity: 0.7,
   },
-  filterIcon: {
-    width: 10.77,
-    height: 6.92,
-    tintColor: theme.colors.text.inverse,
-    objectFit: 'contain'
-  },
 });

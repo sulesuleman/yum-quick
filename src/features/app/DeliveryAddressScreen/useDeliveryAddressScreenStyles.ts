@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { theme } from '@theme';
 
-export function useMyProfileScreenStyles() {
+export function useDeliveryAddressScreenStyles() {
   return styles;
 }
 
@@ -28,49 +28,49 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.screenTitle,
     color: theme.colors.text.inverse
   },
-  avatarRow: {
+  sheetContent: {
+    paddingTop: 35
+  },
+  addBtn: {
+    alignSelf: 'center',
+    backgroundColor: theme.colors.background.orange2,
+    borderRadius: theme.radii.pill,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    marginTop: 150
+  },
+  addBtnText: {
+    fontFamily: theme.typography.families.regular,
+    fontSize: 17,
+    letterSpacing: -0.085,
+    color: theme.colors.brand.primary
+  },
+  formBody: {
+    paddingHorizontal: theme.spacing.md * 2
+  },
+  iconRow: {
     alignItems: 'center',
-    marginBottom: 47
-  },
-  avatarWrapper: {
-    width: 127,
-    height: 127
-  },
-  avatar: {
-    width: 127,
-    height: 127,
-    borderRadius: 20
-  },
-  cameraBadge: {
-    position: 'absolute',
-    right: -8,
-    bottom: -6,
-    width: 26,
-    height: 26,
-    borderRadius: 10,
-    backgroundColor: theme.colors.background.orangeBase,
-    alignItems: 'center',
-    justifyContent: 'center'
+    marginBottom: 60
   },
   field: {
-    marginBottom: 38
+    marginBottom: 39
   },
-  fieldLabel: {
+  nameFieldLabel: {
     fontSize: theme.typography.sizes.subHeading
   },
-  fieldValue: {
+  nameFieldValue: {
     fontSize: theme.typography.sizes.subHeading
   },
-  submitBtn: {
+  applyBtn: {
     alignSelf: 'center',
-    width: 142,
+    width: 116,
     minHeight: 0,
-    marginTop: 38,
+    marginTop: 109,
     paddingVertical: 8,
     paddingHorizontal: 12
   },
-  submitLabel: {
-    fontFamily: theme.typography.families.semiBold,
+  applyLabel: {
+    fontFamily: theme.typography.families.medium,
     fontSize: 17,
     letterSpacing: -0.085
   }

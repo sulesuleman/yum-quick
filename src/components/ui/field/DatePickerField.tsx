@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { useState } from 'react';
 import { Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
-import type { StyleProp, ViewStyle } from 'react-native';
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import { theme } from '@theme';
 
@@ -18,6 +18,8 @@ export type DatePickerFieldProps = {
   maximumDate?: Date;
   mode?: 'date' | 'time' | 'datetime';
   containerStyle?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  valueStyle?: StyleProp<TextStyle>;
   fullWidth?: boolean;
   disabled?: boolean;
 };
@@ -56,6 +58,8 @@ export function DatePickerField({
   maximumDate,
   mode = 'date',
   containerStyle,
+  labelStyle,
+  valueStyle,
   fullWidth = true,
   disabled = false
 }: DatePickerFieldProps) {
@@ -97,7 +101,7 @@ export function DatePickerField({
 
   return (
     <View style={[fullWidth && fieldStyles.wrapper, containerStyle]}>
-      {label ? <Text style={fieldStyles.label}>{label}</Text> : null}
+      {label ? <Text style={[fieldStyles.label, labelStyle]}>{label}</Text> : null}
 
       <Pressable
         accessibilityRole='button'
@@ -109,7 +113,7 @@ export function DatePickerField({
           pressed && !disabled && { opacity: 0.92 }
         ]}
       >
-        <Text style={[fieldStyles.valueText, !hasValue && styles.placeholder]} numberOfLines={1}>
+        <Text style={[fieldStyles.valueText, valueStyle, !hasValue && styles.placeholder]} numberOfLines={1}>
           {displayText}
         </Text>
 

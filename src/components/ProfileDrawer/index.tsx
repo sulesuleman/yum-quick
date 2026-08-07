@@ -56,6 +56,8 @@ export function ProfileDrawer({ visible, onClose, onItemPress }: Props) {
       router.push('/(app)/(tabs)/my-orders');
     } else if (id === 'profile') {
       router.push('/(app)/(tabs)/my-profile');
+    } else if (id === 'address') {
+      router.push('/(app)/(tabs)/delivery-address');
     } else if (id === 'logout') {
       await signOut();
       router.replace('/welcome');

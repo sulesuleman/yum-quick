@@ -1,4 +1,6 @@
-import { Image, Pressable, TextInput } from 'react-native';
+import { Pressable, TextInput } from 'react-native';
+
+import SearchFilterIcon from '@/assets/search-filter-icon.svg';
 
 import { useSearchbarStyles } from './useSearchBarStyles';
 
@@ -18,10 +20,7 @@ export function Searchbar() {
           pressed && styles.filterButtonPressed,
         ]}
       >
-        <Image
-          source={require('@/assets/filter-icon.png')}
-          style={styles.filterIcon}
-        />
+        <SearchFilterIcon width={20} height={20} />
       </Pressable>
     </Pressable>
   );

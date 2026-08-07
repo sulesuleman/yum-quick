@@ -57,12 +57,21 @@ export function MyProfileScreen() {
           </View>
         </View>
 
-        <TextField label='Full Name' value={fullName} onChangeText={setFullName} containerStyle={styles.field} />
+        <TextField
+          label='Full Name'
+          value={fullName}
+          onChangeText={setFullName}
+          containerStyle={styles.field}
+          labelStyle={styles.fieldLabel}
+          inputStyle={styles.fieldValue}
+        />
         <DatePickerField
           label='Date of Birth'
           value={dateOfBirth}
           onChange={setDateOfBirth}
           containerStyle={styles.field}
+          labelStyle={styles.fieldLabel}
+          valueStyle={styles.fieldValue}
         />
         <TextField
           label='Email'
@@ -70,8 +79,17 @@ export function MyProfileScreen() {
           value={email}
           onChangeText={setEmail}
           containerStyle={styles.field}
+          labelStyle={styles.fieldLabel}
+          inputStyle={styles.fieldValue}
         />
-        <TextField label='Phone Number' type='phone' value={phone} onChangeText={setPhone} />
+        <TextField
+          label='Phone Number'
+          type='phone'
+          value={phone}
+          onChangeText={setPhone}
+          labelStyle={styles.fieldLabel}
+          inputStyle={styles.fieldValue}
+        />
 
         <Button
           title='Update Profile'

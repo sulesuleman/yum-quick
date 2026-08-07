@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ContentSheet } from '@components/ContentSheet';
+import { RadioButton } from '@components/RadioButton';
 import { Button } from '@components/ui/button';
+import { TextField } from '@components/ui/field';
 import { theme } from '@theme';
 
 import { CancelledAnimation } from './components/CancelledAnimation';
-import { RadioButton } from './components/RadioButton';
 import { useCancelOrderOverlayStyles } from './useCancelOrderOverlayStyles';
 
 const OTHERS_ID = 'others';
@@ -100,8 +101,8 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
               </View>
             ))}
 
-            <Text style={styles.othersLabel}>Others</Text>
-            <TextInput
+            <TextField
+              label='Others'
               value={othersText}
               onChangeText={(text) => {
                 setOthersText(text);
@@ -110,7 +111,11 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
               placeholder='Others reason...'
               placeholderTextColor={theme.colors.text.placeholder}
               multiline
-              style={styles.othersInput}
+              fullWidth={false}
+              containerStyle={styles.othersField}
+              labelStyle={styles.othersLabel}
+              inputStyle={styles.othersValue}
+              boxStyle={styles.othersBox}
             />
 
             <Button
