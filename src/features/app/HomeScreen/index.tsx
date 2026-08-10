@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { ProfileDrawer } from '@components/ProfileDrawer';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Searchbar } from '@components/Searchbar';
@@ -155,7 +155,13 @@ export function HomeScreen() {
       <Stack.Screen
         options={{
           header: () => (
-            <View style={[styles.customHeader, { paddingTop: insets.top + 30 }]}>
+            <View
+              style={[
+                styles.customHeader,
+                selectedCategory !== null && styles.customHeaderCollapsed,
+                { paddingTop: insets.top + 30 }
+              ]}
+            >
               <View style={styles.headerRow}>
                 <Searchbar />
                 <View style={styles.iconGroup}>
@@ -169,10 +175,12 @@ export function HomeScreen() {
                   />
                 </View>
               </View>
-              <View style={styles.greetingRow}>
-                <Text style={styles.greetingText}>{greeting.heading}</Text>
-                <Text style={styles.greetingSubtext}>{greeting.subtext}</Text>
-              </View>
+              {selectedCategory === null && (
+                <View style={styles.greetingRow}>
+                  <Text style={styles.greetingText}>{greeting.heading}</Text>
+                  <Text style={styles.greetingSubtext}>{greeting.subtext}</Text>
+                </View>
+              )}
             </View>
           )
         }}
@@ -334,6 +342,7 @@ export function HomeScreen() {
                 rating={item.rating}
                 price={item.price}
                 description={item.description}
+                onPress={() => router.push({ pathname: '/product-details', params: { id: item.id } })}
               />
             ))}
           </View>

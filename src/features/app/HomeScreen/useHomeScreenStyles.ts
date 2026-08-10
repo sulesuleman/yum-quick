@@ -68,7 +68,10 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
     customHeader: {
       backgroundColor: theme.colors.background.yellowBase,
       paddingHorizontal: theme.spacing.md * 2,
-      paddingBottom: theme.spacing.md
+      paddingBottom: scale(17)
+    },
+    customHeaderCollapsed: {
+      paddingBottom: scale(27)
     },
 
     tabBarRow: {
