@@ -54,6 +54,12 @@ export function DeliveryAddressScreen() {
     }
   };
 
+  const handleOpenAddAddress = () => {
+    setNewName('');
+    setNewAddress('');
+    setMode('add');
+  };
+
   const handleApply = () => {
     if (!canApply) return;
     const id = `${Date.now()}`;
@@ -92,7 +98,7 @@ export function DeliveryAddressScreen() {
             />
           ))}
 
-          <TouchableOpacity style={styles.addBtn} onPress={() => setMode('add')} activeOpacity={0.8}>
+          <TouchableOpacity style={styles.addBtn} onPress={handleOpenAddAddress} activeOpacity={0.8}>
             <Text style={styles.addBtnText}>Add New Address</Text>
           </TouchableOpacity>
         </ContentSheet>

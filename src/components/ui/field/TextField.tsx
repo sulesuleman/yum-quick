@@ -31,7 +31,7 @@ export function TextField({
   fullWidth = true,
   editable = true,
   multiline,
-  placeholderTextColor = theme.colors.text.primary,
+  placeholderTextColor = theme.colors.text.placeholder,
   ...inputProps
 }: TextFieldProps) {
   const [passwordVisible, setPasswordVisible] = useState(false);
