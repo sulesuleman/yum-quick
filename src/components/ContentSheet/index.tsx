@@ -17,6 +17,7 @@ export function ContentSheet({ children, paddingBottom = 100, contentStyle }: Pr
       contentContainerStyle={[styles.content, { paddingBottom }, contentStyle]}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps='handled'
+      bounces={false}
     >
       {children}
     </ScrollView>
