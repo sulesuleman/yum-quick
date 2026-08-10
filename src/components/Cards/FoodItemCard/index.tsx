@@ -1,5 +1,6 @@
 import { Image, ImageSourcePropType, Text, View } from 'react-native';
 
+import StarIcon from '@/assets/star-icon.svg';
 import { useFoodItemCardStyles } from './useFoodItemCardStyles';
 
 type FoodItemCardProps = {
@@ -24,7 +25,7 @@ export function FoodItemCard({ image, name, rating, price, description }: FoodIt
 
           <View style={styles.ratingBadge}>
             <Text style={styles.ratingText}>{rating}</Text>
-            <Image source={require('@/assets/star-icon.svg')} style={styles.starIcon} />
+            <StarIcon width={styles.starIcon.width} height={styles.starIcon.height} />
           </View>
         </View>
 

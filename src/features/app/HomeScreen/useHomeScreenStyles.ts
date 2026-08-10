@@ -11,12 +11,49 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
       backgroundColor: theme.colors.background.yellowBase
     },
 
-    contentCard: {
-      flexGrow: 1,
+    cardFrame: {
+      flex: 1,
       backgroundColor: theme.colors.background.card,
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
+      overflow: 'hidden'
+    },
+
+    categorySection: {
       paddingTop: 31,
+      paddingHorizontal: 36,
+      // paddingBottom: scale(14)
+    },
+    categorySectionSelected: {
+      backgroundColor: theme.colors.brand.primary,
+      paddingTop: scale(28),
+      paddingBottom: scale(20),
+      paddingHorizontal: 20
+    },
+
+    whiteBody: {
+      flex: 1
+    },
+    whiteBodySelected: {
+      backgroundColor: theme.colors.background.card,
+      borderTopLeftRadius: scale(24),
+      borderTopRightRadius: scale(24),
+      marginTop: -scale(20),
+      overflow: 'hidden'
+    },
+    whiteBodyNoLeftRadius: {
+      borderTopLeftRadius: 0
+    },
+    whiteBodyNoRightRadius: {
+      borderTopRightRadius: 0
+    },
+
+    scrollArea: {
+      flex: 1
+    },
+
+    contentCard: {
+      flexGrow: 1,
       paddingHorizontal: 36,
       paddingBottom: theme.layout.tabBarHeight + bottomInset + theme.spacing.md
     },
@@ -32,6 +69,12 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
       backgroundColor: theme.colors.background.yellowBase,
       paddingHorizontal: theme.spacing.md * 2,
       paddingBottom: theme.spacing.md
+    },
+
+    tabBarRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end'
     },
 
     headerRow: {
@@ -150,6 +193,7 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+      paddingHorizontal: 36,
       marginBottom: theme.spacing.md,
       marginTop: 20
     },
@@ -179,12 +223,12 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
     },
 
     categoryScrollView: {
-      height: scale(75)
+      // height: scale(75)
     },
     categoryRow: {
       flexDirection: 'row',
       gap: scale(19),
-      height: scale(75)
+      // height: scale(75)
     },
 
     greetingRow: {
