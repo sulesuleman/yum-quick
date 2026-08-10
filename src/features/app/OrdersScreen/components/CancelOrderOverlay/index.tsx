@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { KeyboardAvoidingView, Platform, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -75,6 +75,11 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
     onStepChange('success');
   };
 
+  const handleSelectReason = (reasonId: string) => {
+    setSelectedReason(reasonId);
+    setOthersText('');
+  };
+
   return (
     <KeyboardAvoidingView style={styles.overlay} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <Animated.View
@@ -88,16 +93,18 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
             </Text>
 
             {REASONS.map((reason) => (
-              <View key={reason.id} style={styles.reasonRow}>
+              <TouchableOpacity
+                key={reason.id}
+                style={styles.reasonRow}
+                onPress={() => handleSelectReason(reason.id)}
+                activeOpacity={0.7}
+              >
                 <Text style={styles.reasonLabel}>{reason.label}</Text>
                 <RadioButton
                   selected={selectedReason === reason.id}
-                  onPress={() => {
-                    setSelectedReason(reason.id);
-                    setOthersText('');
-                  }}
+                  onPress={() => handleSelectReason(reason.id)}
                 />
-              </View>
+              </TouchableOpacity>
             ))}
 
             <TextField
