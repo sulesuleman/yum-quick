@@ -7,7 +7,6 @@ import { ContentSheet } from '@components/ContentSheet';
 import { RadioButton } from '@components/RadioButton';
 import { Button } from '@components/ui/button';
 import { TextField } from '@components/ui/field';
-import { theme } from '@theme';
 
 import { CancelledAnimation } from './components/CancelledAnimation';
 import { useCancelOrderOverlayStyles } from './useCancelOrderOverlayStyles';
@@ -109,7 +108,6 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
                 setSelectedReason(text.length > 0 ? OTHERS_ID : null);
               }}
               placeholder='Others reason...'
-              placeholderTextColor={theme.colors.text.placeholder}
               multiline
               fullWidth={false}
               containerStyle={styles.othersField}
