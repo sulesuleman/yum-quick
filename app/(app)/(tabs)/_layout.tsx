@@ -73,6 +73,7 @@ export default function TabsLayout() {
       <Tabs.Screen name='profile' options={{ title: 'Profile' }} />
       <Tabs.Screen name='my-profile' options={{ title: 'My profile', href: null }} />
       <Tabs.Screen name='delivery-address' options={{ title: 'Delivery Address', href: null }} />
+      <Tabs.Screen name='product-details' options={{ title: 'Product Details', href: null }} />
       <Tabs.Screen name='payment-methods' options={{ title: 'Payment Methods', href: null }} />
     </Tabs>
   );

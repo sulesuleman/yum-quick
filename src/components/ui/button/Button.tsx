@@ -1,5 +1,6 @@
 import type { PressableProps, StyleProp, TextStyle, ViewStyle } from 'react-native';
 import { Pressable, StyleSheet, Text } from 'react-native';
+import type { SvgProps } from 'react-native-svg';
 
 import { theme } from '@theme';
 
@@ -11,6 +12,10 @@ export type ButtonProps = Omit<PressableProps, 'style' | 'children'> & {
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
+  /** Optional leading icon rendered before the label (e.g. a cart icon on the CTA variant). */
+  SvgIcon?: React.FC<SvgProps>;
+  iconWidth?: number;
+  iconHeight?: number;
 };
 
 const variantStyles = StyleSheet.create({
@@ -58,6 +63,9 @@ export function Button({
   style,
   labelStyle,
   disabled,
+  SvgIcon,
+  iconWidth = 18,
+  iconHeight = 18,
   ...pressableProps
 }: ButtonProps) {
   return (
@@ -70,6 +78,7 @@ export function Button({
         styles.base,
         variantStyles[variant],
         fullWidth && styles.fullWidth,
+        (SvgIcon && styles.baseWithIcon) || null,
         pressed && !disabled && variantPressedStyles[variant],
         pressed && !disabled && styles.pressed,
         disabled && styles.disabled,
@@ -77,6 +86,14 @@ export function Button({
       ]}
       {...pressableProps}
     >
+      {SvgIcon && (
+        <SvgIcon
+          width={iconWidth}
+          height={iconHeight}
+          importantForAccessibility='no-hide-descendants'
+          accessibilityElementsHidden
+        />
+      )}
       <Text
         style={[styles.label, variantLabelStyles[variant], disabled && styles.labelDisabled, labelStyle]}
       >
@@ -94,6 +111,10 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.xl,
     borderRadius: theme.radii.pill
+  },
+  baseWithIcon: {
+    flexDirection: 'row',
+    gap: theme.spacing.sm
   },
   fullWidth: {
     width: '100%'
