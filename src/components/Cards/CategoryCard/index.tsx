@@ -17,6 +17,20 @@ export function CategoryCard({ icon, label, selected = false, onPress }: Categor
       style={({ pressed }) => [styles.container, { opacity: pressed ? 0.7 : 1 }]}
       onPress={onPress}
     >
+      {selected && (
+        <>
+          <View style={styles.selectedBackdrop} />
+
+          <View style={[styles.invertedCornerMask, styles.bottomLeftMask]}>
+            <View style={styles.orangeCurveFillerLeft} />
+          </View>
+
+          <View style={[styles.invertedCornerMask, styles.bottomRightMask]}>
+            <View style={styles.orangeCurveFillerRight} />
+          </View>
+        </>
+      )}
+
       <View style={[styles.iconWrapper, selected && styles.iconWrapperSelected]}>
         <Image
           source={icon}
@@ -24,7 +38,7 @@ export function CategoryCard({ icon, label, selected = false, onPress }: Categor
           style={[styles.icon, selected && styles.iconSelected]}
         />
       </View>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, selected && styles.labelSelected]}>{label}</Text>
     </Pressable>
   );
 }

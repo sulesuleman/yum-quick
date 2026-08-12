@@ -63,10 +63,18 @@ export default function TabsLayout() {
       })}
     >
       <Tabs.Screen name='index' options={{ title: 'Home' }} />
-      <Tabs.Screen name='my-orders' options={{ title: 'My Orders' }} />
+      <Tabs.Screen
+        name='my-orders'
+        options={{ title: 'My Orders' }}
+        listeners={{ tabPress: (e) => e.preventDefault() }}
+      />
       <Tabs.Screen name='favorites' options={{ title: 'Favorites' }} />
       <Tabs.Screen name='notifications' options={{ title: 'Notifications' }} />
       <Tabs.Screen name='profile' options={{ title: 'Profile' }} />
+      <Tabs.Screen name='my-profile' options={{ title: 'My profile', href: null }} />
+      <Tabs.Screen name='delivery-address' options={{ title: 'Delivery Address', href: null }} />
+      <Tabs.Screen name='product-details' options={{ title: 'Product Details', href: null }} />
+      <Tabs.Screen name='payment-methods' options={{ title: 'Payment Methods', href: null }} />
     </Tabs>
   );
 }

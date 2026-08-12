@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { ProfileDrawer } from '@components/ProfileDrawer';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Searchbar } from '@components/Searchbar';
@@ -29,6 +29,9 @@ import BannerPizza from '@/assets/banner-pizza.svg';
 import Recommended1 from '@/assets/recommended-1.svg';
 import Recommended2 from '@/assets/recommended-2.svg';
 import { AddToCartModal } from '@/src/components/addToCart';
+import CartIcon from '@/assets/cart-icon.svg';
+import BellIcon from '@/assets/bell-icon.svg';
+import ProfileIcon from '@/assets/profile-icon.svg';
 
 const MOCK_ITEMS = [
   {
@@ -143,54 +146,114 @@ export function HomeScreen() {
     promoScrollRef.current?.scrollTo({ x: index * bannerWidth, animated: true });
   };
 
+  const handleCategoryPress = (id: string) =>
+    setSelectedCategory((prev) => (prev === id ? null : id));
+
+  const isFirstSelected = selectedCategory === CATEGORIES[0].id;
+  const isLastSelected = selectedCategory === CATEGORIES[CATEGORIES.length - 1].id;
+
   return (
     <View style={styles.screen}>
       <Stack.Screen
         options={{
           header: () => (
-            <View style={[styles.customHeader, { paddingTop: insets.top + 30 }]}>
+            <View
+              style={[
+                styles.customHeader,
+                selectedCategory !== null && styles.customHeaderCollapsed,
+                { paddingTop: insets.top + 30 }
+              ]}
+            >
               <View style={styles.headerRow}>
                 <Searchbar />
                 <View style={styles.iconGroup}>
-                  <IconButton icon={require('@/assets/cart-icon.png')}   onPress={() => setAddToCartVisible(true)} />
-                  <IconButton icon={require('@/assets/bell-icon.png')} />
+                  <IconButton SvgIcon={CartIcon} iconWidth={16} iconHeight={16}   onPress={() => setAddToCartVisible(true)} />
+                  <IconButton SvgIcon={BellIcon} iconWidth={14} iconHeight={20} />
                   <IconButton
-                    icon={require('@/assets/profile-icon.png')}
+                    SvgIcon={ProfileIcon}
+                    iconWidth={13}
+                    iconHeight={18}
                     onPress={() => setDrawerVisible(true)}
                   />
                 </View>
               </View>
-              <View style={styles.greetingRow}>
-                <Text style={styles.greetingText}>{greeting.heading}</Text>
-                <Text style={styles.greetingSubtext}>{greeting.subtext}</Text>
-              </View>
+              {selectedCategory === null && (
+                <View style={styles.greetingRow}>
+                  <Text style={styles.greetingText}>{greeting.heading}</Text>
+                  <Text style={styles.greetingSubtext}>{greeting.subtext}</Text>
+                </View>
+              )}
             </View>
           )
         }}
       />
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.contentCard}>
-        <View style={styles.categoryScrollView}>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.categoryRow}
-          >
-            {CATEGORIES.map((cat) => (
-              <CategoryCard
-                key={cat.id}
-                icon={cat.icon}
-                label={cat.label}
-                selected={selectedCategory === cat.id}
-                onPress={() => setSelectedCategory(cat.id)}
-              />
-            ))}
-          </ScrollView>
+      <View style={styles.cardFrame}>
+        <View
+          style={[
+            styles.categorySection,
+            selectedCategory !== null && styles.categorySectionSelected
+          ]}
+        >
+          {selectedCategory === null ? (
+            <View style={styles.categoryScrollView}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.categoryRow}
+              >
+                {CATEGORIES.map((cat) => (
+                  <CategoryCard
+                    key={cat.id}
+                    icon={cat.icon}
+                    label={cat.label}
+                    selected={false}
+                    onPress={() => handleCategoryPress(cat.id)}
+                  />
+                ))}
+              </ScrollView>
+            </View>
+          ) : (
+            <View style={styles.tabBarRow}>
+              {CATEGORIES.map((cat) => (
+                <CategoryCard
+                  key={cat.id}
+                  icon={cat.icon}
+                  label={cat.label}
+                  selected={selectedCategory === cat.id}
+                  onPress={() => handleCategoryPress(cat.id)}
+                />
+              ))}
+            </View>
+          )}
         </View>
 
-        <View style={styles.divider} />
+        <View
+          style={[
+            styles.whiteBody,
+            selectedCategory !== null && styles.whiteBodySelected,
+            isFirstSelected && styles.whiteBodyNoLeftRadius,
+            isLastSelected && styles.whiteBodyNoRightRadius
+          ]}
+        >
+          {selectedCategory !== null && (
+            <View style={styles.sortByRow}>
+              <View style={styles.sortByLeft}>
+                <Text style={styles.sortByLabel}>Sort By</Text>
+                <Text style={styles.sortByValue}>Popular</Text>
+              </View>
+              <IconButton icon={require('@/assets/filter-icon.png')} style={styles.filterButton} />
+            </View>
+          )}
 
-        {selectedCategory === null ? (
+          <ScrollView
+            style={styles.scrollArea}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.contentCard}
+          >
+            {selectedCategory === null && <View style={styles.divider} />}
+
+            {selectedCategory === null ? (
           <View style={styles.defaultView}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Best Seller</Text>
@@ -273,14 +336,6 @@ export function HomeScreen() {
           </View>
         ) : (
           <View style={styles.filteredView}>
-            <View style={styles.sortByRow}>
-              <View style={styles.sortByLeft}>
-                <Text style={styles.sortByLabel}>Sort By</Text>
-                <Text style={styles.sortByValue}>Popular</Text>
-              </View>
-              <IconButton icon={require('@/assets/filter-icon.png')} style={styles.filterButton} />
-            </View>
-
             {MOCK_ITEMS.map((item) => (
               <FoodItemCard
                 key={item.id}
@@ -289,12 +344,15 @@ export function HomeScreen() {
                 rating={item.rating}
                 price={item.price}
                 description={item.description}
+                onPress={() => router.push({ pathname: '/product-details', params: { id: item.id } })}
               />
             ))}
           </View>
-        )}
-      </ScrollView>
-      <AddToCartModal visible={addToCartVisible} onClose={() => setAddToCartVisible(false)} />
+            )}
+          </ScrollView>
+      <AddToCartModal visible={addToCartVisible} onClose={() => setAddToCartVisible(false)} />        </View>
+      </View>
+
       <ProfileDrawer visible={drawerVisible} onClose={() => setDrawerVisible(false)} />
     </View>
   );

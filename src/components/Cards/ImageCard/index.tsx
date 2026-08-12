@@ -20,6 +20,8 @@ type ImageCardProps = {
   width?: number;
   height?: number;
   borderRadius?: number;
+  /** Alt text for the rendered content image. Omit only when the image is purely decorative. */
+  accessibilityLabel?: string;
 };
 
 export function ImageCard({
@@ -31,7 +33,8 @@ export function ImageCard({
   children,
   width,
   height,
-  borderRadius
+  borderRadius,
+  accessibilityLabel
 }: ImageCardProps) {
   const styles = useImageCardStyles(variant, { width, height, borderRadius });
   const dimensions = getImageCardDimensions(variant, { width, height, borderRadius });
@@ -41,7 +44,14 @@ export function ImageCard({
       {SvgComponent ? (
         <SvgComponent width={dimensions.width} height={dimensions.height} />
       ) : source ? (
-        <Image source={source} style={styles.image} resizeMode={resizeMode} />
+        <Image
+          source={source}
+          style={styles.image}
+          resizeMode={resizeMode}
+          accessible={!!accessibilityLabel}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityRole={accessibilityLabel ? 'image' : undefined}
+        />
       ) : (
         <View style={styles.placeholder} />
       )}

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
-import type { StyleProp, TextInputProps, ViewStyle } from 'react-native';
+import type { StyleProp, TextInputProps, TextStyle, ViewStyle } from 'react-native';
 
 import { theme } from '@theme';
 
@@ -14,6 +14,9 @@ export type TextFieldProps = Omit<TextInputProps, 'style' | 'secureTextEntry'> &
   error?: string;
   type?: TextFieldType;
   containerStyle?: StyleProp<ViewStyle>;
+  boxStyle?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  inputStyle?: StyleProp<TextStyle>;
   fullWidth?: boolean;
 };
 
@@ -22,9 +25,13 @@ export function TextField({
   error,
   type = 'text',
   containerStyle,
+  boxStyle,
+  labelStyle,
+  inputStyle,
   fullWidth = true,
   editable = true,
-  placeholderTextColor = theme.colors.text.primary,
+  multiline,
+  placeholderTextColor = theme.colors.text.placeholder,
   ...inputProps
 }: TextFieldProps) {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -44,17 +51,25 @@ export function TextField({
 
   return (
     <View style={[fullWidth && fieldStyles.wrapper, containerStyle]}>
-      {label ? <Text style={fieldStyles.label}>{label}</Text> : null}
+      {label ? <Text style={[fieldStyles.label, labelStyle]}>{label}</Text> : null}
 
-      <View style={[fieldStyles.container, !editable && fieldStyles.containerDisabled]}>
+      <View
+        style={[
+          fieldStyles.container,
+          multiline && fieldStyles.containerMultiline,
+          !editable && fieldStyles.containerDisabled,
+          boxStyle
+        ]}
+      >
         <TextInput
           {...inputProps}
+          multiline={multiline}
           editable={editable}
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
           placeholderTextColor={placeholderTextColor}
           secureTextEntry={isPassword && !passwordVisible}
-          style={fieldStyles.input}
+          style={[fieldStyles.input, multiline && fieldStyles.inputMultiline, inputStyle]}
         />
 
         {isPassword ? (
