@@ -28,6 +28,7 @@ import BestSeller4 from '@/assets/best-seller-4.svg';
 import BannerPizza from '@/assets/banner-pizza.svg';
 import Recommended1 from '@/assets/recommended-1.svg';
 import Recommended2 from '@/assets/recommended-2.svg';
+import { AddToCartModal } from '@/src/components/addToCart';
 
 const MOCK_ITEMS = [
   {
@@ -105,6 +106,7 @@ function getGreeting(): { heading: string; subtext: string } {
 export function HomeScreen() {
   const insets = useSafeAreaInsets();
   const styles = useHomeScreenStyles(insets.bottom);
+  const [addToCartVisible, setAddToCartVisible] = useState(false);
   const { scale } = useScale();
   const greeting = getGreeting();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -150,7 +152,7 @@ export function HomeScreen() {
               <View style={styles.headerRow}>
                 <Searchbar />
                 <View style={styles.iconGroup}>
-                  <IconButton icon={require('@/assets/cart-icon.png')} />
+                  <IconButton icon={require('@/assets/cart-icon.png')}   onPress={() => setAddToCartVisible(true)} />
                   <IconButton icon={require('@/assets/bell-icon.png')} />
                   <IconButton
                     icon={require('@/assets/profile-icon.png')}
@@ -292,7 +294,7 @@ export function HomeScreen() {
           </View>
         )}
       </ScrollView>
-
+      <AddToCartModal visible={addToCartVisible} onClose={() => setAddToCartVisible(false)} />
       <ProfileDrawer visible={drawerVisible} onClose={() => setDrawerVisible(false)} />
     </View>
   );
