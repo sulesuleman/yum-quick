@@ -65,14 +65,9 @@ export function useCategoryCardStyles() {
     iconWrapperSelected: {
       backgroundColor: theme.colors.background.yellowBase
     },
-    icon: {
+    icon: { 
       width: '100%',
-      height: '100%',
-      objectFit: 'contain',
-      tintColor: theme.colors.brand.primary
-    },
-    iconSelected: {
-      tintColor: theme.colors.brand.primary
+      height: '100%'
     },
     label: {
       fontFamily: theme.typography.families.regular,
