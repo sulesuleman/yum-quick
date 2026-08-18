@@ -8,15 +8,11 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    // "splash": {
-    //   "image": "./assets/yumQuick-splash.png",
-    //   "resizeMode": "contain",
-    //   "backgroundColor": "#F5CB58"
-    // },
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "com.yumquick.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#F5CB58"
@@ -41,6 +37,13 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "57611db2-c3d1-4214-b35a-7600e868b339"
+      }
+    },
+    "owner": "sule_suleman"
   }
 }

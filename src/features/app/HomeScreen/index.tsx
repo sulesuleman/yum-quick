@@ -18,7 +18,8 @@ import { CategoryCard } from '@components/Cards/CategoryCard';
 import { FoodItemCard } from '@components/Cards/FoodItemCard';
 import { FoodImage } from '@components/FoodImage';
 import { RecommendCard } from '@components/Cards/RecommendCard';
-import { useScale } from '@theme';
+import { theme, useScale } from '@theme';
+import { CATEGORIES } from '@/src/constants/categories';
 import { useHomeScreenStyles } from './useHomeScreenStyles';
 
 import BestSeller1 from '@/assets/best-seller1.svg';
@@ -51,14 +52,6 @@ const MOCK_ITEMS = [
     description:
       'Marinated in a rich blend of herbs and spices, then grilled to perfection, served with a side of zesty dipping sauce.'
   }
-];
-
-const CATEGORIES = [
-  { id: 'snacks', label: 'Snacks', icon: require('@/assets/snacks-icon.png') },
-  { id: 'meal', label: 'Meal', icon: require('@/assets/meal-icon.png') },
-  { id: 'vegan', label: 'Vegan', icon: require('@/assets/vegan-icon.png') },
-  { id: 'dessert', label: 'Dessert', icon: require('@/assets/dessert-icon.png') },
-  { id: 'drinks', label: 'Drinks', icon: require('@/assets/drinks-icon.png') }
 ];
 
 const BEST_SELLERS = [
@@ -167,7 +160,12 @@ export function HomeScreen() {
               <View style={styles.headerRow}>
                 <Searchbar />
                 <View style={styles.iconGroup}>
-                  <IconButton SvgIcon={CartIcon} iconWidth={16} iconHeight={16}   onPress={() => setAddToCartVisible(true)} />
+                  <IconButton
+                    SvgIcon={CartIcon}
+                    iconWidth={16}
+                    iconHeight={16}   onPress={() => setAddToCartVisible(true)}
+                    iconColor={theme.colors.brand.primary}
+                  />
                   <IconButton SvgIcon={BellIcon} iconWidth={14} iconHeight={20} />
                   <IconButton
                     SvgIcon={ProfileIcon}
@@ -257,7 +255,14 @@ export function HomeScreen() {
           <View style={styles.defaultView}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Best Seller</Text>
-              <TouchableOpacity style={styles.viewAllRow} activeOpacity={0.7}>
+              <TouchableOpacity
+                style={styles.viewAllRow}
+                activeOpacity={0.7}
+                onPress={() => router.push('/best-seller')}
+                accessibilityRole='button'
+                accessibilityLabel='View all best sellers'
+                testID='home-view-all-best-seller'
+              >
                 <Text style={styles.viewAllText}>View All</Text>
                 <Text style={styles.viewAllChevron}>›</Text>
               </TouchableOpacity>

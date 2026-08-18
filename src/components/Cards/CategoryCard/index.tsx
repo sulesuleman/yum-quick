@@ -1,15 +1,16 @@
-import { Image, ImageSourcePropType, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import type { SvgProps } from 'react-native-svg';
 
 import { useCategoryCardStyles } from './useCategoryCardStyles';
 
 type CategoryCardProps = {
-  icon: ImageSourcePropType;
+  icon: React.FC<SvgProps>;
   label: string;
   selected?: boolean;
   onPress?: () => void;
 };
 
-export function CategoryCard({ icon, label, selected = false, onPress }: CategoryCardProps) {
+export function CategoryCard({ icon: Icon, label, selected = false, onPress }: CategoryCardProps) {
   const styles = useCategoryCardStyles();
 
   return (
@@ -32,11 +33,7 @@ export function CategoryCard({ icon, label, selected = false, onPress }: Categor
       )}
 
       <View style={[styles.iconWrapper, selected && styles.iconWrapperSelected]}>
-        <Image
-          source={icon}
-          resizeMode='contain'
-          style={[styles.icon, selected && styles.iconSelected]}
-        />
+        <Icon width='100%' height='100%' style={styles.icon} />
       </View>
       <Text style={[styles.label, selected && styles.labelSelected]}>{label}</Text>
     </Pressable>
