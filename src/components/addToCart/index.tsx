@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import { Button } from '@react-navigation/elements';
+import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useAddToCartDrawerStyles } from './useAddToCartStyles';
 
@@ -65,14 +66,14 @@ export function AddToCartModal({ visible, onClose, onItemPress }: Props) {
           {isEmptyCart ? (
             <EmptyCart onItemPress={() => setIsEmptyCart(false)} />
           ) : (
-            <AddToCartItem onItemPress={() => setIsEmptyCart(true)} />
+            <AddToCartItem onItemPress={() => setIsEmptyCart(true)} onCheckout={onClose} />
           )}
         </View>
       </View>
     </Modal>
   );
 }
-const AddToCartItem = ({ onItemPress }: { onItemPress?: () => void }) => {
+const AddToCartItem = ({ onItemPress, onCheckout }: { onItemPress?: () => void; onCheckout: () => void }) => {
   const styles = useAddToCartDrawerStyles();
   const MOCK_ITEMS = [
     {
@@ -138,7 +139,13 @@ const AddToCartItem = ({ onItemPress }: { onItemPress?: () => void }) => {
         <Text style={styles.BottomRowText}>Total</Text>
         <Text style={styles.BottomRowText}>$32.00</Text>
       </View>
-      <Pressable style={styles.checkoutButton} onPress={() => onItemPress && onItemPress()}>
+      <Pressable
+        style={styles.checkoutButton}
+        onPress={() => {
+          onCheckout();
+          router.push('/order-confirmation');
+        }}
+      >
         <Text style={styles.checkoutButtonText}>Checkout</Text>
       </Pressable>
     </View>
