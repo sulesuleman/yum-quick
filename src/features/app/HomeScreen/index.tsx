@@ -29,6 +29,7 @@ import BestSeller4 from '@/assets/best-seller-4.svg';
 import BannerPizza from '@/assets/banner-pizza.svg';
 import Recommended1 from '@/assets/recommended-1.svg';
 import Recommended2 from '@/assets/recommended-2.svg';
+import { AddToCartModal } from '@/src/components/AddToCartDrawer';
 import CartIcon from '@/assets/cart-icon.svg';
 import BellIcon from '@/assets/bell-icon.svg';
 import ProfileIcon from '@/assets/profile-icon.svg';
@@ -101,6 +102,7 @@ function getGreeting(): { heading: string; subtext: string } {
 export function HomeScreen() {
   const insets = useSafeAreaInsets();
   const styles = useHomeScreenStyles(insets.bottom);
+  const [addToCartVisible, setAddToCartVisible] = useState(false);
   const { scale } = useScale();
   const greeting = getGreeting();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -161,7 +163,7 @@ export function HomeScreen() {
                   <IconButton
                     SvgIcon={CartIcon}
                     iconWidth={16}
-                    iconHeight={16}
+                    iconHeight={16}   onPress={() => setAddToCartVisible(true)}
                     iconColor={theme.colors.brand.primary}
                   />
                   <IconButton SvgIcon={BellIcon} iconWidth={14} iconHeight={20} />
@@ -353,7 +355,7 @@ export function HomeScreen() {
           </View>
             )}
           </ScrollView>
-        </View>
+      <AddToCartModal visible={addToCartVisible} onClose={() => setAddToCartVisible(false)} />        </View>
       </View>
 
       <ProfileDrawer visible={drawerVisible} onClose={() => setDrawerVisible(false)} />
