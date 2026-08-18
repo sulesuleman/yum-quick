@@ -15,6 +15,8 @@ import {
 import { Button } from '@react-navigation/elements';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
+import CartIcon from '@/assets/cartIcon.svg';
+import PlusIcon from '@/assets/PlusIcon.svg';
 import { useAddToCartDrawerStyles } from './useAddToCartStyles';
 
 type Props = {
@@ -59,7 +61,7 @@ export function AddToCartModal({ visible, onClose, onItemPress }: Props) {
         <View style={styles.drawer}>
           <View style={styles.cartHeader}>
             <View style={styles.starIcon}>
-              <Image source={require('@/assets/cartIcon.png')} />
+              <CartIcon width={24} height={24} />
             </View>
             <Text style={styles.headerText}>Cart</Text>
           </View>
@@ -159,7 +161,7 @@ const EmptyCart = ({ onItemPress }: EmptyCartProps) => {
   return (
     <View style={styles.scrollContent}>
       <TouchableOpacity onPress={onItemPress}>
-        <Image source={require('@/assets/PlusIcon.png')} />
+        <PlusIcon width={128} height={128} />
       </TouchableOpacity>
       <Text style={styles.headerText}>Want to add something?</Text>
     </View>
