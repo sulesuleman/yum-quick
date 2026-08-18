@@ -29,7 +29,7 @@ import BestSeller4 from '@/assets/best-seller-4.svg';
 import BannerPizza from '@/assets/banner-pizza.svg';
 import Recommended1 from '@/assets/recommended-1.svg';
 import Recommended2 from '@/assets/recommended-2.svg';
-import { AddToCartModal } from '@/src/components/addToCart';
+import { AddToCartModal } from '@/src/components/AddToCartDrawer';
 import CartIcon from '@/assets/cart-icon.svg';
 import BellIcon from '@/assets/bell-icon.svg';
 import ProfileIcon from '@/assets/profile-icon.svg';
