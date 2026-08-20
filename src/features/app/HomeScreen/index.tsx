@@ -355,7 +355,8 @@ export function HomeScreen() {
           </View>
             )}
           </ScrollView>
-      <AddToCartModal visible={addToCartVisible} onClose={() => setAddToCartVisible(false)} />        </View>
+          <AddToCartModal visible={addToCartVisible} onClose={() => setAddToCartVisible(false)} />
+        </View>
       </View>
 
       <ProfileDrawer visible={drawerVisible} onClose={() => setDrawerVisible(false)} />

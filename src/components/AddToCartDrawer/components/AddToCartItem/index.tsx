@@ -50,11 +50,11 @@ export function AddToCartItem({ onItemPress, onCheckout }: Props) {
             <Text style={styles.time}>{item.time}</Text>
             <View style={styles.cartItemActions}>
               <Pressable onPress={onItemPress} style={styles.actionButton}>
-                -
+                <Text>-</Text>
               </Pressable>
               <Text style={styles.descriptionText}>2</Text>
               <Pressable onPress={() => console.log('Add')} style={styles.actionButton}>
-                +
+                <Text>+</Text>
               </Pressable>
             </View>
           </View>
