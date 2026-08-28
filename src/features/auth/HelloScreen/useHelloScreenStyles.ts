@@ -40,5 +40,11 @@ const styles = StyleSheet.create({
   footerLink: {
     color: theme.colors.brand.primary,
     fontFamily: theme.typography.families.bold
+  },
+  rootError: {
+    fontFamily: theme.typography.families.medium,
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.brand.primary,
+    marginTop: theme.spacing.sm
   }
 });

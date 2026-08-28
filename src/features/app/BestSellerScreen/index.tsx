@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, useWindowDimensions, View } from 'react-native';
 import { Stack, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,6 +8,10 @@ import BackArrowIcon from '@/assets/back-arrow.svg';
 import { ContentSheet } from '@components/ContentSheet';
 import { IconButton } from '@components/ui/button/IconButton';
 import { BestSellerCard } from '@components/Cards/BestSellerCard';
+import { resolveProductImage } from '@/src/constants/productImages';
+import { useFavorites } from '@features/favorites/useFavorites';
+import { productsApi } from '@services/productsApi';
+import { Product } from '@services/types';
 import { theme } from '@theme';
 
 import { useBestSellerScreenStyles } from './useBestSellerScreenStyles';
@@ -22,85 +26,16 @@ function getNumColumns(windowWidth: number): number {
   return 2;
 }
 
-const BEST_SELLERS = [
-  {
-    id: '1',
-    name: 'Sunny Bruschetta',
-    description: 'Toasted baguette topped with tomatoes, basil and olive oil',
-    price: 8.5,
-    rating: 4.5,
-    category: 'snacks' as const,
-    image: require('@/assets/mexican-appetizer.png')
-  },
-  {
-    id: '2',
-    name: 'Gourmet Grilled Skewers',
-    description: 'Char-grilled skewers marinated in herbs and spices',
-    price: 14.0,
-    rating: 4.8,
-    category: 'meal' as const,
-    image: require('@/assets/mexican-appetizer.png')
-  },
-  {
-    id: '3',
-    name: 'Barbecue Tacos',
-    description: 'Smoky barbecue filling wrapped in a soft corn tortilla',
-    price: 11.25,
-    rating: 4.2,
-    category: 'meal' as const,
-    image: require('@/assets/mexican-appetizer.png')
-  },
-  {
-    id: '4',
-    name: 'Broccoli Lasagna',
-    description: 'Layers of pasta with creamy broccoli and cheese sauce',
-    price: 13.75,
-    rating: 4.0,
-    category: 'vegan' as const,
-    image: require('@/assets/mexican-appetizer.png')
-  },
-  {
-    id: '5',
-    name: 'Choco Lava Cake',
-    description: 'Warm chocolate cake with a molten center, served with cream',
-    price: 9.5,
-    rating: 4.9,
-    category: 'dessert' as const,
-    image: require('@/assets/mexican-appetizer.png')
-  },
-  {
-    id: '6',
-    name: 'Mango Iced Tea',
-    description: 'Refreshing iced tea blended with fresh mango puree',
-    price: 5.0,
-    rating: 3.8,
-    category: 'drinks' as const,
-    image: require('@/assets/mexican-appetizer.png')
-  },
-  {
-    id: '7',
-    name: 'Crispy Veggie Bites',
-    description: 'Golden fried vegetable fritters with a tangy dip',
-    price: 7.25,
-    rating: 4.3,
-    category: 'snacks' as const,
-    image: require('@/assets/mexican-appetizer.png')
-  },
-  {
-    id: '8',
-    name: 'Berry Cheesecake',
-    description: 'Creamy cheesecake topped with a mixed berry compote',
-    price: 10.5,
-    rating: 4.6,
-    category: 'dessert' as const,
-    image: require('@/assets/mexican-appetizer.png')
-  }
-];
-
 export function BestSellerScreen() {
   const insets = useSafeAreaInsets();
   const styles = useBestSellerScreenStyles();
   const { width: windowWidth } = useWindowDimensions();
+  const { isFavorite, toggle } = useFavorites();
+  const [bestSellers, setBestSellers] = useState<Product[]>([]);
+
+  useEffect(() => {
+    productsApi.list().then((products) => setBestSellers(products.filter((p) => p.isBestSeller)));
+  }, []);
 
   const numColumns = getNumColumns(windowWidth);
   const availableWidth = windowWidth - SCREEN_MARGIN * 2;
@@ -137,7 +72,7 @@ export function BestSellerScreen() {
       >
         <Text style={styles.headerSubtitle}>Discover our most popular dishes!</Text>
         <View style={styles.grid}>
-          {BEST_SELLERS.map((item) => (
+          {bestSellers.map((item) => (
             <BestSellerCard
               key={item.id}
               name={item.name}
@@ -145,8 +80,10 @@ export function BestSellerScreen() {
               price={item.price}
               rating={item.rating}
               category={item.category}
-              image={item.image}
+              image={resolveProductImage(item.imageKey)}
               width={cardWidth}
+              isFavorite={isFavorite(item.id)}
+              onToggleFavorite={() => toggle(item.id)}
               onPress={() => router.push({ pathname: '/product-details', params: { id: item.id } })}
             />
           ))}

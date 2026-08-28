@@ -30,11 +30,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 12,
-    paddingHorizontal: 24,
-    paddingVertical: 50,
+    gap: 10.7,
+    paddingTop: 66,
+    paddingBottom: 38.85,
+    marginLeft: 35,
+    marginRight: 37.83,
     borderBottomWidth: 1,
-    marginHorizontal: 30,
     borderBottomColor: theme.colors.button.primary
   },
   starIcon: {

@@ -16,7 +16,7 @@ export function OrderTabs({ activeTab, onTabChange }: Props) {
 
   return (
     <View style={styles.container}>
-      {TABS.map(tab => {
+      {TABS.map((tab) => {
         const isActive = activeTab === tab;
         return (
           <TouchableOpacity
@@ -25,7 +25,9 @@ export function OrderTabs({ activeTab, onTabChange }: Props) {
             onPress={() => onTabChange(tab)}
             activeOpacity={0.8}
           >
-            <Text style={[styles.tabText, isActive ? styles.tabTextActive : styles.tabTextInactive]}>
+            <Text
+              style={[styles.tabText, isActive ? styles.tabTextActive : styles.tabTextInactive]}
+            >
               {tab}
             </Text>
           </TouchableOpacity>

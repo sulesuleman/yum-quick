@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 
 import { AuthCard, Button, TextField } from '@components';
 import { useAuth } from '@features/auth/AuthContext';
+import { usersApi } from '@services/usersApi';
 
 import { useHelloScreenStyles } from './useHelloScreenStyles';
 
@@ -13,9 +14,15 @@ export function HelloScreen() {
   const styles = useHelloScreenStyles();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async () => {
-    await signIn('demo-token');
+    const user = await usersApi.findByEmail(identifier);
+    if (!user || user.password !== password) {
+      setError('Invalid email or password');
+      return;
+    }
+    await signIn(user.email, user.name, user.id);
     router.replace('/(app)/(tabs)');
   };
 
@@ -41,6 +48,8 @@ export function HelloScreen() {
           />
           <Text style={styles.forgot}>Forget Password</Text>
         </View>
+
+        {error && <Text style={styles.rootError}>{error}</Text>}
 
         <View style={styles.actions}>
           <Button title='Log In' variant='cta' onPress={onSubmit} />

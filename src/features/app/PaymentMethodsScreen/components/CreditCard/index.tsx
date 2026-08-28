@@ -23,11 +23,15 @@ export function CreditCard({ cardNumber, holderName, expiryDate, style }: Props)
       <View style={styles.topRightBadge} />
       <ChipIcon width={30} height={26} style={styles.chip} />
 
-      <Text style={styles.cardNumber} numberOfLines={1}>{cardNumber}</Text>
+      <Text style={styles.cardNumber} numberOfLines={1}>
+        {cardNumber}
+      </Text>
 
       <View style={styles.footerLeft}>
         <Text style={styles.smallLabel}>Card holder name</Text>
-        <Text style={styles.boldValue} numberOfLines={1}>{holderName}</Text>
+        <Text style={styles.boldValue} numberOfLines={1}>
+          {holderName}
+        </Text>
       </View>
       <View style={styles.footerRight}>
         <Text style={styles.smallLabel}>Expiry date</Text>

@@ -11,14 +11,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#F5F5F5',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   buttonPressed: {
-    opacity: 0.6,
+    opacity: 0.6
   },
   icon: {
     width: 16,
-    aspectRatio: 1/1,
+    aspectRatio: 1 / 1,
     objectFit: 'contain'
-  },
+  }
 });

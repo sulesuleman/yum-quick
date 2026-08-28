@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AuthProvider } from '@features/auth/AuthContext';
+import { CartProvider } from '@features/cart/CartContext';
 import { theme } from '@theme';
 
 void SplashScreen.preventAutoHideAsync();
@@ -40,15 +41,17 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            animation: 'none',
-            contentStyle: {
-              backgroundColor: theme.colors.background.card
-            }
-          }}
-        />
+        <CartProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: 'none',
+              contentStyle: {
+                backgroundColor: theme.colors.background.card
+              }
+            }}
+          />
+        </CartProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

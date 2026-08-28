@@ -42,7 +42,10 @@ export function CancelledAnimation() {
     dot3Scale.value = withDelay(990, withSpring(1, { damping: 9, stiffness: 180 }));
 
     dotsOpacity.value = withDelay(1700, withTiming(0, { duration: 250 }));
-    crossOpacity.value = withDelay(1750, withTiming(1, { duration: 300, easing: Easing.out(Easing.cubic) }));
+    crossOpacity.value = withDelay(
+      1750,
+      withTiming(1, { duration: 300, easing: Easing.out(Easing.cubic) })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -86,7 +89,12 @@ export function CancelledAnimation() {
           fill={theme.colors.brand.primary}
           animatedProps={dot1AnimatedProps}
         />
-        <AnimatedCircle cx={CENTER} cy={CENTER} fill={theme.colors.brand.primary} animatedProps={dot2AnimatedProps} />
+        <AnimatedCircle
+          cx={CENTER}
+          cy={CENTER}
+          fill={theme.colors.brand.primary}
+          animatedProps={dot2AnimatedProps}
+        />
         <AnimatedCircle
           cx={CENTER + DOT_SPACING}
           cy={CENTER}

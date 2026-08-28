@@ -41,7 +41,14 @@ export function RadioButton({
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
     >
       <Svg width={20} height={20} viewBox='0 0 20 20'>
-        <Circle cx={10} cy={10} r={9.5} stroke={theme.colors.brand.primary} strokeWidth={1} fill='none' />
+        <Circle
+          cx={10}
+          cy={10}
+          r={9.5}
+          stroke={theme.colors.brand.primary}
+          strokeWidth={1}
+          fill='none'
+        />
         <Circle
           cx={10}
           cy={10}

@@ -17,4 +17,3 @@ const styles = StyleSheet.create({
     paddingTop: theme.spacing.md
   }
 });
-

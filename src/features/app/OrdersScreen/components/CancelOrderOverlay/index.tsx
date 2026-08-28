@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ContentSheet } from '@components/ContentSheet';
@@ -28,7 +33,7 @@ type Props = {
   step: CancelOrderStep;
   onStepChange: (step: CancelOrderStep) => void;
   onClose: () => void;
-  onCancelled: () => void;
+  onCancelled: (reason: string) => void;
 };
 
 export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCancelled }: Props) {
@@ -67,11 +72,16 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
 
   if (!visible) return null;
 
-  const canSubmit = selectedReason !== null && (selectedReason !== OTHERS_ID || othersText.trim().length > 0);
+  const canSubmit =
+    selectedReason !== null && (selectedReason !== OTHERS_ID || othersText.trim().length > 0);
 
   const handleSubmit = () => {
     if (!canSubmit) return;
-    onCancelled();
+    const reason =
+      selectedReason === OTHERS_ID
+        ? othersText.trim()
+        : (REASONS.find((r) => r.id === selectedReason)?.label ?? '');
+    onCancelled(reason);
     onStepChange('success');
   };
 
@@ -81,7 +91,10 @@ export function CancelOrderOverlay({ visible, step, onStepChange, onClose, onCan
   };
 
   return (
-    <KeyboardAvoidingView style={styles.overlay} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView
+      style={styles.overlay}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <Animated.View
         style={[styles.layer, formAnimatedStyle]}
         pointerEvents={step === 'form' ? 'auto' : 'none'}

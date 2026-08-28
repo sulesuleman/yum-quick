@@ -68,7 +68,10 @@ export default function TabsLayout() {
         options={{ title: 'My Orders' }}
         listeners={{ tabPress: (e) => e.preventDefault() }}
       />
-      <Tabs.Screen name='order-confirmation' options={{ title: 'Order Confirmation', href: null }} />
+      <Tabs.Screen
+        name='order-confirmation'
+        options={{ title: 'Order Confirmation', href: null }}
+      />
       <Tabs.Screen name='favorites' options={{ title: 'Favorites' }} />
       <Tabs.Screen name='notifications' options={{ title: 'Notifications' }} />
       <Tabs.Screen name='profile' options={{ title: 'Profile' }} />

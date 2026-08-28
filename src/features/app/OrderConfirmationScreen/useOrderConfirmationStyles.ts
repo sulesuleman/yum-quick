@@ -38,16 +38,24 @@ const styles = StyleSheet.create({
   },
   shippingAddressContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    // justifyContent: 'space-between',
-    gap:theme.spacing.sm,
-    paddingVertical: theme.spacing.sm
+    alignItems: 'flex-end',
+    gap: theme.spacing.sm
+  },
+  shippingAddressLabel: {
+    fontFamily: theme.typography.families.bold,
+    fontWeight: theme.typography.weights.bold,
+    fontSize: theme.typography.sizes.title,
+    lineHeight: 26,
+    letterSpacing: 0,
+    textTransform: 'capitalize',
+    color: theme.colors.text.primary
   },
   headerChip: {
     borderRadius: theme.spacing.md,
     backgroundColor: theme.colors.background.yellow2,
     padding: theme.spacing.sm,
-    marginBottom: theme.spacing.lg
+    marginTop: 23,
+    marginBottom: 50
   },
   chipText: {
     color: theme.colors.text.primary,
@@ -56,27 +64,40 @@ const styles = StyleSheet.create({
   orderSummaryHeader: {
     justifyContent: 'space-between',
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: theme.spacing.sm
+    alignItems: 'center'
+  },
+  orderSummaryDivider: {
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.background.divider,
+    marginTop: 19,
+    marginBottom: 12
   },
   editButton: {
-    backgroundColor: theme.colors.background.orange2,
-    borderRadius: theme.spacing.md,
     width: 58,
+    borderRadius: 19,
+    paddingTop: 4,
+    paddingRight: 6,
+    paddingBottom: 3,
+    paddingLeft: 6,
+    backgroundColor: theme.colors.background.orange2,
     alignItems: 'center',
-    justifyContent: 'center',
-    height: 14
+    justifyContent: 'center'
   },
   editButtonText: {
-    color: theme.colors.background.orangeBase,
-    fontSize: theme.typography.sizes.input
+    fontFamily: theme.typography.families.regular,
+    fontWeight: theme.typography.weights.regular,
+    fontSize: 12,
+    lineHeight: 10,
+    letterSpacing: -0.06,
+    textAlign: 'center',
+    color: theme.colors.background.orangeBase
   },
   orderItem: {
     flexDirection: 'row',
     gap: theme.spacing.sm,
-    paddingVertical: theme.spacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.background.divider
+    paddingVertical: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.background.divider
   },
   deleteButton: {
     position: 'absolute',
@@ -96,8 +117,7 @@ const styles = StyleSheet.create({
   },
   orderItemTopRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    // paddingRight: theme.spacing.lg
+    justifyContent: 'space-between'
   },
   orderItemName: {
     fontFamily: theme.typography.families.medium,
@@ -140,17 +160,18 @@ const styles = StyleSheet.create({
     gap: theme.spacing.sm
   },
   stepperButton: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+    width: 19.25,
+    height: 19.25,
+    borderRadius: '50%',
     backgroundColor: theme.colors.background.orangeBase,
     alignItems: 'center',
     justifyContent: 'center'
   },
   stepperButtonText: {
-    color: theme.colors.text.inverse,
-    fontSize: theme.typography.sizes.body,
-    fontFamily: theme.typography.families.bold
+    fontSize: 12,
+    lineHeight: 14,
+    textAlign: 'center',
+    color: theme.colors.text.inverse
   },
   stepperCount: {
     minWidth: 16,
@@ -159,38 +180,43 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.body,
     color: theme.colors.text.primary
   },
+  summarySection: {
+    paddingTop: 17,
+    gap: 26
+  },
   summaryRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: theme.spacing.xs
+    justifyContent: 'space-between'
   },
   summaryLabel: {
-   fontSize: theme.typography.sizes.subHeading,
+    fontSize: theme.typography.sizes.subHeading,
     color: theme.colors.text.primary,
-    fontWeight:theme.typography.weights.medium
+    fontWeight: theme.typography.weights.medium
   },
   summaryValue: {
     fontSize: theme.typography.sizes.subHeading,
     color: theme.colors.text.primary,
-    fontWeight:theme.typography.weights.medium
+    fontWeight: theme.typography.weights.medium
+  },
+  totalDivider: {
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.background.divider,
+    marginTop: 20.27,
+    marginBottom: 18.29
   },
   totalRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.background.divider,
-    marginTop: theme.spacing.sm,
-    paddingTop: theme.spacing.sm
+    justifyContent: 'space-between'
   },
   totalLabel: {
-   fontSize: theme.typography.sizes.subHeading,
+    fontSize: theme.typography.sizes.subHeading,
     color: theme.colors.text.primary,
-    fontWeight:theme.typography.weights.medium
+    fontWeight: theme.typography.weights.medium
   },
   totalValue: {
-  fontSize: theme.typography.sizes.subHeading,
+    fontSize: theme.typography.sizes.subHeading,
     color: theme.colors.text.primary,
-    fontWeight:theme.typography.weights.medium
+    fontWeight: theme.typography.weights.medium
   },
   placeOrderButton: {
     alignSelf: 'center',
@@ -198,7 +224,8 @@ const styles = StyleSheet.create({
     borderRadius: theme.radii.pill,
     paddingHorizontal: theme.spacing.xl,
     paddingVertical: theme.spacing.sm,
-    marginTop: theme.spacing.lg
+    marginTop: theme.spacing.lg,
+    marginBottom: 30
   },
   placeOrderButtonText: {
     fontFamily: theme.typography.families.bold,

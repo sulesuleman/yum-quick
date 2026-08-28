@@ -14,10 +14,15 @@ export function EmptyCart({ onItemPress }: Props) {
 
   return (
     <View style={styles.scrollContent}>
-      <TouchableOpacity onPress={onItemPress}>
-        <PlusIcon width={128} height={128} />
-      </TouchableOpacity>
-      <Text style={styles.headerText}>Want to add something?</Text>
+      <Text style={styles.emptyCartText} numberOfLines={1}>
+        Your cart is empty
+      </Text>
+      <View style={styles.addToCartGroup}>
+        <TouchableOpacity onPress={onItemPress}>
+          <PlusIcon width={184} height={184} />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>Want to add something?</Text>
+      </View>
     </View>
   );
 }

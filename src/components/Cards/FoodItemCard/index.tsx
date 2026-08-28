@@ -12,7 +12,14 @@ type FoodItemCardProps = {
   onPress?: () => void;
 };
 
-export function FoodItemCard({ image, name, rating, price, description, onPress }: FoodItemCardProps) {
+export function FoodItemCard({
+  image,
+  name,
+  rating,
+  price,
+  description,
+  onPress
+}: FoodItemCardProps) {
   const styles = useFoodItemCardStyles();
 
   return (
@@ -20,10 +27,17 @@ export function FoodItemCard({ image, name, rating, price, description, onPress 
       onPress={onPress}
       accessibilityRole={onPress ? 'button' : undefined}
       accessibilityLabel={onPress ? `${name}, rating ${rating}, ${price}` : undefined}
-      testID={onPress ? `food-item-card-${name.toLowerCase().trim().replace(/\s+/g, '-')}` : undefined}
+      testID={
+        onPress ? `food-item-card-${name.toLowerCase().trim().replace(/\s+/g, '-')}` : undefined
+      }
       style={({ pressed }) => [styles.container, { opacity: pressed && onPress ? 0.85 : 1 }]}
     >
-      <Image source={image} style={styles.image} accessibilityElementsHidden importantForAccessibility='no-hide-descendants' />
+      <Image
+        source={image}
+        style={styles.image}
+        accessibilityElementsHidden
+        importantForAccessibility='no-hide-descendants'
+      />
 
       <View style={styles.infoRow}>
         {/* Left side: name + rating badge */}
@@ -40,7 +54,9 @@ export function FoodItemCard({ image, name, rating, price, description, onPress 
         <Text style={styles.price}>{price}</Text>
       </View>
 
-      <Text style={styles.description} numberOfLines={2}>{description}</Text>
+      <Text style={styles.description} numberOfLines={2}>
+        {description}
+      </Text>
     </Pressable>
   );
 }

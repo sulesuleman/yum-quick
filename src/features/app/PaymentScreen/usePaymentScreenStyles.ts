@@ -59,16 +59,24 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.sm
   },
   editButton: {
-    backgroundColor: theme.colors.background.orange2,
-    borderRadius: theme.spacing.md,
     width: 58,
+    borderRadius: 19,
+    paddingTop: 4,
+    paddingRight: 6,
+    paddingBottom: 3,
+    paddingLeft: 6,
+    backgroundColor: theme.colors.background.orange2,
     alignItems: 'center',
-    justifyContent: 'center',
-    height: 14
+    justifyContent: 'center'
   },
   editButtonText: {
-    color: theme.colors.background.orangeBase,
-    fontSize: theme.typography.sizes.input
+    fontFamily: theme.typography.families.regular,
+    fontWeight: theme.typography.weights.regular,
+    fontSize: 12,
+    lineHeight: 10,
+    letterSpacing: -0.06,
+    textAlign: 'center',
+    color: theme.colors.background.orangeBase
   },
   orderSummaryRow: {
     flexDirection: 'row',
@@ -135,7 +143,11 @@ const styles = StyleSheet.create({
   deliveryRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.background.divider,
+    paddingBottom: theme.spacing.lg,
+    marginBottom: theme.spacing.lg
   },
   deliveryLabel: {
     fontFamily: theme.typography.families.regular,
@@ -147,15 +159,21 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.subHeading,
     color: theme.colors.background.orangeBase
   },
+  payNowButtonWrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    alignItems: 'center'
+  },
   payNowButton: {
-    alignSelf: 'center',
+    width: 157,
     backgroundColor: theme.colors.background.orange2,
     borderRadius: theme.radii.pill,
     paddingHorizontal: theme.spacing.xl,
-    paddingVertical: theme.spacing.sm,
-    marginTop: theme.spacing['3xl']
+    paddingVertical: theme.spacing.sm
   },
   payNowButtonText: {
+    textAlign: 'center',
     fontFamily: theme.typography.families.bold,
     fontSize: theme.typography.sizes.body1,
     color: theme.colors.background.orangeBase

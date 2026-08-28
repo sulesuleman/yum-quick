@@ -1,0 +1,726 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Muhammad Suleman",
+      "email": "mousuleman@gmail.com",
+      "password": "123456",
+      "phone": "+123 567 89000",
+      "dob": "1991-09-10",
+      "avatarUri": "https://randomuser.me/api/portraits/men/32.jpg"
+    },
+    {
+      "id": "u2",
+      "name": "Masroor Ahmed",
+      "email": "masroorahmedfcb@gmail.com",
+      "password": "123456",
+      "phone": "+123 567 89001",
+      "dob": "1993-04-22",
+      "avatarUri": "https://randomuser.me/api/portraits/men/45.jpg"
+    },
+    {
+      "id": "u3",
+      "name": "Ammar Qureshi",
+      "email": "ammarqureshi120@gmail.com",
+      "password": "123456",
+      "phone": "+123 567 89002",
+      "dob": "1995-01-15",
+      "avatarUri": "https://randomuser.me/api/portraits/men/54.jpg"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Sunny Bruschetta",
+      "subtitle": "Chef's snack special",
+      "description": "Toasted baguette topped with tomatoes, basil and olive oil",
+      "price": 8.5,
+      "rating": 4.5,
+      "category": "snacks",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Gourmet Grilled Skewers",
+      "subtitle": "Chef's meal special",
+      "description": "Char-grilled skewers marinated in herbs and spices",
+      "price": 14,
+      "rating": 4.8,
+      "category": "meal",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Barbecue Tacos",
+      "subtitle": "Chef's meal special",
+      "description": "Smoky barbecue filling wrapped in a soft corn tortilla",
+      "price": 11.25,
+      "rating": 4.2,
+      "category": "meal",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Broccoli Lasagna",
+      "subtitle": "Chef's vegan special",
+      "description": "Layers of pasta with creamy broccoli and cheese sauce",
+      "price": 13.75,
+      "rating": 4,
+      "category": "vegan",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Choco Lava Cake",
+      "subtitle": "Chef's dessert special",
+      "description": "Warm chocolate cake with a molten center, served with cream",
+      "price": 9.5,
+      "rating": 4.9,
+      "category": "dessert",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": true,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Mango Iced Tea",
+      "subtitle": "Chef's drinks special",
+      "description": "Refreshing iced tea blended with fresh mango puree",
+      "price": 5,
+      "rating": 3.8,
+      "category": "drinks",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Crispy Veggie Bites",
+      "subtitle": "Chef's snack special",
+      "description": "Golden fried vegetable fritters with a tangy dip",
+      "price": 7.25,
+      "rating": 4.3,
+      "category": "snacks",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Berry Cheesecake",
+      "subtitle": "Chef's dessert special",
+      "description": "Creamy cheesecake topped with a mixed berry compote",
+      "price": 10.5,
+      "rating": 4.6,
+      "category": "dessert",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": true,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "name": "Mexican Appetizer",
+      "subtitle": "Tortilla Chips With Toppings",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+      "price": 15,
+      "rating": 5,
+      "category": "snacks",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Pork Skewer",
+      "subtitle": "Grilled to perfection",
+      "description": "Marinated in a rich blend of herbs and spices, then grilled to perfection, served with a side of zesty dipping sauce.",
+      "price": 12.99,
+      "rating": 4,
+      "category": "meal",
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "toppings": [
+        {
+          "id": "guacamole",
+          "name": "Guacamole",
+          "price": 2.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "jalapenos",
+          "name": "Jalapeños",
+          "price": 3.99,
+          "defaultSelected": true
+        },
+        {
+          "id": "ground-beef",
+          "name": "Ground Beef",
+          "price": 3.99,
+          "defaultSelected": false
+        },
+        {
+          "id": "pico-de-gallo",
+          "name": "Pico de Gallo",
+          "price": 2.99,
+          "defaultSelected": false
+        }
+      ]
+    }
+  ],
+  "promoBanners": [
+    {
+      "id": "1",
+      "label1": "Experience our",
+      "label2": "delicious new dish",
+      "discount": "30% OFF",
+      "bannerKey": "pizza"
+    },
+    {
+      "id": "2",
+      "label1": "Grab your",
+      "label2": "favorite combo deal",
+      "discount": "20% OFF",
+      "bannerKey": "pizza"
+    },
+    {
+      "id": "3",
+      "label1": "This weekend only",
+      "label2": "family feast special",
+      "discount": "25% OFF",
+      "bannerKey": "pizza"
+    }
+  ],
+  "addresses": [
+    {
+      "id": "a1",
+      "userId": "u1",
+      "label": "My home",
+      "address": "778 Locust View Drive Oakland, CA"
+    },
+    {
+      "id": "a2",
+      "userId": "u1",
+      "label": "My Office",
+      "address": "778 Locust View Drive Oakland, CA"
+    },
+    {
+      "id": "a3",
+      "userId": "u1",
+      "label": "Parent's House",
+      "address": "778 Locust View Drive Oakland, CA",
+      "isDefault": false
+    },
+    {
+      "userId": "u1",
+      "label": "Nizami House",
+      "address": "PTV Colony, Barakahu, Islamabad",
+      "id": "IjiuFrs",
+      "isDefault": true
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "p1",
+      "userId": "u1",
+      "type": "card",
+      "label": "*** *** *** 43",
+      "holderName": "Muhammad Suleman",
+      "cardNumber": "0000000000000043",
+      "expiryDate": "04/28"
+    },
+    {
+      "id": "p2",
+      "userId": "u1",
+      "type": "apple",
+      "label": "Apple Pay"
+    },
+    {
+      "id": "p3",
+      "userId": "u1",
+      "type": "paypal",
+      "label": "PayPal"
+    },
+    {
+      "id": "p4",
+      "userId": "u1",
+      "type": "google",
+      "label": "Google Pay"
+    }
+  ],
+  "favorites": [
+    {
+      "userId": "u1",
+      "productId": "1",
+      "id": 1
+    },
+    {
+      "userId": "u1",
+      "productId": "1",
+      "id": 2
+    },
+    {
+      "userId": "u1",
+      "productId": "8",
+      "id": 3
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "userId": "u1",
+      "title": "Order Confirmed",
+      "message": "Your order has been placed successfully.",
+      "createdAt": "2024-11-29T15:20:00.000Z",
+      "read": true
+    },
+    {
+      "id": "n2",
+      "userId": "u1",
+      "title": "Out for delivery",
+      "message": "Your rider is on the way with your order.",
+      "createdAt": "2024-11-29T15:45:00.000Z",
+      "read": true
+    },
+    {
+      "id": "n3",
+      "userId": "u1",
+      "title": "Weekend Special",
+      "message": "Enjoy 25% off on family feast combos this weekend only.",
+      "createdAt": "2024-11-28T10:00:00.000Z",
+      "read": true
+    }
+  ],
+  "orders": [
+    {
+      "id": "o1",
+      "userId": "u1",
+      "imageKey": "mexican-appetizer",
+      "items": [
+        {
+          "productId": "1",
+          "name": "Strawberry shake",
+          "price": 20,
+          "quantity": 2,
+          "toppings": []
+        }
+      ],
+      "subtotal": 40,
+      "tax": 4,
+      "delivery": 3,
+      "total": 47,
+      "address": "778 Locust View Drive Oakland, CA",
+      "paymentMethodLabel": "*** *** *** 43",
+      "status": "Active",
+      "placedAt": "2024-11-29T13:20:00.000Z",
+      "eta": "Thu, 29th, 4:00 PM"
+    },
+    {
+      "id": "o2",
+      "userId": "u1",
+      "imageKey": "mexican-appetizer",
+      "items": [
+        {
+          "productId": "2",
+          "name": "Chicken Curry",
+          "price": 50,
+          "quantity": 2,
+          "toppings": []
+        }
+      ],
+      "subtotal": 100,
+      "tax": 10,
+      "delivery": 3,
+      "total": 113,
+      "address": "778 Locust View Drive Oakland, CA",
+      "paymentMethodLabel": "*** *** *** 43",
+      "status": "Completed",
+      "placedAt": "2024-11-29T13:20:00.000Z",
+      "eta": "Fri, 29th, 4:00 PM"
+    },
+    {
+      "id": "o3",
+      "userId": "u1",
+      "imageKey": "mexican-appetizer",
+      "items": [
+        {
+          "productId": "4",
+          "name": "Bean and Vegetable Burger",
+          "price": 50,
+          "quantity": 2,
+          "toppings": []
+        }
+      ],
+      "subtotal": 100,
+      "tax": 10,
+      "delivery": 3,
+      "total": 113,
+      "address": "778 Locust View Drive Oakland, CA",
+      "paymentMethodLabel": "*** *** *** 43",
+      "status": "Completed",
+      "placedAt": "2024-11-10T18:05:00.000Z",
+      "eta": "Sun, 10th, 6:30 PM"
+    },
+    {
+      "id": "o4",
+      "userId": "u1",
+      "imageKey": "mexican-appetizer",
+      "items": [
+        {
+          "productId": "6",
+          "name": "Coffee Latte",
+          "price": 8,
+          "quantity": 1,
+          "toppings": []
+        }
+      ],
+      "subtotal": 8,
+      "tax": 0.8,
+      "delivery": 3,
+      "total": 11.8,
+      "address": "778 Locust View Drive Oakland, CA",
+      "paymentMethodLabel": "*** *** *** 43",
+      "status": "Completed",
+      "placedAt": "2024-11-10T08:30:00.000Z",
+      "eta": "Sun, 10th, 9:00 AM"
+    },
+    {
+      "id": "o5",
+      "userId": "u1",
+      "imageKey": "mexican-appetizer",
+      "items": [
+        {
+          "productId": "8",
+          "name": "Strawberry Cheesecake",
+          "price": 22,
+          "quantity": 2,
+          "toppings": []
+        }
+      ],
+      "subtotal": 44,
+      "tax": 4.4,
+      "delivery": 3,
+      "total": 51.4,
+      "address": "778 Locust View Drive Oakland, CA",
+      "paymentMethodLabel": "*** *** *** 43",
+      "status": "Completed",
+      "placedAt": "2024-10-03T15:40:00.000Z",
+      "eta": "Thu, 3rd, 4:00 PM"
+    },
+    {
+      "userId": "u1",
+      "imageKey": "mexican-appetizer",
+      "items": [
+        {
+          "productId": "8",
+          "name": "Berry Cheesecake",
+          "price": 14.49,
+          "quantity": 1,
+          "toppings": [
+            {
+              "id": "jalapenos",
+              "name": "Jalapeños",
+              "price": 3.99,
+              "defaultSelected": true
+            }
+          ]
+        },
+        {
+          "productId": "7",
+          "name": "Crispy Veggie Bites",
+          "price": 11.24,
+          "quantity": 1,
+          "toppings": [
+            {
+              "id": "jalapenos",
+              "name": "Jalapeños",
+              "price": 3.99,
+              "defaultSelected": true
+            }
+          ]
+        },
+        {
+          "productId": "6",
+          "name": "Mango Iced Tea",
+          "price": 8.99,
+          "quantity": 1,
+          "toppings": [
+            {
+              "id": "jalapenos",
+              "name": "Jalapeños",
+              "price": 3.99,
+              "defaultSelected": true
+            }
+          ]
+        }
+      ],
+      "subtotal": 34.72,
+      "tax": 3.47,
+      "delivery": 3,
+      "total": 41.19,
+      "address": "PTV Colony, Barakahu, Islamabad",
+      "paymentMethodLabel": "*** *** *** 43",
+      "status": "Active",
+      "placedAt": "2026-08-24T13:29:42.741Z",
+      "eta": "Mon, 24th, 7:14 PM",
+      "id": "wFptYTh"
+    },
+    {
+      "userId": "u1",
+      "imageKey": "mexican-appetizer",
+      "items": [],
+      "subtotal": 0,
+      "tax": 0,
+      "delivery": 0,
+      "total": 0,
+      "address": "",
+      "paymentMethodLabel": "",
+      "status": "Active",
+      "placedAt": "2026-08-24T13:32:10.099Z",
+      "eta": "Mon, 24th, 7:17 PM",
+      "id": "RMSN71E"
+    }
+  ]
+}

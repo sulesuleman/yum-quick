@@ -1,6 +1,13 @@
-import { useCallback, useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native';
-import { Stack, router } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,33 +17,43 @@ import HomeAddressIcon from '@/assets/home-address-icon.svg';
 import { ContentSheet } from '@components/ContentSheet';
 import { Button } from '@components/ui/button';
 import { TextField } from '@components/ui/field';
+import { useAuth } from '@features/auth/AuthContext';
+import { addressesApi } from '@services/addressesApi';
+import { Address } from '@services/types';
 
 import { AddressRow } from './components/AddressRow';
 import { useDeliveryAddressScreenStyles } from './useDeliveryAddressScreenStyles';
-
-type Address = {
-  id: string;
-  label: string;
-  address: string;
-};
-
-const INITIAL_ADDRESSES: Address[] = [
-  { id: '1', label: 'My home', address: '778 Locust View Drive Oakland, CA' },
-  { id: '2', label: 'My Office', address: '778 Locust View Drive Oakland, CA' },
-  { id: '3', label: "Parent's House", address: '778 Locust View Drive Oakland, CA' }
-];
 
 type Mode = 'list' | 'add';
 
 export function DeliveryAddressScreen() {
   const styles = useDeliveryAddressScreenStyles();
   const insets = useSafeAreaInsets();
+  const { userId } = useAuth();
+  const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
 
   const [mode, setMode] = useState<Mode>('list');
-  const [addresses, setAddresses] = useState<Address[]>(INITIAL_ADDRESSES);
-  const [selectedId, setSelectedId] = useState(INITIAL_ADDRESSES[0].id);
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [newName, setNewName] = useState('');
   const [newAddress, setNewAddress] = useState('');
+
+  useEffect(() => {
+    if (!userId) return;
+    addressesApi.listForUser(userId).then((fetched) => {
+      setAddresses(fetched);
+      setSelectedId(fetched.find((a) => a.isDefault)?.id ?? fetched[0]?.id ?? null);
+    });
+  }, [userId]);
+
+  const handleSelectAddress = async (address: Address) => {
+    if (selectedId === address.id) return;
+    const previousDefault = addresses.find((a) => a.isDefault && a.id !== address.id);
+    setSelectedId(address.id);
+    setAddresses((prev) => prev.map((a) => ({ ...a, isDefault: a.id === address.id })));
+    await addressesApi.setDefault(address.id);
+    if (previousDefault) await addressesApi.clearDefault(previousDefault.id);
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -49,6 +66,8 @@ export function DeliveryAddressScreen() {
   const handleBack = () => {
     if (mode === 'add') {
       setMode('list');
+    } else if (returnTo) {
+      router.replace(returnTo);
     } else {
       router.back();
     }
@@ -60,18 +79,28 @@ export function DeliveryAddressScreen() {
     setMode('add');
   };
 
-  const handleApply = () => {
-    if (!canApply) return;
-    const id = `${Date.now()}`;
-    setAddresses((prev) => [...prev, { id, label: newName.trim(), address: newAddress.trim() }]);
-    setSelectedId(id);
+  const handleApply = async () => {
+    if (!canApply || !userId) return;
+    const previousDefault = addresses.find((a) => a.isDefault);
+    const created = await addressesApi.create({
+      userId,
+      label: newName.trim(),
+      address: newAddress.trim(),
+      isDefault: true
+    });
+    setAddresses((prev) => [...prev.map((a) => ({ ...a, isDefault: false })), created]);
+    setSelectedId(created.id);
+    if (previousDefault) await addressesApi.clearDefault(previousDefault.id);
     setNewName('');
     setNewAddress('');
     setMode('list');
   };
 
   return (
-    <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView
+      style={styles.screen}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <Stack.Screen
         options={{
           header: () => (
@@ -79,7 +108,9 @@ export function DeliveryAddressScreen() {
               <TouchableOpacity onPress={handleBack} style={styles.backBtn}>
                 <BackArrowIcon width={7} height={13} />
               </TouchableOpacity>
-              <Text style={styles.title}>{mode === 'add' ? 'Add New Address' : 'Delivery Address'}</Text>
+              <Text style={styles.title}>
+                {mode === 'add' ? 'Add New Address' : 'Delivery Address'}
+              </Text>
               <View style={styles.backBtn} />
             </View>
           )
@@ -94,11 +125,15 @@ export function DeliveryAddressScreen() {
               label={item.label}
               address={item.address}
               selected={selectedId === item.id}
-              onSelect={() => setSelectedId(item.id)}
+              onSelect={() => handleSelectAddress(item)}
             />
           ))}
 
-          <TouchableOpacity style={styles.addBtn} onPress={handleOpenAddAddress} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.addBtn}
+            onPress={handleOpenAddAddress}
+            activeOpacity={0.8}
+          >
             <Text style={styles.addBtnText}>Add New Address</Text>
           </TouchableOpacity>
         </ContentSheet>

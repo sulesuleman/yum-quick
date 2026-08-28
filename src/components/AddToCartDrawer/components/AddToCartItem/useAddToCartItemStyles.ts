@@ -7,6 +7,10 @@ export function useAddToCartItemStyles() {
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+    width: '100%'
+  },
   scrollContentWithCartItems: {
     flexGrow: 1,
     width: '100%',
@@ -31,19 +35,25 @@ const styles = StyleSheet.create({
     width: '100%',
     gap: 15,
     borderBottomWidth: 1,
-    paddingVertical: 12,
+    paddingTop: 15.15,
+    paddingBottom: 12,
     borderBottomColor: theme.colors.background.orange2
   },
-  descriptionRow: {},
+  descriptionRow: {
+    flex: 1
+  },
   priceText: {
     fontSize: 13,
     color: theme.colors.text.inverse
   },
   dateRow: {
     marginLeft: 'auto',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    flexShrink: 0
   },
   descriptionText: {
+    flexShrink: 1,
+    flexWrap: 'wrap',
     fontSize: 14,
     fontWeight: 500,
     color: '#FFFFFF'
@@ -54,6 +64,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF'
   },
   time: {
+    alignSelf: 'flex-end',
     fontSize: 13,
     fontWeight: '500',
     color: '#FFFFFF'
@@ -69,29 +80,41 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: theme.colors.text.inverse,
     justifyContent: 'center',
-    color: '#E95322',
     alignItems: 'center'
+  },
+  actionButtonText: {
+    fontSize: 12,
+    lineHeight: 14,
+    textAlign: 'center',
+    color: '#E95322'
   },
   BottomRowText: {
     fontSize: 20,
     fontWeight: '500',
     color: theme.colors.text.inverse
   },
+  summaryRows: {
+    width: '100%',
+    marginTop: 56.86,
+    gap: 26
+  },
   rowSpaceBetween: {
     flexDirection: 'row',
     width: '100%',
-    justifyContent: 'space-between',
-    marginVertical: 12
+    justifyContent: 'space-between'
   },
-  rowSpaceBetweenWithBorder: {
-    flexDirection: 'row',
+  dashedDivider: {
     width: '100%',
-    justifyContent: 'space-between',
     borderTopWidth: 1,
     borderStyle: 'dashed',
     borderTopColor: theme.colors.button.primary,
-    paddingVertical: 10,
-    marginVertical: 12
+    marginTop: 21
+  },
+  rowSpaceBetweenTotal: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    paddingTop: 19
   },
   checkoutButton: {
     width: 140,

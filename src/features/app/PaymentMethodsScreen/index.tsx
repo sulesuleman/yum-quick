@@ -1,37 +1,29 @@
-import { useCallback, useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { Stack, router } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import ApplePayIcon from '@/assets/apple-pay-icon.svg';
 import BackArrowIcon from '@/assets/back-arrow.svg';
-import GooglePayIcon from '@/assets/google-play-icon.svg';
-import PaymentCardIcon from '@/assets/payment-card-icon.svg';
-import PaypalIcon from '@/assets/paypal-icon.svg';
 
 import { ContentSheet } from '@components/ContentSheet';
 import { Button } from '@components/ui/button';
 import { TextField } from '@components/ui/field';
+import { PAYMENT_METHOD_ICONS } from '@/src/constants/paymentMethodIcons';
+import { useAuth } from '@features/auth/AuthContext';
+import { paymentMethodsApi } from '@services/paymentMethodsApi';
+import { PaymentMethod } from '@services/types';
 
 import { CreditCard } from './components/CreditCard';
 import { PaymentMethodRow } from './components/PaymentMethodRow';
 import { usePaymentMethodsScreenStyles } from './usePaymentMethodsScreenStyles';
-
-type PaymentMethod = {
-  id: string;
-  label: string;
-  SvgIcon: typeof PaymentCardIcon;
-  iconWidth: number;
-  iconHeight: number;
-};
-
-const INITIAL_METHODS: PaymentMethod[] = [
-  { id: 'card', label: '*** *** *** 43', SvgIcon: PaymentCardIcon, iconWidth: 40, iconHeight: 27 },
-  { id: 'apple', label: 'Apple Pay', SvgIcon: ApplePayIcon, iconWidth: 35, iconHeight: 47 },
-  { id: 'paypal', label: 'PayPal', SvgIcon: PaypalIcon, iconWidth: 32, iconHeight: 40 },
-  { id: 'google', label: 'Google Pay', SvgIcon: GooglePayIcon, iconWidth: 33, iconHeight: 40 }
-];
 
 function formatCardNumber(raw: string) {
   const digits = raw.replace(/\D/g, '').slice(0, 16);
@@ -49,10 +41,19 @@ type Mode = 'list' | 'add';
 export function PaymentMethodsScreen() {
   const styles = usePaymentMethodsScreenStyles();
   const insets = useSafeAreaInsets();
+  const { userId } = useAuth();
 
   const [mode, setMode] = useState<Mode>('list');
-  const [methods] = useState<PaymentMethod[]>(INITIAL_METHODS);
-  const [selectedId, setSelectedId] = useState(INITIAL_METHODS[0].id);
+  const [methods, setMethods] = useState<PaymentMethod[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!userId) return;
+    paymentMethodsApi.listForUser(userId).then((fetched) => {
+      setMethods(fetched);
+      setSelectedId(fetched[0]?.id ?? null);
+    });
+  }, [userId]);
 
   const [holderName, setHolderName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
@@ -83,8 +84,18 @@ export function PaymentMethodsScreen() {
     setMode('add');
   };
 
-  const handleSaveCard = () => {
-    if (!canSave) return;
+  const handleSaveCard = async () => {
+    if (!canSave || !userId) return;
+    const created = await paymentMethodsApi.create({
+      userId,
+      type: 'card',
+      label: formatCardNumber(cardNumber),
+      holderName,
+      cardNumber,
+      expiryDate
+    });
+    setMethods((prev) => [...prev, created]);
+    setSelectedId(created.id);
     setHolderName('');
     setCardNumber('');
     setExpiryDate('');
@@ -93,7 +104,10 @@ export function PaymentMethodsScreen() {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView
+      style={styles.screen}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <Stack.Screen
         options={{
           header: () => (
@@ -110,17 +124,20 @@ export function PaymentMethodsScreen() {
 
       {mode === 'list' ? (
         <ContentSheet paddingBottom={insets.bottom + 40} contentStyle={styles.sheetContent}>
-          {methods.map((method) => (
-            <PaymentMethodRow
-              key={method.id}
-              SvgIcon={method.SvgIcon}
-              iconWidth={method.iconWidth}
-              iconHeight={method.iconHeight}
-              label={method.label}
-              selected={selectedId === method.id}
-              onSelect={() => setSelectedId(method.id)}
-            />
-          ))}
+          {methods.map((method) => {
+            const icon = PAYMENT_METHOD_ICONS[method.type];
+            return (
+              <PaymentMethodRow
+                key={method.id}
+                SvgIcon={icon.SvgIcon}
+                iconWidth={icon.iconWidth}
+                iconHeight={icon.iconHeight}
+                label={method.label}
+                selected={selectedId === method.id}
+                onSelect={() => setSelectedId(method.id)}
+              />
+            );
+          })}
 
           <TouchableOpacity style={styles.addBtn} onPress={handleOpenAddCard} activeOpacity={0.8}>
             <Text style={styles.addBtnText}>Add New Card</Text>
