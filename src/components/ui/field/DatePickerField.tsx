@@ -113,7 +113,10 @@ export function DatePickerField({
           pressed && !disabled && { opacity: 0.92 }
         ]}
       >
-        <Text style={[fieldStyles.valueText, valueStyle, !hasValue && styles.placeholder]} numberOfLines={1}>
+        <Text
+          style={[fieldStyles.valueText, valueStyle, !hasValue && styles.placeholder]}
+          numberOfLines={1}
+        >
           {displayText}
         </Text>
 

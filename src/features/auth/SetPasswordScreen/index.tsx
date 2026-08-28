@@ -1,9 +1,10 @@
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { AuthCard, Button, TextField } from '@components';
 import { useAuth } from '@features/auth/AuthContext';
+import { usersApi } from '@services/usersApi';
 
 import { useSetPasswordScreenStyles } from './useSetPasswordScreenStyles';
 
@@ -11,11 +12,35 @@ export function SetPasswordScreen() {
   const router = useRouter();
   const { signIn } = useAuth();
   const styles = useSetPasswordScreenStyles();
+  const params = useLocalSearchParams<{
+    fullName?: string;
+    email?: string;
+    mobile?: string;
+    dob?: string;
+  }>();
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const onSubmit = async () => {
-    await signIn('demo-token');
+    if (!password || password !== confirm) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    const fullName = params.fullName || 'New User';
+    const email = params.email || `${Date.now()}@yumquick.demo`;
+
+    const user = await usersApi.create({
+      name: fullName,
+      email,
+      password,
+      phone: params.mobile || '',
+      dob: params.dob || '',
+      avatarUri: 'https://randomuser.me/api/portraits/lego/1.jpg'
+    });
+
+    await signIn(user.email, user.name, user.id);
     router.replace('/(app)/(tabs)');
   };
 
@@ -43,6 +68,8 @@ export function SetPasswordScreen() {
             onChangeText={setConfirm}
           />
         </View>
+
+        {error && <Text style={styles.rootError}>{error}</Text>}
 
         <View style={styles.actions}>
           <Button title='Create New Password' variant='cta' onPress={onSubmit} />

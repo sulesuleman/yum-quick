@@ -24,7 +24,7 @@ export const typography = {
     body: 14,
     heading: 30,
     title: 24,
-    body1:16,    
+    body1: 16,
     screenTitle: 28,
     brand: 35,
     subTitle: 13,

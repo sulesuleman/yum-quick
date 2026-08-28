@@ -21,7 +21,7 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
 
     categorySection: {
       paddingTop: 31,
-      paddingHorizontal: 36,
+      paddingHorizontal: 36
       // paddingBottom: scale(14)
     },
     categorySectionSelected: {
@@ -230,7 +230,7 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
     },
     categoryRow: {
       flexDirection: 'row',
-      gap: scale(19),
+      gap: scale(19)
       // height: scale(75)
     },
 

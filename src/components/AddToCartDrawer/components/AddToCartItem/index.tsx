@@ -1,81 +1,82 @@
 import * as React from 'react';
-import { Image, Pressable, Text, View } from 'react-native';
+import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { router } from 'expo-router';
+
+import { resolveProductImage } from '@/src/constants/productImages';
+import { useCart } from '@features/cart/CartContext';
+import { computeOrderTotals } from '@features/cart/orderTotals';
 
 import { useAddToCartItemStyles } from './useAddToCartItemStyles';
 
-const MOCK_ITEMS = [
-  {
-    id: '1',
-    image: require('@/assets/mexican-appetizer.png'),
-    name: 'Strawberry Shake',
-    price: '$20.00',
-    description: '',
-    date: '29/11/24',
-    time: '15:00',
-    quantity: 2
-  },
-  {
-    id: '2',
-    image: require('@/assets/mexican-appetizer.png'),
-    name: 'Broccoli Lasagna',
-    price: '$12.00',
-    description: '',
-    date: '29/11/24',
-    time: '12:00',
-    quantity: 1
-  }
-];
-
 type Props = {
-  onItemPress?: () => void;
   onCheckout: () => void;
 };
 
-export function AddToCartItem({ onItemPress, onCheckout }: Props) {
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getFullYear()).slice(-2)}`;
+}
+
+function formatTime(iso: string) {
+  const d = new Date(iso);
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+}
+
+export function AddToCartItem({ onCheckout }: Props) {
   const styles = useAddToCartItemStyles();
+  const { items, subtotal, incrementItem, decrementItem } = useCart();
+  const totals = computeOrderTotals(subtotal);
 
   return (
-    <View style={styles.scrollContentWithCartItems}>
-      <Text style={styles.addedItemCountText}>You have 2 items in the cart</Text>
-      {MOCK_ITEMS.map((item) => (
-        <View style={styles.cartItem} key={item.id}>
-          <Image source={item.image} style={styles.cartItemImage} />
+    <ScrollView
+      style={styles.scrollContainer}
+      contentContainerStyle={styles.scrollContentWithCartItems}
+      showsVerticalScrollIndicator={false}
+    >
+      <Text style={styles.addedItemCountText}>
+        You have {items.reduce((sum, item) => sum + item.quantity, 0)} items in the cart
+      </Text>
+      {items.map((item) => (
+        <View style={styles.cartItem} key={item.cartItemId}>
+          <Image source={resolveProductImage(item.imageKey)} style={styles.cartItemImage} />
           <View style={styles.descriptionRow}>
             <Text style={styles.descriptionText}>{item.name}</Text>
-            <Text style={styles.priceText}>{item.price}</Text>
+            <Text style={styles.priceText}>${item.unitPrice.toFixed(2)}</Text>
           </View>
           <View style={styles.dateRow}>
-            <Text style={styles.date}>{item.date}</Text>
-            <Text style={styles.time}>{item.time}</Text>
+            <Text style={styles.date}>{formatDate(item.addedAt)}</Text>
+            <Text style={styles.time}>{formatTime(item.addedAt)}</Text>
             <View style={styles.cartItemActions}>
-              <Pressable onPress={onItemPress} style={styles.actionButton}>
-                <Text>-</Text>
+              <Pressable onPress={() => decrementItem(item.cartItemId)} style={styles.actionButton}>
+                <Text style={styles.actionButtonText}>-</Text>
               </Pressable>
-              <Text style={styles.descriptionText}>2</Text>
-              <Pressable onPress={() => console.log('Add')} style={styles.actionButton}>
-                <Text>+</Text>
+              <Text style={styles.descriptionText}>{item.quantity}</Text>
+              <Pressable onPress={() => incrementItem(item.cartItemId)} style={styles.actionButton}>
+                <Text style={styles.actionButtonText}>+</Text>
               </Pressable>
             </View>
           </View>
         </View>
       ))}
 
-      <View style={styles.rowSpaceBetween}>
-        <Text style={styles.BottomRowText}>Subtotal</Text>
-        <Text style={styles.BottomRowText}>$32.00</Text>
+      <View style={styles.summaryRows}>
+        <View style={styles.rowSpaceBetween}>
+          <Text style={styles.BottomRowText}>Subtotal</Text>
+          <Text style={styles.BottomRowText}>${totals.subtotal.toFixed(2)}</Text>
+        </View>
+        <View style={styles.rowSpaceBetween}>
+          <Text style={styles.BottomRowText}>Tax and Fees</Text>
+          <Text style={styles.BottomRowText}>${totals.tax.toFixed(2)}</Text>
+        </View>
+        <View style={styles.rowSpaceBetween}>
+          <Text style={styles.BottomRowText}>Delivery</Text>
+          <Text style={styles.BottomRowText}>${totals.delivery.toFixed(2)}</Text>
+        </View>
       </View>
-      <View style={styles.rowSpaceBetween}>
-        <Text style={styles.BottomRowText}>Tax and Fees</Text>
-        <Text style={styles.BottomRowText}>$32.00</Text>
-      </View>
-      <View style={styles.rowSpaceBetween}>
-        <Text style={styles.BottomRowText}>Delivery</Text>
-        <Text style={styles.BottomRowText}>$32.00</Text>
-      </View>
-      <View style={styles.rowSpaceBetweenWithBorder}>
+      <View style={styles.dashedDivider} />
+      <View style={styles.rowSpaceBetweenTotal}>
         <Text style={styles.BottomRowText}>Total</Text>
-        <Text style={styles.BottomRowText}>$32.00</Text>
+        <Text style={styles.BottomRowText}>${totals.total.toFixed(2)}</Text>
       </View>
       <Pressable
         style={styles.checkoutButton}
@@ -86,6 +87,6 @@ export function AddToCartItem({ onItemPress, onCheckout }: Props) {
       >
         <Text style={styles.checkoutButtonText}>Checkout</Text>
       </Pressable>
-    </View>
+    </ScrollView>
   );
 }

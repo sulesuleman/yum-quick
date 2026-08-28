@@ -1,5 +1,13 @@
-import { useCallback, useState } from 'react';
-import { Image, Keyboard, KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { Stack, router } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -11,20 +19,43 @@ import { ContentSheet } from '@components/ContentSheet';
 import { Button } from '@components/ui/button';
 import { DatePickerField, TextField } from '@components/ui/field';
 import { useAuth } from '@features/auth/AuthContext';
+import { usersApi } from '@services/usersApi';
 
 import { useMyProfileScreenStyles } from './useMyProfileScreenStyles';
 
-const AVATAR_URI = 'https://randomuser.me/api/portraits/men/32.jpg';
+const DEFAULT_AVATAR_URI = 'https://randomuser.me/api/portraits/men/32.jpg';
 
 export function MyProfileScreen() {
   const styles = useMyProfileScreenStyles();
   const insets = useSafeAreaInsets();
-  const { userName, userEmail } = useAuth();
+  const { userId, userName, userEmail } = useAuth();
 
-  const [fullName, setFullName] = useState(userName ?? 'John Smith');
-  const [email, setEmail] = useState(userEmail ?? 'johnsmith@example.com');
-  const [phone, setPhone] = useState('+123 567 89000');
-  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(new Date(1991, 8, 10));
+  const [avatarUri, setAvatarUri] = useState(DEFAULT_AVATAR_URI);
+  const [fullName, setFullName] = useState(userName ?? '');
+  const [email, setEmail] = useState(userEmail ?? '');
+  const [phone, setPhone] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState<Date | null>(null);
+
+  useEffect(() => {
+    if (!userId) return;
+    usersApi.get(userId).then((user) => {
+      setAvatarUri(user.avatarUri || DEFAULT_AVATAR_URI);
+      setFullName(user.name);
+      setEmail(user.email);
+      setPhone(user.phone);
+      setDateOfBirth(user.dob ? new Date(user.dob) : null);
+    });
+  }, [userId]);
+
+  const handleUpdateProfile = () => {
+    if (!userId) return;
+    usersApi.update(userId, {
+      name: fullName,
+      email,
+      phone,
+      dob: dateOfBirth ? dateOfBirth.toISOString() : ''
+    });
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -33,7 +64,10 @@ export function MyProfileScreen() {
   );
 
   return (
-    <KeyboardAvoidingView style={styles.screen} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardAvoidingView
+      style={styles.screen}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <Stack.Screen
         options={{
           header: () => (
@@ -50,7 +84,7 @@ export function MyProfileScreen() {
       <ContentSheet paddingBottom={insets.bottom + 40}>
         <View style={styles.avatarRow}>
           <View style={styles.avatarWrapper}>
-            <Image source={{ uri: AVATAR_URI }} style={styles.avatar} />
+            <Image source={{ uri: avatarUri }} style={styles.avatar} />
             <TouchableOpacity style={styles.cameraBadge} activeOpacity={0.8}>
               <CameraIcon width={18} height={16} />
             </TouchableOpacity>
@@ -95,7 +129,7 @@ export function MyProfileScreen() {
           title='Update Profile'
           variant='cta'
           fullWidth={false}
-          onPress={() => {}}
+          onPress={handleUpdateProfile}
           style={styles.submitBtn}
           labelStyle={styles.submitLabel}
         />

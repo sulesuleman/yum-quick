@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   searchIcon: {
     width: 18,
     height: 18,
-    tintColor: theme.colors.text.primary,
+    tintColor: theme.colors.text.primary
   },
   input: {
     flex: 1,
@@ -30,17 +30,17 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.input,
     color: theme.colors.text.placeholder,
     lineHeight: theme.typography.lineHeights.input,
-    padding: 0,
+    padding: 0
   },
   filterButton: {
     width: 20,
-    aspectRatio: 1/1,
+    aspectRatio: 1 / 1,
     borderRadius: 16,
     backgroundColor: theme.colors.brand.primary,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   filterButtonPressed: {
-    opacity: 0.7,
-  },
+    opacity: 0.7
+  }
 });

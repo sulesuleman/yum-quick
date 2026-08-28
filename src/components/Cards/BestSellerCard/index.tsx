@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Image, ImageSourcePropType, Pressable, Text, View } from 'react-native';
+import React from 'react';
+import { ImageSourcePropType, Pressable, Text, View } from 'react-native';
 
 import StarIcon from '@/assets/star-icon.svg';
 import HeartIcon from '@/assets/heart-icon.svg';
@@ -21,6 +21,8 @@ type BestSellerCardProps = {
   onPress?: () => void;
   /** Explicit pixel width for a responsive N-column grid — omit to fall back to a fixed 48% (2-column) width. */
   width?: number;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
 };
 
 const RADIUS = 20;
@@ -33,18 +35,21 @@ export function BestSellerCard({
   category,
   image,
   onPress,
-  width
+  width,
+  isFavorite = false,
+  onToggleFavorite
 }: BestSellerCardProps) {
   const styles = useBestSellerCardStyles();
-  const [isFavorite, setIsFavorite] = useState(false);
 
-  const categoryIcon = CATEGORIES.find((cat) => cat.id === category)?.icon;
+  const CategoryIcon = CATEGORIES.find((cat) => cat.id === category)?.icon;
 
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole={onPress ? 'button' : undefined}
-      accessibilityLabel={onPress ? `${name}, rating ${rating.toFixed(1)}, $${price.toFixed(2)}` : undefined}
+      accessibilityLabel={
+        onPress ? `${name}, rating ${rating.toFixed(1)}, $${price.toFixed(2)}` : undefined
+      }
       testID={`best-seller-card-${name.toLowerCase().trim().replace(/\s+/g, '-')}`}
       style={({ pressed }) => [
         styles.container,
@@ -58,13 +63,13 @@ export function BestSellerCard({
         style={styles.imageCard}
         accessibilityLabel={name}
       >
-        {categoryIcon && (
+        {CategoryIcon && (
           <View
             style={styles.categoryBadge}
             importantForAccessibility='no-hide-descendants'
             accessibilityElementsHidden
           >
-            <Image source={categoryIcon} style={styles.categoryIcon} />
+            <CategoryIcon width={styles.categoryIcon.width} height={styles.categoryIcon.height} />
           </View>
         )}
 
@@ -73,7 +78,7 @@ export function BestSellerCard({
           iconWidth={11}
           iconHeight={10}
           iconColor={isFavorite ? theme.colors.text.inverse : theme.colors.brand.primary}
-          onPress={() => setIsFavorite((prev) => !prev)}
+          onPress={onToggleFavorite}
           style={[styles.favoriteButton, isFavorite && styles.favoriteButtonActive]}
           accessibilityRole='button'
           accessibilityLabel={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
@@ -98,8 +103,12 @@ export function BestSellerCard({
         <Text style={styles.description} numberOfLines={2}>
           {description}
         </Text>
-        <View style={styles.cartBadge} importantForAccessibility='no-hide-descendants' accessibilityElementsHidden>
-          <CartIcon width={11.70} height={11.70} color={theme.colors.text.inverse} />
+        <View
+          style={styles.cartBadge}
+          importantForAccessibility='no-hide-descendants'
+          accessibilityElementsHidden
+        >
+          <CartIcon width={11.7} height={11.7} color={theme.colors.text.inverse} />
         </View>
       </View>
     </Pressable>

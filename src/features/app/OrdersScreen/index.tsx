@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ImageSourcePropType, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { Stack, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -7,77 +7,38 @@ import BackArrowIcon from '@/assets/back-arrow.svg';
 
 import { ContentSheet } from '@components/ContentSheet';
 import { OrderCard, OrderCardAction, OrderCardStatus } from '@components/OrderCard';
+import { resolveProductImage } from '@/src/constants/productImages';
+import { useAuth } from '@features/auth/AuthContext';
+import { ordersApi } from '@services/ordersApi';
+import { Order } from '@services/types';
 
 import { CancelOrderOverlay, CancelOrderStep } from './components/CancelOrderOverlay';
 import { EmptyOrders } from './components/EmptyOrders';
 import { OrderTab, OrderTabs } from './components/OrderTabs';
 import { useOrdersScreenStyles } from './useOrdersScreenStyles';
 
-type Order = {
-  id: string;
-  name: string;
-  price: number;
-  date: string;
-  itemCount: number;
-  image?: ImageSourcePropType;
-  status: OrderTab;
-};
-
-const INITIAL_ORDERS: Order[] = [
-  {
-    id: '1',
-    name: 'Strawberry shake',
-    price: 20.0,
-    date: '29 Nov, 01:20 pm',
-    itemCount: 2,
-    image: { uri: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=200' },
-    status: 'Active'
-  },
-  {
-    id: '2',
-    name: 'Chicken Curry',
-    price: 50.0,
-    date: '29 Nov, 01:20 pm',
-    itemCount: 2,
-    image: { uri: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=200' },
-    status: 'Completed'
-  },
-  {
-    id: '3',
-    name: 'Bean and Vegetable Burger',
-    price: 50.0,
-    date: '10 Nov, 06:05 pm',
-    itemCount: 2,
-    image: { uri: 'https://images.unsplash.com/photo-1520072959219-c595dc870360?w=200' },
-    status: 'Completed'
-  },
-  {
-    id: '4',
-    name: 'Coffee Latte',
-    price: 8.0,
-    date: '10 Nov, 08:30 am',
-    itemCount: 1,
-    image: { uri: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=200' },
-    status: 'Completed'
-  },
-  {
-    id: '5',
-    name: 'Strawberry Cheesecake',
-    price: 22.0,
-    date: '03 Oct, 03:40 pm',
-    itemCount: 2,
-    image: { uri: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=200' },
-    status: 'Completed'
-  }
-];
+function formatOrderDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    day: '2-digit',
+    month: 'short',
+    hour: 'numeric',
+    minute: '2-digit'
+  });
+}
 
 export function OrdersScreen() {
   const styles = useOrdersScreenStyles();
   const insets = useSafeAreaInsets();
+  const { userId } = useAuth();
   const [activeTab, setActiveTab] = useState<OrderTab>('Active');
-  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [cancelTargetId, setCancelTargetId] = useState<string | null>(null);
   const [cancelStep, setCancelStep] = useState<CancelOrderStep>('form');
+
+  useEffect(() => {
+    if (!userId) return;
+    ordersApi.listForUser(userId).then(setOrders);
+  }, [userId]);
 
   const filteredOrders = orders.filter((o) => o.status === activeTab);
   const cancellingOrder = orders.find((o) => o.id === cancelTargetId);
@@ -105,11 +66,10 @@ export function OrdersScreen() {
     return [];
   };
 
-  const handleOrderCancelled = () => {
+  const handleOrderCancelled = async (reason: string) => {
     if (!cancelTargetId) return;
-    setOrders((prev) =>
-      prev.map((o) => (o.id === cancelTargetId ? { ...o, status: 'Cancelled' as OrderTab } : o))
-    );
+    const updated = await ordersApi.updateStatus(cancelTargetId, 'Cancelled', reason);
+    setOrders((prev) => prev.map((o) => (o.id === cancelTargetId ? updated : o)));
   };
 
   return (
@@ -140,11 +100,11 @@ export function OrdersScreen() {
           filteredOrders.map((order) => (
             <OrderCard
               key={order.id}
-              name={order.name}
-              price={order.price}
-              date={order.date}
-              itemCount={order.itemCount}
-              image={order.image}
+              name={order.items[0]?.name ?? 'Order'}
+              price={order.total}
+              date={formatOrderDate(order.placedAt)}
+              itemCount={order.items.reduce((sum, item) => sum + item.quantity, 0)}
+              image={resolveProductImage(order.imageKey)}
               status={getStatus(order.status)}
               actions={getActions(order)}
             />

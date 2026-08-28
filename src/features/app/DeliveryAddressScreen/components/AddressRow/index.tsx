@@ -21,8 +21,12 @@ export function AddressRow({ label, address, selected, onSelect }: Props) {
     <TouchableOpacity style={styles.row} onPress={onSelect} activeOpacity={0.7}>
       <HomeAddressIcon width={31} height={27} />
       <View style={styles.info}>
-        <Text style={styles.label} numberOfLines={1}>{label}</Text>
-        <Text style={styles.address} numberOfLines={1}>{address}</Text>
+        <Text style={styles.label} numberOfLines={1}>
+          {label}
+        </Text>
+        <Text style={styles.address} numberOfLines={1}>
+          {address}
+        </Text>
       </View>
       <RadioButton selected={selected} onPress={onSelect} />
     </TouchableOpacity>

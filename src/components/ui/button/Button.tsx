@@ -95,7 +95,12 @@ export function Button({
         />
       )}
       <Text
-        style={[styles.label, variantLabelStyles[variant], disabled && styles.labelDisabled, labelStyle]}
+        style={[
+          styles.label,
+          variantLabelStyles[variant],
+          disabled && styles.labelDisabled,
+          labelStyle
+        ]}
       >
         {title}
       </Text>

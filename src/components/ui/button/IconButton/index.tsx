@@ -1,4 +1,12 @@
-import { AccessibilityRole, AccessibilityState, Image, ImageSourcePropType, Pressable, StyleProp, ViewStyle } from 'react-native';
+import {
+  AccessibilityRole,
+  AccessibilityState,
+  Image,
+  ImageSourcePropType,
+  Pressable,
+  StyleProp,
+  ViewStyle
+} from 'react-native';
 import type { SvgProps } from 'react-native-svg';
 
 import { useIconButtonStyles } from './useIconButtonStyles';
@@ -42,11 +50,7 @@ export function IconButton({
       accessibilityState={accessibilityState}
       testID={testID}
       hitSlop={8}
-      style={({ pressed }) => [
-        styles.button,
-        pressed && styles.buttonPressed,
-        style,
-      ]}
+      style={({ pressed }) => [styles.button, pressed && styles.buttonPressed, style]}
     >
       {SvgIcon ? (
         <SvgIcon width={iconWidth} height={iconHeight} color={iconColor} />

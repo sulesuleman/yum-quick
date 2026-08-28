@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { Stack, router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,49 +12,15 @@ import { ContentSheet } from '@components/ContentSheet';
 import { ImageCard } from '@components/Cards/ImageCard';
 import { Button, IconButton } from '@components/ui/button';
 import { QuantityStepper } from '@components/ui/QuantityStepper';
+import { resolveProductImage } from '@/src/constants/productImages';
+import { useCart } from '@features/cart/CartContext';
+import { useFavorites } from '@features/favorites/useFavorites';
+import { productsApi } from '@services/productsApi';
+import { Product, Topping } from '@services/types';
 import { theme } from '@theme';
 
 import { ToppingRow } from './components/ToppingRow';
 import { useProductDetailsScreenStyles } from './useProductDetailsScreenStyles';
-
-type Topping = {
-  id: string;
-  name: string;
-  price: number;
-  defaultSelected: boolean;
-};
-
-type ProductMock = {
-  name: string;
-  rating: number;
-  subtitle: string;
-  description: string;
-  basePrice: number;
-  image: ReturnType<typeof require>;
-  toppings: Topping[];
-};
-
-const DEFAULT_TOPPINGS: Topping[] = [
-  { id: 'guacamole', name: 'Guacamole', price: 2.99, defaultSelected: false },
-  { id: 'jalapenos', name: 'Jalapeños', price: 3.99, defaultSelected: true },
-  { id: 'ground-beef', name: 'Ground Beef', price: 3.99, defaultSelected: false },
-  { id: 'pico-de-gallo', name: 'Pico de Gallo', price: 2.99, defaultSelected: false }
-];
-
-const MOCK_PRODUCTS: Record<string, ProductMock> = {
-  '1': {
-    name: 'Mexican Appetizer',
-    rating: 5.0,
-    subtitle: 'Tortilla Chips With Toppins',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-    basePrice: 50.0,
-    image: require('@/assets/mexican-appetizer.png'),
-    toppings: DEFAULT_TOPPINGS
-  }
-};
-
-const DEFAULT_PRODUCT = MOCK_PRODUCTS['1'];
 
 function getInitialToppingSelection(toppings: Topping[]): Record<string, boolean> {
   return toppings.reduce<Record<string, boolean>>((acc, topping) => {
@@ -67,23 +33,40 @@ export function ProductDetailsScreen() {
   const styles = useProductDetailsScreenStyles();
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ id?: string }>();
+  const { addItem } = useCart();
+  const { isFavorite, toggle } = useFavorites();
 
-  const product = (params.id && MOCK_PRODUCTS[params.id]) || DEFAULT_PRODUCT;
-
+  const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [selectedToppings, setSelectedToppings] = useState<Record<string, boolean>>(
-    getInitialToppingSelection(product.toppings)
-  );
+  const [selectedToppings, setSelectedToppings] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (!params.id) return;
+    productsApi.get(params.id).then((fetched) => {
+      setProduct(fetched);
+      setSelectedToppings(getInitialToppingSelection(fetched.toppings));
+    });
+  }, [params.id]);
+
+  if (!product) {
+    return <View style={styles.screen} />;
+  }
 
   const toppingsTotal = product.toppings.reduce(
     (sum, topping) => sum + (selectedToppings[topping.id] ? topping.price : 0),
     0
   );
-  const totalPrice = product.basePrice * quantity + toppingsTotal;
+  const totalPrice = product.price * quantity + toppingsTotal;
+  const productIsFavorite = isFavorite(product.id);
 
   const toggleTopping = (id: string) =>
     setSelectedToppings((prev) => ({ ...prev, [id]: !prev[id] }));
+
+  const handleAddToCart = () => {
+    const chosenToppings = product.toppings.filter((topping) => selectedToppings[topping.id]);
+    addItem(product, quantity, chosenToppings);
+    router.back();
+  };
 
   return (
     <View style={styles.screen}>
@@ -117,11 +100,13 @@ export function ProductDetailsScreen() {
                   iconWidth={12}
                   iconHeight={10}
                   iconColor={theme.colors.text.inverse}
-                  onPress={() => setIsFavorite((prev) => !prev)}
+                  onPress={() => toggle(product.id)}
                   style={styles.favoriteIcon}
                   accessibilityRole='button'
-                  accessibilityLabel={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-                  accessibilityState={{ selected: isFavorite }}
+                  accessibilityLabel={
+                    productIsFavorite ? 'Remove from favorites' : 'Add to favorites'
+                  }
+                  accessibilityState={{ selected: productIsFavorite }}
                   testID='product-details-favorite-button'
                 />
               </View>
@@ -155,7 +140,7 @@ export function ProductDetailsScreen() {
       >
         <View style={styles.imageWrapper}>
           <ImageCard
-            source={product.image}
+            source={resolveProductImage(product.imageKey)}
             style={styles.image}
             borderRadius={36}
             accessibilityLabel={product.name}
@@ -191,12 +176,7 @@ export function ProductDetailsScreen() {
         </View>
       </ContentSheet>
 
-      <View
-        style={[
-          styles.ctaWrapper,
-          { bottom: insets.bottom + theme.layout.tabBarHeight + 32 }
-        ]}
-      >
+      <View style={[styles.ctaWrapper, { bottom: insets.bottom + theme.layout.tabBarHeight + 32 }]}>
         <Button
           title='Add to Cart'
           variant='cta'
@@ -206,6 +186,7 @@ export function ProductDetailsScreen() {
           SvgIcon={BagIcon}
           iconWidth={16}
           iconHeight={16}
+          onPress={handleAddToCart}
           accessibilityLabel={`Add to Cart, total $${totalPrice.toFixed(2)}`}
           testID='product-details-add-to-cart-button'
         />

@@ -3,6 +3,7 @@ import { Animated, Easing, Modal, Text, TouchableWithoutFeedback, View } from 'r
 import { useEffect, useState } from 'react';
 
 import CartIcon from '@/assets/cartIcon.svg';
+import { useCart } from '@features/cart/CartContext';
 
 import { AddToCartItem } from './components/AddToCartItem';
 import { EmptyCart } from './components/EmptyCart';
@@ -11,13 +12,13 @@ import { useAddToCartDrawerStyles } from './useAddToCartDrawerStyles';
 type Props = {
   visible: boolean;
   onClose: () => void;
-  onItemPress?: (id: string) => void;
 };
 
-export function AddToCartModal({ visible, onClose, onItemPress }: Props) {
+export function AddToCartModal({ visible, onClose }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [slideAnim] = useState(new Animated.Value(400));
-  const [isEmptyCart, setIsEmptyCart] = useState(true);
+  const { items } = useCart();
+  const isEmptyCart = items.length === 0;
   const styles = useAddToCartDrawerStyles();
 
   useEffect(() => {
@@ -57,9 +58,9 @@ export function AddToCartModal({ visible, onClose, onItemPress }: Props) {
             <Text style={styles.headerText}>Cart</Text>
           </View>
           {isEmptyCart ? (
-            <EmptyCart onItemPress={() => setIsEmptyCart(false)} />
+            <EmptyCart onItemPress={onClose} />
           ) : (
-            <AddToCartItem onItemPress={() => setIsEmptyCart(true)} onCheckout={onClose} />
+            <AddToCartItem onCheckout={onClose} />
           )}
         </View>
       </View>

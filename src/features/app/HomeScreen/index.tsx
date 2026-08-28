@@ -20,75 +20,19 @@ import { FoodImage } from '@components/FoodImage';
 import { RecommendCard } from '@components/Cards/RecommendCard';
 import { theme, useScale } from '@theme';
 import { CATEGORIES } from '@/src/constants/categories';
+import { resolveProductImage } from '@/src/constants/productImages';
+import { useCart } from '@features/cart/CartContext';
+import { productsApi } from '@services/productsApi';
+import { promoBannersApi } from '@services/promoBannersApi';
+import { Product, PromoBanner } from '@services/types';
 import { useHomeScreenStyles } from './useHomeScreenStyles';
+import { getBestSellerIllustration, getRecommendIllustration } from './homeIllustrations';
+import { resolveBannerIcon } from './bannerIcons';
 
-import BestSeller1 from '@/assets/best-seller1.svg';
-import BestSeller2 from '@/assets/best-seller-2.svg';
-import BestSeller3 from '@/assets/best-seller-3.svg';
-import BestSeller4 from '@/assets/best-seller-4.svg';
-import BannerPizza from '@/assets/banner-pizza.svg';
-import Recommended1 from '@/assets/recommended-1.svg';
-import Recommended2 from '@/assets/recommended-2.svg';
 import { AddToCartModal } from '@/src/components/AddToCartDrawer';
 import CartIcon from '@/assets/cart-icon.svg';
 import BellIcon from '@/assets/bell-icon.svg';
 import ProfileIcon from '@/assets/profile-icon.svg';
-
-const MOCK_ITEMS = [
-  {
-    id: '1',
-    image: require('@/assets/mexican-appetizer.png'),
-    name: 'Mexican Appetizer',
-    rating: 5.0,
-    price: '$15.00',
-    description: 'Tortilla Chips With Toppings'
-  },
-  {
-    id: '2',
-    image: require('@/assets/mexican-appetizer.png'),
-    name: 'Pork Skewer',
-    rating: 4.0,
-    price: '$12.99',
-    description:
-      'Marinated in a rich blend of herbs and spices, then grilled to perfection, served with a side of zesty dipping sauce.'
-  }
-];
-
-const BEST_SELLERS = [
-  { id: '1', SvgComponent: BestSeller1, price: 103.0 },
-  { id: '2', SvgComponent: BestSeller2, price: 50.0 },
-  { id: '3', SvgComponent: BestSeller3, price: 12.99 },
-  { id: '4', SvgComponent: BestSeller4, price: 8.2 }
-];
-
-const RECOMMEND_ITEMS = [
-  { id: '1', SvgComponent: Recommended1, rating: 5.0, price: '$10.0' },
-  { id: '2', SvgComponent: Recommended2, rating: 5.0, price: '$25.0' }
-];
-
-const PROMO_BANNERS = [
-  {
-    id: '1',
-    label1: 'Experience our',
-    label2: 'delicious new dish',
-    discount: '30% OFF',
-    BannerSvg: BannerPizza
-  },
-  {
-    id: '2',
-    label1: 'Grab your',
-    label2: 'favorite combo deal',
-    discount: '20% OFF',
-    BannerSvg: BannerPizza
-  },
-  {
-    id: '3',
-    label1: 'This weekend only',
-    label2: 'family feast special',
-    discount: '25% OFF',
-    BannerSvg: BannerPizza
-  }
-];
 
 const PROMO_AUTOPLAY_INTERVAL = 4000;
 
@@ -102,7 +46,7 @@ function getGreeting(): { heading: string; subtext: string } {
 export function HomeScreen() {
   const insets = useSafeAreaInsets();
   const styles = useHomeScreenStyles(insets.bottom);
-  const [addToCartVisible, setAddToCartVisible] = useState(false);
+  const { isDrawerOpen, openDrawer, closeDrawer } = useCart();
   const { scale } = useScale();
   const greeting = getGreeting();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -112,21 +56,33 @@ export function HomeScreen() {
   const [recommendRowWidth, setRecommendRowWidth] = useState(0);
   const promoScrollRef = useRef<ScrollView>(null);
 
+  const [products, setProducts] = useState<Product[]>([]);
+  const [promoBanners, setPromoBanners] = useState<PromoBanner[]>([]);
+
+  useEffect(() => {
+    productsApi.list().then(setProducts);
+    promoBannersApi.list().then(setPromoBanners);
+  }, []);
+
+  const filteredItems = products.filter((p) => p.category === selectedCategory);
+  const bestSellers = products.filter((p) => p.isBestSeller);
+  const recommendItems = products.filter((p) => p.isRecommended);
+
   const recommendCardWidth = recommendRowWidth > 0 ? (recommendRowWidth - scale(7)) / 2 : undefined;
 
   useEffect(() => {
-    if (!bannerWidth) return;
+    if (!bannerWidth || promoBanners.length === 0) return;
 
     const timer = setInterval(() => {
       setActivePromo((prev) => {
-        const next = (prev + 1) % PROMO_BANNERS.length;
+        const next = (prev + 1) % promoBanners.length;
         promoScrollRef.current?.scrollTo({ x: next * bannerWidth, animated: true });
         return next;
       });
     }, PROMO_AUTOPLAY_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [bannerWidth]);
+  }, [bannerWidth, promoBanners.length]);
 
   const handlePromoScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (!bannerWidth) return;
@@ -163,10 +119,16 @@ export function HomeScreen() {
                   <IconButton
                     SvgIcon={CartIcon}
                     iconWidth={16}
-                    iconHeight={16}   onPress={() => setAddToCartVisible(true)}
+                    iconHeight={16}
+                    onPress={openDrawer}
                     iconColor={theme.colors.brand.primary}
                   />
-                  <IconButton SvgIcon={BellIcon} iconWidth={14} iconHeight={20} />
+                  <IconButton
+                    SvgIcon={BellIcon}
+                    iconWidth={14}
+                    iconHeight={20}
+                    onPress={() => router.push('/notifications')}
+                  />
                   <IconButton
                     SvgIcon={ProfileIcon}
                     iconWidth={13}
@@ -252,110 +214,115 @@ export function HomeScreen() {
             {selectedCategory === null && <View style={styles.divider} />}
 
             {selectedCategory === null ? (
-          <View style={styles.defaultView}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Best Seller</Text>
-              <TouchableOpacity
-                style={styles.viewAllRow}
-                activeOpacity={0.7}
-                onPress={() => router.push('/best-seller')}
-                accessibilityRole='button'
-                accessibilityLabel='View all best sellers'
-                testID='home-view-all-best-seller'
-              >
-                <Text style={styles.viewAllText}>View All</Text>
-                <Text style={styles.viewAllChevron}>›</Text>
-              </TouchableOpacity>
-            </View>
+              <View style={styles.defaultView}>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>Best Seller</Text>
+                  <TouchableOpacity
+                    style={styles.viewAllRow}
+                    activeOpacity={0.7}
+                    onPress={() => router.push('/best-seller')}
+                    accessibilityRole='button'
+                    accessibilityLabel='View all best sellers'
+                    testID='home-view-all-best-seller'
+                  >
+                    <Text style={styles.viewAllText}>View All</Text>
+                    <Text style={styles.viewAllChevron}>›</Text>
+                  </TouchableOpacity>
+                </View>
 
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.bestSellerRow}
-            >
-              {BEST_SELLERS.map((item) => (
-                <FoodImage
-                  key={item.id}
-                  SvgComponent={item.SvgComponent}
-                  showPrice
-                  price={item.price}
-                  width={scale(71.68)}
-                  height={scale(108)}
-                  borderRadius={scale(19.12)}
-                />
-              ))}
-            </ScrollView>
-
-            <View
-              style={styles.promoBanner}
-              onLayout={(e) => setBannerWidth(e.nativeEvent.layout.width)}
-            >
-              {bannerWidth > 0 && (
                 <ScrollView
-                  ref={promoScrollRef}
                   horizontal
-                  pagingEnabled
                   showsHorizontalScrollIndicator={false}
-                  onMomentumScrollEnd={handlePromoScrollEnd}
+                  contentContainerStyle={styles.bestSellerRow}
                 >
-                  {PROMO_BANNERS.map((promo) => (
-                    <View key={promo.id} style={[styles.promoSlide, { width: bannerWidth }]}>
-                      <View style={styles.promoTextContainer}>
-                        <Text style={styles.promoLabel}>{promo.label1}</Text>
-                        <Text style={styles.promoLabel}>{promo.label2}</Text>
-                        <Text style={styles.promoDiscount}>{promo.discount}</Text>
-                      </View>
-                      <View style={styles.promoImageContainer}>
-                        <promo.BannerSvg width='100%' height='100%' />
-                      </View>
-                    </View>
+                  {bestSellers.map((item, index) => (
+                    <FoodImage
+                      key={item.id}
+                      SvgComponent={getBestSellerIllustration(index)}
+                      showPrice
+                      price={item.price}
+                      width={scale(71.68)}
+                      height={scale(108)}
+                      borderRadius={scale(19.12)}
+                    />
                   ))}
                 </ScrollView>
-              )}
-            </View>
 
-            <View style={styles.promoDots}>
-              {PROMO_BANNERS.map((promo, i) => (
-                <TouchableOpacity key={promo.id} onPress={() => handlePromoDotPress(i)}>
-                  <View style={[styles.dot, activePromo === i && styles.dotActive]} />
-                </TouchableOpacity>
-              ))}
-            </View>
+                <View
+                  style={styles.promoBanner}
+                  onLayout={(e) => setBannerWidth(e.nativeEvent.layout.width)}
+                >
+                  {bannerWidth > 0 && (
+                    <ScrollView
+                      ref={promoScrollRef}
+                      horizontal
+                      pagingEnabled
+                      showsHorizontalScrollIndicator={false}
+                      onMomentumScrollEnd={handlePromoScrollEnd}
+                    >
+                      {promoBanners.map((promo) => {
+                        const BannerSvg = resolveBannerIcon(promo.bannerKey);
+                        return (
+                          <View key={promo.id} style={[styles.promoSlide, { width: bannerWidth }]}>
+                            <View style={styles.promoTextContainer}>
+                              <Text style={styles.promoLabel}>{promo.label1}</Text>
+                              <Text style={styles.promoLabel}>{promo.label2}</Text>
+                              <Text style={styles.promoDiscount}>{promo.discount}</Text>
+                            </View>
+                            <View style={styles.promoImageContainer}>
+                              <BannerSvg width='100%' height='100%' />
+                            </View>
+                          </View>
+                        );
+                      })}
+                    </ScrollView>
+                  )}
+                </View>
 
-            <Text style={[styles.sectionTitle, styles.recommendTitle]}>Recommend</Text>
+                <View style={styles.promoDots}>
+                  {promoBanners.map((promo, i) => (
+                    <TouchableOpacity key={promo.id} onPress={() => handlePromoDotPress(i)}>
+                      <View style={[styles.dot, activePromo === i && styles.dotActive]} />
+                    </TouchableOpacity>
+                  ))}
+                </View>
 
-            <View
-              style={styles.recommendGrid}
-              onLayout={(e) => setRecommendRowWidth(e.nativeEvent.layout.width)}
-            >
-              {RECOMMEND_ITEMS.map((item) => (
-                <RecommendCard
-                  key={item.id}
-                  SvgComponent={item.SvgComponent}
-                  rating={item.rating}
-                  price={item.price}
-                  width={recommendCardWidth}
-                />
-              ))}
-            </View>
-          </View>
-        ) : (
-          <View style={styles.filteredView}>
-            {MOCK_ITEMS.map((item) => (
-              <FoodItemCard
-                key={item.id}
-                image={item.image}
-                name={item.name}
-                rating={item.rating}
-                price={item.price}
-                description={item.description}
-                onPress={() => router.push({ pathname: '/product-details', params: { id: item.id } })}
-              />
-            ))}
-          </View>
+                <Text style={[styles.sectionTitle, styles.recommendTitle]}>Recommend</Text>
+
+                <View
+                  style={styles.recommendGrid}
+                  onLayout={(e) => setRecommendRowWidth(e.nativeEvent.layout.width)}
+                >
+                  {recommendItems.map((item, index) => (
+                    <RecommendCard
+                      key={item.id}
+                      SvgComponent={getRecommendIllustration(index)}
+                      rating={item.rating}
+                      price={`$${item.price.toFixed(2)}`}
+                      width={recommendCardWidth}
+                    />
+                  ))}
+                </View>
+              </View>
+            ) : (
+              <View style={styles.filteredView}>
+                {filteredItems.map((item) => (
+                  <FoodItemCard
+                    key={item.id}
+                    image={resolveProductImage(item.imageKey)}
+                    name={item.name}
+                    rating={item.rating}
+                    price={`$${item.price.toFixed(2)}`}
+                    description={item.description}
+                    onPress={() =>
+                      router.push({ pathname: '/product-details', params: { id: item.id } })
+                    }
+                  />
+                ))}
+              </View>
             )}
           </ScrollView>
-          <AddToCartModal visible={addToCartVisible} onClose={() => setAddToCartVisible(false)} />
+          <AddToCartModal visible={isDrawerOpen} onClose={closeDrawer} />
         </View>
       </View>
 

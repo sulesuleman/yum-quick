@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.sizes.body,
     color: theme.colors.brand.primary,
     marginTop: theme.spacing.sm,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   actions: {
     marginTop: theme.spacing.xl,

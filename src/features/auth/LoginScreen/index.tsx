@@ -5,7 +5,7 @@ import { Text, View } from 'react-native';
 
 import { AuthCard, Button, TextField } from '@components';
 import { useAuth } from '@features/auth/AuthContext';
-import { findAuthorizedUser } from '@features/auth/constants/authorizedUsers';
+import { usersApi } from '@services/usersApi';
 
 import { LoginFormValues, loginSchema } from './loginSchema';
 import { useLoginScreenStyles } from './useLoginScreenStyles';
@@ -16,26 +16,26 @@ export function LoginScreen() {
   const styles = useLoginScreenStyles();
 
   const {
-    control,         // connects each field to the form
-    handleSubmit,    // wraps your submit fn — only calls it when validation passes
-    setError,        // lets us add a server-side / credential error after submission
-    formState: { errors, isSubmitting },
+    control, // connects each field to the form
+    handleSubmit, // wraps your submit fn — only calls it when validation passes
+    setError, // lets us add a server-side / credential error after submission
+    formState: { errors, isSubmitting }
   } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema),
     defaultValues: { email: '', password: '' },
-    mode: 'onBlur',            // validate a field when the user leaves it
-    reValidateMode: 'onChange', // re-validate on every keystroke once an error is showing
+    mode: 'onBlur', // validate a field when the user leaves it
+    reValidateMode: 'onChange' // re-validate on every keystroke once an error is showing
   });
 
   const onSubmit = async (values: LoginFormValues) => {
-    const user = findAuthorizedUser(values.email, values.password);
+    const user = await usersApi.findByEmail(values.email);
 
-    if (!user) {
+    if (!user || user.password !== values.password) {
       setError('root', { message: 'Invalid email or password' });
       return;
     }
 
-    await signIn(values.email, user.name);
+    await signIn(values.email, user.name, user.id);
     router.replace('/(app)/(tabs)');
   };
 
@@ -52,12 +52,12 @@ export function LoginScreen() {
           {/* Email field */}
           <Controller
             control={control}
-            name="email"
+            name='email'
             render={({ field: { onChange, onBlur, value } }) => (
               <TextField
-                label="Email or Mobile Number"
-                placeholder="example@example.com"
-                type="email"
+                label='Email or Mobile Number'
+                placeholder='example@example.com'
+                type='email'
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -69,12 +69,12 @@ export function LoginScreen() {
           {/* Password field */}
           <Controller
             control={control}
-            name="password"
+            name='password'
             render={({ field: { onChange, onBlur, value } }) => (
               <TextField
-                label="Password"
-                placeholder="••••••••••"
-                type="password"
+                label='Password'
+                placeholder='••••••••••'
+                type='password'
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -87,14 +87,12 @@ export function LoginScreen() {
         </View>
 
         {/* Root-level error (wrong credentials) */}
-        {errors.root && (
-          <Text style={styles.rootError}>{errors.root.message}</Text>
-        )}
+        {errors.root && <Text style={styles.rootError}>{errors.root.message}</Text>}
 
         <View style={styles.actions}>
           <Button
-            title="Log In"
-            variant="cta"
+            title='Log In'
+            variant='cta'
             onPress={handleSubmit(onSubmit)}
             disabled={isSubmitting}
           />

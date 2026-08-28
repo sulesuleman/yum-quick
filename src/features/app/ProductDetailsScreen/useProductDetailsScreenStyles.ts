@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     lineHeight: theme.typography.sizes.body * 0.95,
     letterSpacing: -0.48,
     color: theme.colors.text.primary,
-    opacity: 0.8,
+    opacity: 0.8
   },
 
   priceRow: {

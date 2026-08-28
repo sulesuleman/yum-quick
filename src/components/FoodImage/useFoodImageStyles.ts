@@ -34,11 +34,11 @@ export function useFoodImageStyles({ width, height, borderRadius }: Params) {
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: theme.colors.background.orangeBase,
-      height: 16,  
+      height: 16,
       paddingLeft: 6,
       paddingRight: 4,
       borderTopLeftRadius: 30,
-      borderBottomLeftRadius: 30 ,
+      borderBottomLeftRadius: 30
     },
     priceText: {
       fontFamily: theme.typography.families.regular,

@@ -1,5 +1,12 @@
 import React from 'react';
-import { ImageSourcePropType, StyleProp, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import {
+  ImageSourcePropType,
+  StyleProp,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle
+} from 'react-native';
 
 import OrderCancelledCross from '@/assets/order-cancelled-cross.svg';
 import OrderDeliveredCheck from '@/assets/order-delivered-check.svg';
@@ -49,14 +56,7 @@ export function OrderCard({
   const styles = useOrderCardStyles();
 
   if (showPrice) {
-    return (
-      <FoodImage
-        source={image}
-        showPrice
-        price={price}
-        style={style}
-      />
-    );
+    return <FoodImage source={image} showPrice price={price} style={style} />;
   }
 
   return (
@@ -64,13 +64,19 @@ export function OrderCard({
       <FoodImage source={image} showPrice price={price} />
       <View style={styles.info}>
         <View style={styles.topRow}>
-          <Text style={styles.name} numberOfLines={1}>{name}</Text>
+          <Text style={styles.name} numberOfLines={1}>
+            {name}
+          </Text>
           <Text style={styles.price}>${price.toFixed(2)}</Text>
         </View>
         {(date || itemCount !== undefined) && (
           <View style={styles.metaRow}>
             {date && <Text style={styles.meta}>{date}</Text>}
-            {itemCount !== undefined && <Text style={styles.meta}>{itemCount} {itemCount === 1 ? 'item' : 'items'}</Text>}
+            {itemCount !== undefined && (
+              <Text style={styles.meta}>
+                {itemCount} {itemCount === 1 ? 'item' : 'items'}
+              </Text>
+            )}
           </View>
         )}
         {status && (
@@ -89,7 +95,11 @@ export function OrderCard({
                 onPress={action.onPress}
                 activeOpacity={0.8}
               >
-                <Text style={action.variant === 'light' ? styles.actionTextLight : styles.actionTextSolid}>
+                <Text
+                  style={
+                    action.variant === 'light' ? styles.actionTextLight : styles.actionTextSolid
+                  }
+                >
                   {action.label}
                 </Text>
               </TouchableOpacity>

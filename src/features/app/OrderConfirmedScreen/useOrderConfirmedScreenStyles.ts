@@ -55,9 +55,11 @@ const styles = StyleSheet.create({
   supportNote: {
     textAlign: 'center',
     paddingHorizontal: theme.spacing.lg,
-    marginBottom: theme.spacing['3xl'],
-    fontFamily: theme.typography.families.regular,
-    fontSize: theme.typography.sizes.input,
+    fontFamily: theme.typography.families.medium,
+    fontWeight: theme.typography.weights.medium,
+    fontSize: 16,
+    lineHeight: 16,
+    letterSpacing: 0,
     color: theme.colors.text.primary
   }
 });

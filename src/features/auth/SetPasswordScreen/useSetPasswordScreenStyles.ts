@@ -24,5 +24,11 @@ const styles = StyleSheet.create({
   actions: {
     marginTop: theme.spacing.xl,
     alignItems: 'center'
+  },
+  rootError: {
+    fontFamily: theme.typography.families.medium,
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.brand.primary,
+    marginTop: theme.spacing.sm
   }
 });

@@ -17,7 +17,15 @@ type QuantityStepperProps = {
 function MinusIcon() {
   return (
     <Svg width={12} height={2} viewBox='0 0 12 2'>
-      <Line x1={0} y1={1} x2={12} y2={1} stroke={theme.colors.brand.primary} strokeWidth={2} strokeLinecap='round' />
+      <Line
+        x1={0}
+        y1={1}
+        x2={12}
+        y2={1}
+        stroke={theme.colors.brand.primary}
+        strokeWidth={2}
+        strokeLinecap='round'
+      />
     </Svg>
   );
 }
@@ -25,13 +33,34 @@ function MinusIcon() {
 function PlusIcon() {
   return (
     <Svg width={12} height={12} viewBox='0 0 12 12'>
-      <Line x1={6} y1={0} x2={6} y2={12} stroke={theme.colors.text.inverse} strokeWidth={2} strokeLinecap='round' />
-      <Line x1={0} y1={6} x2={12} y2={6} stroke={theme.colors.text.inverse} strokeWidth={2} strokeLinecap='round' />
+      <Line
+        x1={6}
+        y1={0}
+        x2={6}
+        y2={12}
+        stroke={theme.colors.text.inverse}
+        strokeWidth={2}
+        strokeLinecap='round'
+      />
+      <Line
+        x1={0}
+        y1={6}
+        x2={12}
+        y2={6}
+        stroke={theme.colors.text.inverse}
+        strokeWidth={2}
+        strokeLinecap='round'
+      />
     </Svg>
   );
 }
 
-export function QuantityStepper({ value, onIncrement, onDecrement, min = 1 }: QuantityStepperProps) {
+export function QuantityStepper({
+  value,
+  onIncrement,
+  onDecrement,
+  min = 1
+}: QuantityStepperProps) {
   const styles = useQuantityStepperStyles();
   const canDecrement = value > min;
 

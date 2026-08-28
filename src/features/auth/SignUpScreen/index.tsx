@@ -16,7 +16,15 @@ export function SignUpScreen() {
   const [dob, setDob] = useState<Date | null>(null);
 
   const onContinue = () => {
-    router.push('/set-password');
+    router.push({
+      pathname: '/set-password',
+      params: {
+        fullName,
+        email,
+        mobile,
+        dob: dob ? dob.toISOString() : ''
+      }
+    });
   };
 
   return (

@@ -9,16 +9,9 @@ export function Searchbar() {
 
   return (
     <Pressable style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Search"
-        placeholderTextColor="#aaa"
-      />
+      <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#aaa' />
       <Pressable
-        style={({ pressed }) => [
-          styles.filterButton,
-          pressed && styles.filterButtonPressed,
-        ]}
+        style={({ pressed }) => [styles.filterButton, pressed && styles.filterButtonPressed]}
       >
         <SearchFilterIcon width={20} height={20} />
       </Pressable>
