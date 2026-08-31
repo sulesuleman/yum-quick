@@ -1,20 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import {
-  ChevronRightIcon,
-  LogOutIcon,
-  ReceiptIcon,
-  ShieldIcon,
-  UserCircleIcon
-} from '../../../components/icons';
+import { ChevronRightIcon, LogOutIcon, ShieldIcon, UserCircleIcon } from '../../../components/icons';
 import { Button } from '../../../components/ui';
 import { useAuth } from '../../auth/AuthContext';
-
-const SETTINGS_ROWS = [
-  { icon: ReceiptIcon, label: 'Restaurant details' },
-  { icon: UserCircleIcon, label: 'Notification preferences' },
-  { icon: ReceiptIcon, label: 'Help & support' }
-];
 
 export function ProfilePage() {
   const navigate = useNavigate();
@@ -51,21 +39,6 @@ export function ProfilePage() {
           <span className='flex-1 font-medium text-text'>Admin team & roles</span>
           <ChevronRightIcon size={18} className='text-muted' />
         </button>
-
-        {SETTINGS_ROWS.map((row) => (
-          <div
-            key={row.label}
-            className='flex items-center gap-3 rounded-2xl border border-divider bg-card p-4'
-          >
-            <div className='flex h-8 w-8 items-center justify-center rounded-[10px] bg-orange-2 text-brand'>
-              <row.icon size={18} />
-            </div>
-            <span className='flex-1 font-medium text-text'>{row.label}</span>
-            <span className='rounded-full bg-yellow-2 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-brand uppercase'>
-              Soon
-            </span>
-          </div>
-        ))}
       </div>
 
       <Button variant='cta' className='mt-2 gap-2' onClick={handleLogout}>
