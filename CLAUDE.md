@@ -2,76 +2,73 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Monorepo layout
+
+npm workspaces. Two independent apps on **different stacks** — they share a data layer, not UI:
+
+```
+yumQuick/
+  package.json        # workspace root — delegates to app scripts, no app code here
+  apps/
+    mobile/            # customer-facing app — Expo / React Native — see apps/mobile/CLAUDE.md
+    admin/             # admin dashboard — React web (Vite + Tailwind) — see apps/admin/CLAUDE.md
+  packages/
+    api/               # @yumquick/api — apiClient, domain types, ordersApi/productsApi/usersApi.
+                        # Shared with admin; mobile keeps its own local copy (see below).
+```
+
+`apps/mobile` and `apps/admin` do **not** share UI components or design tokens — mobile renders with
+React Native primitives (View/Text/StyleSheet), admin is plain React DOM styled with Tailwind. A
+`packages/theme` + `packages/ui` pair was built and then removed once admin moved off Expo/React
+Native onto a web stack — there was nothing left in common to share at the component level. Admin's
+Tailwind palette in `apps/admin/src/index.css` is a manually-kept-in-sync duplicate of
+`apps/mobile/src/theme/colors.ts`'s values, not a shared source of truth.
+
+Run `npm install` once from the repo root — it installs and hoists dependencies for every workspace
+under `apps/*` and `packages/*`. Don't run `npm install` inside an individual app/package folder.
+
 ## Commands
 
 ```bash
-npx expo start          # Start dev server (opens QR for Expo Go)
-npx expo start --android
-npx expo start --ios
-npx expo start --web
-npm run format          # Prettier write
-npm run format:check    # Prettier check
+npm run mobile           # Start apps/mobile dev server (Expo, QR for Expo Go)
+npm run mobile:android
+npm run mobile:ios
+npm run mobile:web
+npm run mobile:mock-api  # json-server fake backend — apps/mobile/db.json, port 3001
+
+npm run admin            # Start apps/admin dev server (Vite, http://localhost:5173)
+npm run admin:build      # Type-check + production build
+npm run admin:preview    # Serve the production build locally
+
+npm run format            # Prettier write, whole repo
+npm run format:check      # Prettier check, whole repo
 ```
 
 No lint or test suite is configured.
 
-## Architecture
+## Data — one shared backend
 
-**Routing** — Expo Router v6 (file-based). Three navigation contexts, each owns its own `_layout.tsx`:
+Both apps talk to the **same** json-server instance (`apps/mobile/db.json`, started via
+`npm run mobile:mock-api`) so admin edits and what customers see in the mobile app stay in sync —
+there is no separate admin database or mock data. Mobile reaches it through its own local
+`src/services/*` (unchanged); admin reaches it through the shared `@yumquick/api` package. Both must
+point at the same running instance (matching `EXPO_PUBLIC_API_URL` / `VITE_API_URL`), not separate
+copies. See each app's `CLAUDE.md` for exact env var setup.
 
-- `app/_layout.tsx` — root Stack. Loads League Spartan fonts, gates the native splash, wraps the tree in `SafeAreaProvider` and `<AuthProvider>` (from `@features/auth/AuthContext`). `headerShown: false` at the root so children opt in.
-- `app/index.tsx` — auth-aware entry redirect: `/(app)/(tabs)` when signed in, else `/splash`.
-- `app/splash.tsx`, `app/welcome.tsx` — onboarding routes at the root (no header, no tab bar). Splash auto-advances to Welcome via `router.replace('/welcome')`.
-- `app/(auth)/` — auth group (Log In, Hello, New Account, Set Password). The group's `_layout.tsx` configures a yellow native header with centered title + back chevron. **No bottom tab bar.** Per-screen titles are declared centrally in `(auth)/_layout.tsx`.
-- `app/(app)/` — main-app group, gated by `useAuth()`. The layout redirects unauthenticated users to `/welcome` (covers deep links into any `(app)/*` route). Outer Stack carries the yellow header so future detail pushes inherit it.
-- `app/(app)/(tabs)/` — five-tab navigator (`index`/Home, Dashboard, Favorites, Notifications, Profile). Orange tab bar with rounded top corners, icons only (`tabBarShowLabel: false`), header titles set per-tab via `Tabs.Screen options`. Icons sourced from `assets/*.png` with `tintColor: theme.colors.text.inverse`.
+## Adding a new app or shared package
 
-Navigation rule: use `router.replace` when the source screen must NOT be back-reachable (splash, post-login transition, logout). Use `router.push` when back navigation is part of the flow (auth multi-step).
+- New app: add a folder under `apps/`, give it its own `package.json` (npm workspaces auto-detects it
+  via the root `"workspaces": ["apps/*"]` glob — no root config change needed), then add its
+  delegator scripts (`npm run <name> ...`) to the root `package.json`.
+- Shared code: create `packages/<name>/` with its own `package.json`, add `"packages/*"` to the root
+  `workspaces` array if not already there, and depend on it from an app via `"@yumquick/<name>": "*"`.
+  Only add a shared package when there's a real, concrete duplication to remove — see the
+  `packages/theme`/`packages/ui` removal above for why that matters.
 
-**Design system** — tokens live in `src/theme/`, re-exported as `theme` from `@theme`:
+## Per-app documentation
 
-- `colors` — `background.*`, `button.*`, `brand.*`, `text.*` semantic groups (light-only app; no dark variants).
-- `typography` — League Spartan family + `sizes`/`lineHeights`/`letterSpacing` scales.
-- `spacing`, `radii`, `field` — numeric scales.
-
-Always import via `import { theme } from '@theme'` rather than reaching into individual files.
-
-**Auth** — `src/features/auth/AuthContext.tsx` exposes `useAuth()` with `{ isAuthenticated, isLoading, signIn(token), signOut() }`. Token persisted in `AsyncStorage` under key `yumquick.authToken`. The `(app)/_layout.tsx` gate enforces this for the whole main-app group.
-
-**Path aliases** (`tsconfig.json`):
-
-- `@/*` → project root (used for `require('@/assets/...')`)
-- `@components` / `@components/*` → `src/components`
-- `@features` / `@features/*` → `src/features`
-- `@theme` / `@theme/*` → `src/theme`
-
-## File & Folder Conventions
-
-Every screen and component lives in its **own folder**, not a bare `.tsx` file. Each folder contains exactly these files:
-
-```
-ComponentName/
-├── index.tsx          # component/screen logic and JSX
-└── useComponentNameStyles.ts  # all StyleSheet definitions, exported as a hook
-```
-
-The styles file must be a hook (named `use<ComponentName>Styles.ts`) that returns the stylesheet. No inline `StyleSheet.create` calls inside `index.tsx`.
-
-**Example:**
-
-```
-app/
-  (tabs)/
-    home/
-      index.tsx
-      useHomeStyles.ts
-      components/
-        FeaturedBanner/
-          index.tsx
-          useFeaturedBannerStyles.ts
-```
-
-**Component placement rule:**
-
-- If a component is used **only within one screen/feature**, place it in a `components/` subfolder inside that screen's folder.
-- If a component is used in **two or more places**, move it to the top-level `components/` folder at the project root.
+- [apps/mobile/CLAUDE.md](apps/mobile/CLAUDE.md) — routing, design system, auth, file/folder
+  conventions for the Expo/React Native customer-facing app.
+- [apps/admin/CLAUDE.md](apps/admin/CLAUDE.md) — routing, Tailwind styling, data layer, file/folder
+  conventions for the React/Vite admin web app. Different conventions from mobile — read it separately,
+  don't assume mobile's conventions carry over.

@@ -1,16 +1,19 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this app (`apps/mobile`). See the repo root [CLAUDE.md](../../CLAUDE.md) for monorepo-wide commands and layout.
 
 ## Commands
 
+Run from the repo root, or `cd apps/mobile` and drop the `--workspace` flag:
+
 ```bash
-npx expo start          # Start dev server (opens QR for Expo Go)
-npx expo start --android
-npx expo start --ios
-npx expo start --web
-npm run format          # Prettier write
-npm run format:check    # Prettier check
+npm run mobile              # Start dev server (opens QR for Expo Go)
+npm run mobile:android
+npm run mobile:ios
+npm run mobile:web
+npm run mobile:mock-api     # json-server fake backend, reads apps/mobile/db.json
+npm run format               # Prettier write (whole repo, from root)
+npm run format:check         # Prettier check (whole repo, from root)
 ```
 
 No lint or test suite is configured.

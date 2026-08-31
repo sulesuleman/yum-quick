@@ -1,4 +1,13 @@
 {
+  "admins": [
+    {
+      "id": "admin1",
+      "name": "yumQuick Admin",
+      "email": "admin@yumquick.com",
+      "password": "admin123",
+      "isActive": true
+    }
+  ],
   "users": [
     {
       "id": "u1",
