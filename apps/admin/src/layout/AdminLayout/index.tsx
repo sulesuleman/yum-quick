@@ -55,21 +55,19 @@ export function AdminLayout() {
       ) : null}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-72 shrink-0 flex-col gap-6 bg-gradient-to-b from-orange-base to-orange-dark px-4 py-6 text-text-inverse shadow-2xl transition-transform duration-200 md:static md:z-auto md:w-64 md:translate-x-0 md:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-72 shrink-0 flex-col gap-6 overflow-hidden rounded-r-3xl bg-gradient-to-b from-orange-base to-orange-dark px-4 py-6 text-text-inverse shadow-2xl transition-transform duration-200 md:static md:z-auto md:w-64 md:translate-x-0 md:rounded-none md:shadow-none ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className='flex items-center justify-between border-b border-white/15 pb-5'>
-          <div className='flex flex-col gap-1'>
-            <img src={yumquickLogo} alt='yumQuick' className='h-14 w-auto object-contain' />
-            <span className='text-[11px] font-medium tracking-wide text-text-inverse/70 uppercase'>
-              Admin panel
-            </span>
-          </div>
+        <div className='relative flex flex-col items-center gap-1 border-b border-white/15 pb-5'>
+          <img src={yumquickLogo} alt='yumQuick' className='h-20 w-auto object-contain' />
+          <span className='text-[11px] font-medium tracking-wide text-text-inverse/70 uppercase'>
+            Admin panel
+          </span>
           <button
             type='button'
             onClick={() => setIsSidebarOpen(false)}
-            className='rounded-full p-1 opacity-80 hover:opacity-100 md:hidden'
+            className='absolute top-0 right-0 rounded-full p-1 opacity-80 hover:opacity-100 md:hidden'
             aria-label='Close menu'
           >
             <CloseIcon size={20} />
