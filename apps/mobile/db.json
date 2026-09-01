@@ -1,4 +1,13 @@
 {
+  "admins": [
+    {
+      "id": "admin1",
+      "name": "yumQuick Admin",
+      "email": "admin@yumquick.com",
+      "password": "admin123",
+      "isActive": true
+    }
+  ],
   "users": [
     {
       "id": "u1",
@@ -25,7 +34,7 @@
       "password": "123456",
       "phone": "+123 567 89002",
       "dob": "1995-01-15",
-      "avatarUri": "https://randomuser.me/api/portraits/men/54.jpg"
+      "avatarUri": "https://randomuser.me/api/portraits/men/76.jpg"
     }
   ],
   "products": [
