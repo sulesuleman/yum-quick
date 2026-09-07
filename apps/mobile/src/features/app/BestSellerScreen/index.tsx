@@ -8,10 +8,13 @@ import BackArrowIcon from '@/assets/back-arrow.svg';
 import { ContentSheet } from '@components/ContentSheet';
 import { IconButton } from '@components/ui/button/IconButton';
 import { BestSellerCard } from '@components/Cards/BestSellerCard';
+import { resolveCategoryIcon } from '@/src/constants/categories';
 import { resolveProductImage } from '@/src/constants/productImages';
+import { useCart } from '@features/cart/CartContext';
 import { useFavorites } from '@features/favorites/useFavorites';
+import { categoriesApi } from '@services/categoriesApi';
 import { productsApi } from '@services/productsApi';
-import { Product } from '@services/types';
+import { Category, Product } from '@services/types';
 import { theme } from '@theme';
 
 import { useBestSellerScreenStyles } from './useBestSellerScreenStyles';
@@ -31,11 +34,16 @@ export function BestSellerScreen() {
   const styles = useBestSellerScreenStyles();
   const { width: windowWidth } = useWindowDimensions();
   const { isFavorite, toggle } = useFavorites();
+  const { addItem } = useCart();
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     productsApi.list().then((products) => setBestSellers(products.filter((p) => p.isBestSeller)));
+    categoriesApi.list().then(setCategories);
   }, []);
+
+  const iconByCategory = new Map(categories.map((cat) => [cat.id, resolveCategoryIcon(cat.icon)]));
 
   const numColumns = getNumColumns(windowWidth);
   const availableWidth = windowWidth - SCREEN_MARGIN * 2;
@@ -79,11 +87,12 @@ export function BestSellerScreen() {
               description={item.description}
               price={item.price}
               rating={item.rating}
-              category={item.category}
+              categoryIcon={iconByCategory.get(item.category)}
               image={resolveProductImage(item.imageKey)}
               width={cardWidth}
               isFavorite={isFavorite(item.id)}
               onToggleFavorite={() => toggle(item.id)}
+              onAddToCart={() => addItem(item, 1, [])}
               onPress={() => router.push({ pathname: '/product-details', params: { id: item.id } })}
             />
           ))}

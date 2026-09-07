@@ -158,6 +158,24 @@ export function InfoIcon(props: IconProps) {
   );
 }
 
+export function PencilIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d='M12 20h9' />
+      <path d='M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z' />
+    </Icon>
+  );
+}
+
+export function TagIcon(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d='M12.5 3H5a2 2 0 0 0-2 2v7.5a2 2 0 0 0 .59 1.41l9 9a2 2 0 0 0 2.82 0l7.5-7.5a2 2 0 0 0 0-2.82l-9-9A2 2 0 0 0 12.5 3z' />
+      <path d='M8 8h.01' />
+    </Icon>
+  );
+}
+
 export function LogOutIcon(props: IconProps) {
   return (
     <Icon {...props}>

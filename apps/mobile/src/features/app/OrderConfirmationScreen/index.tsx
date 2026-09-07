@@ -13,8 +13,19 @@ import { resolveProductImage } from '@/src/constants/productImages';
 import { useAuth } from '@features/auth/AuthContext';
 import { useCart } from '@features/cart/CartContext';
 import { computeOrderTotals } from '@features/cart/orderTotals';
+import { formatCurrency } from '@/src/utils/currency';
 import { addressesApi } from '@services/addressesApi';
 import { Address } from '@services/types';
+
+function formatOrderItemDate(iso: string): string {
+  const date = new Date(iso);
+  const day = date.getDate();
+  const month = date.toLocaleDateString('en-US', { month: 'short' });
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const period = date.getHours() < 12 ? 'am' : 'pm';
+  return `${day} ${month}, ${hours}:${minutes} ${period}`;
+}
 
 const OrderConfirmationScreen = (): JSX.Element => {
   const styles = useOrdersScreenStyles();
@@ -71,7 +82,7 @@ const OrderConfirmationScreen = (): JSX.Element => {
                 })
               }
             >
-              <PencilIcon width={10} height={10} />
+              <PencilIcon width={20} height={20} />
             </TouchableOpacity>
           </View>
           <View style={styles.headerChip}>
@@ -80,15 +91,6 @@ const OrderConfirmationScreen = (): JSX.Element => {
 
           <View style={styles.orderSummaryHeader}>
             <Text style={styles.sectionLabel}>Order Summary</Text>
-            <TouchableOpacity
-              style={styles.editButton}
-              onPress={() => {
-                router.back();
-                openDrawer();
-              }}
-            >
-              <Text style={styles.editButtonText}>Edit</Text>
-            </TouchableOpacity>
           </View>
           <View style={styles.orderSummaryDivider} />
 
@@ -104,9 +106,10 @@ const OrderConfirmationScreen = (): JSX.Element => {
               <View style={styles.orderItemDetails}>
                 <View style={styles.orderItemTopRow}>
                   <Text style={styles.orderItemName}>{item.name}</Text>
-                  <Text style={styles.orderItemPrice}>${item.unitPrice.toFixed(2)}</Text>
+                  <Text style={styles.orderItemPrice}>{formatCurrency(item.unitPrice)}</Text>
                 </View>
                 <View style={styles.orderItemMetaRow}>
+                  <Text style={styles.orderItemMeta}>{formatOrderItemDate(item.addedAt)}</Text>
                   <Text style={styles.orderItemMeta}>{item.quantity} items</Text>
                 </View>
                 <View style={styles.orderItemActionsRow}>
@@ -138,21 +141,21 @@ const OrderConfirmationScreen = (): JSX.Element => {
           <View style={styles.summarySection}>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Subtotal</Text>
-              <Text style={styles.summaryValue}>${totals.subtotal.toFixed(2)}</Text>
+              <Text style={styles.summaryValue}>{formatCurrency(totals.subtotal)}</Text>
             </View>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Tax and Fees</Text>
-              <Text style={styles.summaryValue}>${totals.tax.toFixed(2)}</Text>
+              <Text style={styles.summaryValue}>{formatCurrency(totals.tax)}</Text>
             </View>
             <View style={styles.summaryRow}>
               <Text style={styles.summaryLabel}>Delivery</Text>
-              <Text style={styles.summaryValue}>${totals.delivery.toFixed(2)}</Text>
+              <Text style={styles.summaryValue}>{formatCurrency(totals.delivery)}</Text>
             </View>
           </View>
           <View style={styles.totalDivider} />
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Total</Text>
-            <Text style={styles.totalValue}>${totals.total.toFixed(2)}</Text>
+            <Text style={styles.totalValue}>{formatCurrency(totals.total)}</Text>
           </View>
 
           <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>

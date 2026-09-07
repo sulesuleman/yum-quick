@@ -1,23 +1,24 @@
 import type { SvgProps } from 'react-native-svg';
 
+import type { CategoryIcon } from '@services/types';
 import SnacksIcon from '@/assets/snacks-icon.svg';
 import MealIcon from '@/assets/meal-icon.svg';
 import VeganIcon from '@/assets/vegan-icon.svg';
 import DessertIcon from '@/assets/dessert-icon.svg';
 import DrinksIcon from '@/assets/drinks-icon.svg';
+import DefaultIcon from '@/assets/category-default-icon.svg';
 
-export type CategoryId = 'snacks' | 'meal' | 'vegan' | 'dessert' | 'drinks';
+export const DEFAULT_CATEGORY_ICON: React.FC<SvgProps> = DefaultIcon;
 
-export type Category = {
-  id: CategoryId;
-  label: string;
-  icon: React.FC<SvgProps>;
+export const ICON_BY_KEY: Record<CategoryIcon, React.FC<SvgProps>> = {
+  snacks: SnacksIcon,
+  meal: MealIcon,
+  vegan: VeganIcon,
+  dessert: DessertIcon,
+  drinks: DrinksIcon,
+  other: DefaultIcon
 };
 
-export const CATEGORIES: Category[] = [
-  { id: 'snacks', label: 'Snacks', icon: SnacksIcon },
-  { id: 'meal', label: 'Meal', icon: MealIcon },
-  { id: 'vegan', label: 'Vegan', icon: VeganIcon },
-  { id: 'dessert', label: 'Dessert', icon: DessertIcon },
-  { id: 'drinks', label: 'Drinks', icon: DrinksIcon }
-];
+export function resolveCategoryIcon(icon: string | undefined): React.FC<SvgProps> {
+  return ICON_BY_KEY[icon as CategoryIcon] ?? DEFAULT_CATEGORY_ICON;
+}

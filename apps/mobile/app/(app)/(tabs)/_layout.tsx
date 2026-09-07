@@ -58,16 +58,19 @@ export default function TabsLayout() {
         tabBarIcon: ({ focused }) => {
           const Icon = ICONS[route.name];
           if (!Icon) return null;
-          return <Icon width={24} height={24} opacity={focused ? 1 : 0.7} />;
+          return (
+            <Icon
+              width={24}
+              height={24}
+              color={theme.colors.text.inverse}
+              opacity={focused ? 1 : 0.7}
+            />
+          );
         }
       })}
     >
       <Tabs.Screen name='index' options={{ title: 'Home' }} />
-      <Tabs.Screen
-        name='my-orders'
-        options={{ title: 'My Orders' }}
-        listeners={{ tabPress: (e) => e.preventDefault() }}
-      />
+      <Tabs.Screen name='my-orders' options={{ title: 'My Orders', href: null }} />
       <Tabs.Screen
         name='order-confirmation'
         options={{ title: 'Order Confirmation', href: null }}

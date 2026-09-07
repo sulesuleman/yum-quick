@@ -12,6 +12,7 @@ import OrderCancelledCross from '@/assets/order-cancelled-cross.svg';
 import OrderDeliveredCheck from '@/assets/order-delivered-check.svg';
 
 import { FoodImage } from '@components/FoodImage';
+import { formatCurrency } from '@/src/utils/currency';
 
 import { useOrderCardStyles } from './useOrderCardStyles';
 
@@ -67,7 +68,7 @@ export function OrderCard({
           <Text style={styles.name} numberOfLines={1}>
             {name}
           </Text>
-          <Text style={styles.price}>${price.toFixed(2)}</Text>
+          <Text style={styles.price}>{formatCurrency(price)}</Text>
         </View>
         {(date || itemCount !== undefined) && (
           <View style={styles.metaRow}>

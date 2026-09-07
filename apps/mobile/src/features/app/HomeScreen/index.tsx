@@ -19,12 +19,14 @@ import { FoodItemCard } from '@components/Cards/FoodItemCard';
 import { FoodImage } from '@components/FoodImage';
 import { RecommendCard } from '@components/Cards/RecommendCard';
 import { theme, useScale } from '@theme';
-import { CATEGORIES } from '@/src/constants/categories';
+import { resolveCategoryIcon } from '@/src/constants/categories';
 import { resolveProductImage } from '@/src/constants/productImages';
+import { formatCurrency } from '@/src/utils/currency';
 import { useCart } from '@features/cart/CartContext';
+import { categoriesApi } from '@services/categoriesApi';
 import { productsApi } from '@services/productsApi';
 import { promoBannersApi } from '@services/promoBannersApi';
-import { Product, PromoBanner } from '@services/types';
+import { Category, Product, PromoBanner } from '@services/types';
 import { useHomeScreenStyles } from './useHomeScreenStyles';
 import { getBestSellerIllustration, getRecommendIllustration } from './homeIllustrations';
 import { resolveBannerIcon } from './bannerIcons';
@@ -57,10 +59,12 @@ export function HomeScreen() {
   const promoScrollRef = useRef<ScrollView>(null);
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [promoBanners, setPromoBanners] = useState<PromoBanner[]>([]);
 
   useEffect(() => {
     productsApi.list().then(setProducts);
+    categoriesApi.list().then(setCategories);
     promoBannersApi.list().then(setPromoBanners);
   }, []);
 
@@ -98,8 +102,9 @@ export function HomeScreen() {
   const handleCategoryPress = (id: string) =>
     setSelectedCategory((prev) => (prev === id ? null : id));
 
-  const isFirstSelected = selectedCategory === CATEGORIES[0].id;
-  const isLastSelected = selectedCategory === CATEGORIES[CATEGORIES.length - 1].id;
+  const isFirstSelected = categories.length > 0 && selectedCategory === categories[0].id;
+  const isLastSelected =
+    categories.length > 0 && selectedCategory === categories[categories.length - 1].id;
 
   return (
     <View style={styles.screen}>
@@ -162,11 +167,11 @@ export function HomeScreen() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.categoryRow}
               >
-                {CATEGORIES.map((cat) => (
+                {categories.map((cat) => (
                   <CategoryCard
                     key={cat.id}
-                    icon={cat.icon}
-                    label={cat.label}
+                    icon={resolveCategoryIcon(cat.icon)}
+                    label={cat.name}
                     selected={false}
                     onPress={() => handleCategoryPress(cat.id)}
                   />
@@ -175,15 +180,22 @@ export function HomeScreen() {
             </View>
           ) : (
             <View style={styles.tabBarRow}>
-              {CATEGORIES.map((cat) => (
-                <CategoryCard
-                  key={cat.id}
-                  icon={cat.icon}
-                  label={cat.label}
-                  selected={selectedCategory === cat.id}
-                  onPress={() => handleCategoryPress(cat.id)}
-                />
-              ))}
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.tabBarScroll}
+                contentContainerStyle={styles.tabBarScrollContent}
+              >
+                {categories.map((cat) => (
+                  <CategoryCard
+                    key={cat.id}
+                    icon={resolveCategoryIcon(cat.icon)}
+                    label={cat.name}
+                    selected={selectedCategory === cat.id}
+                    onPress={() => handleCategoryPress(cat.id)}
+                  />
+                ))}
+              </ScrollView>
             </View>
           )}
         </View>
@@ -236,15 +248,22 @@ export function HomeScreen() {
                   contentContainerStyle={styles.bestSellerRow}
                 >
                   {bestSellers.map((item, index) => (
-                    <FoodImage
+                    <TouchableOpacity
                       key={item.id}
-                      SvgComponent={getBestSellerIllustration(index)}
-                      showPrice
-                      price={item.price}
-                      width={scale(71.68)}
-                      height={scale(108)}
-                      borderRadius={scale(19.12)}
-                    />
+                      activeOpacity={0.85}
+                      onPress={() =>
+                        router.push({ pathname: '/product-details', params: { id: item.id } })
+                      }
+                    >
+                      <FoodImage
+                        SvgComponent={getBestSellerIllustration(index)}
+                        showPrice
+                        price={item.price}
+                        width={scale(71.68)}
+                        height={scale(108)}
+                        borderRadius={scale(19.12)}
+                      />
+                    </TouchableOpacity>
                   ))}
                 </ScrollView>
 
@@ -298,8 +317,11 @@ export function HomeScreen() {
                       key={item.id}
                       SvgComponent={getRecommendIllustration(index)}
                       rating={item.rating}
-                      price={`$${item.price.toFixed(2)}`}
+                      price={formatCurrency(item.price)}
                       width={recommendCardWidth}
+                      onPress={() =>
+                        router.push({ pathname: '/product-details', params: { id: item.id } })
+                      }
                     />
                   ))}
                 </View>
@@ -312,7 +334,7 @@ export function HomeScreen() {
                     image={resolveProductImage(item.imageKey)}
                     name={item.name}
                     rating={item.rating}
-                    price={`$${item.price.toFixed(2)}`}
+                    price={formatCurrency(item.price)}
                     description={item.description}
                     onPress={() =>
                       router.push({ pathname: '/product-details', params: { id: item.id } })

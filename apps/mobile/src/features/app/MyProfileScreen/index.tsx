@@ -20,6 +20,7 @@ import { Button } from '@components/ui/button';
 import { DatePickerField, TextField } from '@components/ui/field';
 import { useAuth } from '@features/auth/AuthContext';
 import { usersApi } from '@services/usersApi';
+import { theme } from '@theme';
 
 import { useMyProfileScreenStyles } from './useMyProfileScreenStyles';
 
@@ -81,7 +82,7 @@ export function MyProfileScreen() {
           )
         }}
       />
-      <ContentSheet paddingBottom={insets.bottom + 40}>
+      <ContentSheet paddingBottom={insets.bottom + theme.layout.tabBarHeight + 40}>
         <View style={styles.avatarRow}>
           <View style={styles.avatarWrapper}>
             <Image source={{ uri: avatarUri }} style={styles.avatar} />

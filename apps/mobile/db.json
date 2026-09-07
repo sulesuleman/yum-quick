@@ -37,386 +37,303 @@
       "avatarUri": "https://randomuser.me/api/portraits/men/76.jpg"
     }
   ],
+  "categories": [
+    {
+      "name": "Starters",
+      "icon": "other",
+      "sortOrder": 0,
+      "id": 1
+    },
+    {
+      "name": "Pastas",
+      "icon": "other",
+      "sortOrder": 1,
+      "id": 2
+    },
+    {
+      "name": "Sides",
+      "icon": "other",
+      "sortOrder": 2,
+      "id": 3
+    },
+    {
+      "name": "Fries Fiesta",
+      "icon": "other",
+      "sortOrder": 3,
+      "id": 4
+    },
+    {
+      "name": "Sandwich",
+      "icon": "other",
+      "sortOrder": 4,
+      "id": 5
+    },
+    {
+      "name": "Burgers",
+      "icon": "other",
+      "sortOrder": 5,
+      "id": 6
+    },
+    {
+      "name": "Crunchy Fired Chicken",
+      "icon": "other",
+      "sortOrder": 6,
+      "id": 7
+    },
+    {
+      "name": "Beverages",
+      "icon": "drinks",
+      "sortOrder": 7,
+      "id": 8
+    }
+  ],
   "products": [
     {
-      "id": "1",
-      "name": "Sunny Bruschetta",
-      "subtitle": "Chef's snack special",
-      "description": "Toasted baguette topped with tomatoes, basil and olive oil",
-      "price": 8.5,
+      "name": "Crunchy Rolls",
+      "subtitle": "",
+      "description": "4 Pcs Rolls Stuffed With Yummiest Mix Served With Dip Sauce",
+      "price": 600,
+      "category": 1,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": true,
       "rating": 4.5,
-      "category": "snacks",
-      "imageKey": "mexican-appetizer",
-      "isBestSeller": true,
-      "isRecommended": false,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
+      "toppings": [],
+      "id": 1
     },
     {
-      "id": "2",
-      "name": "Gourmet Grilled Skewers",
-      "subtitle": "Chef's meal special",
-      "description": "Char-grilled skewers marinated in herbs and spices",
-      "price": 14,
-      "rating": 4.8,
-      "category": "meal",
-      "imageKey": "mexican-appetizer",
-      "isBestSeller": true,
-      "isRecommended": false,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
-    },
-    {
-      "id": "3",
-      "name": "Barbecue Tacos",
-      "subtitle": "Chef's meal special",
-      "description": "Smoky barbecue filling wrapped in a soft corn tortilla",
-      "price": 11.25,
-      "rating": 4.2,
-      "category": "meal",
-      "imageKey": "mexican-appetizer",
-      "isBestSeller": true,
-      "isRecommended": false,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
-    },
-    {
-      "id": "4",
-      "name": "Broccoli Lasagna",
-      "subtitle": "Chef's vegan special",
-      "description": "Layers of pasta with creamy broccoli and cheese sauce",
-      "price": 13.75,
-      "rating": 4,
-      "category": "vegan",
-      "imageKey": "mexican-appetizer",
-      "isBestSeller": true,
-      "isRecommended": false,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
-    },
-    {
-      "id": "5",
-      "name": "Choco Lava Cake",
-      "subtitle": "Chef's dessert special",
-      "description": "Warm chocolate cake with a molten center, served with cream",
-      "price": 9.5,
-      "rating": 4.9,
-      "category": "dessert",
-      "imageKey": "mexican-appetizer",
-      "isBestSeller": true,
-      "isRecommended": true,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
-    },
-    {
-      "id": "6",
-      "name": "Mango Iced Tea",
-      "subtitle": "Chef's drinks special",
-      "description": "Refreshing iced tea blended with fresh mango puree",
-      "price": 5,
-      "rating": 3.8,
-      "category": "drinks",
-      "imageKey": "mexican-appetizer",
-      "isBestSeller": true,
-      "isRecommended": false,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
-    },
-    {
-      "id": "7",
-      "name": "Crispy Veggie Bites",
-      "subtitle": "Chef's snack special",
-      "description": "Golden fried vegetable fritters with a tangy dip",
-      "price": 7.25,
-      "rating": 4.3,
-      "category": "snacks",
-      "imageKey": "mexican-appetizer",
-      "isBestSeller": true,
-      "isRecommended": false,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
-    },
-    {
-      "id": "8",
-      "name": "Berry Cheesecake",
-      "subtitle": "Chef's dessert special",
-      "description": "Creamy cheesecake topped with a mixed berry compote",
-      "price": 10.5,
-      "rating": 4.6,
-      "category": "dessert",
-      "imageKey": "mexican-appetizer",
-      "isBestSeller": true,
-      "isRecommended": true,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
-    },
-    {
-      "id": "9",
-      "name": "Mexican Appetizer",
-      "subtitle": "Tortilla Chips With Toppings",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-      "price": 15,
-      "rating": 5,
-      "category": "snacks",
+      "name": "Flaming Wings",
+      "subtitle": "",
+      "description": "Fresh Oven Baked Wings Tossed in Hot Peri Peri Sauce & Served With Dip Sauce",
+      "price": 550,
+      "category": 1,
       "imageKey": "mexican-appetizer",
       "isBestSeller": false,
       "isRecommended": false,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
+      "rating": 4.5,
+      "toppings": [],
+      "id": 2
     },
     {
-      "id": "10",
-      "name": "Pork Skewer",
-      "subtitle": "Grilled to perfection",
-      "description": "Marinated in a rich blend of herbs and spices, then grilled to perfection, served with a side of zesty dipping sauce.",
-      "price": 12.99,
-      "rating": 4,
-      "category": "meal",
+      "name": "Cheese Sticks",
+      "subtitle": "",
+      "description": "Freshly Baked Bread Filled With the Yummiest Cheese Blend to Satisfy Your Cravings Served With Sauce",
+      "price": 550,
+      "category": 1,
       "imageKey": "mexican-appetizer",
       "isBestSeller": false,
       "isRecommended": false,
-      "toppings": [
-        {
-          "id": "guacamole",
-          "name": "Guacamole",
-          "price": 2.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "jalapenos",
-          "name": "Jalapeños",
-          "price": 3.99,
-          "defaultSelected": true
-        },
-        {
-          "id": "ground-beef",
-          "name": "Ground Beef",
-          "price": 3.99,
-          "defaultSelected": false
-        },
-        {
-          "id": "pico-de-gallo",
-          "name": "Pico de Gallo",
-          "price": 2.99,
-          "defaultSelected": false
-        }
-      ]
+      "rating": 4.5,
+      "toppings": [],
+      "id": 3
+    },
+    {
+      "name": "Chicken Wings",
+      "subtitle": "",
+      "description": "Fresh Wings Served With Dip Sauce",
+      "price": 500,
+      "category": 1,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 4
+    },
+    {
+      "name": "Fries Fiesta",
+      "subtitle": "",
+      "description": "",
+      "price": 200,
+      "category": 4,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 5
+    },
+    {
+      "name": "Fried Wings",
+      "subtitle": "",
+      "description": "10 Pcs",
+      "price": 600,
+      "category": 3,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 6
+    },
+    {
+      "name": "Nuggets",
+      "subtitle": "",
+      "description": "",
+      "price": 600,
+      "category": 3,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 7
+    },
+    {
+      "name": "Chicken Primavera",
+      "subtitle": "",
+      "description": "Macroni Pasta Dip in Special Sauce, With Combination of Mushroom & Sweetcorn",
+      "price": 800,
+      "category": 2,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 8
+    },
+    {
+      "name": "Creamy Chicken Alfredo",
+      "subtitle": "",
+      "description": "Fettuccine Strips Pasta Tossed in Creamy White Sauce With Mushrooms & Chicken Chunks",
+      "price": 900,
+      "category": 2,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": true,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 9
+    },
+    {
+      "name": "Mexican Sandwich",
+      "subtitle": "",
+      "description": "Black Pepper Chicken With Fresh Tomatoes, Cucumbers, Sweet Corn, Lettuce, and Our Special Dip Sauce, All in Soft & Crispy Buns Served With Fries",
+      "price": 800,
+      "category": 5,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 10
+    },
+    {
+      "name": "Euro Sandwich",
+      "subtitle": "",
+      "description": "Chicken Tikka With Special Sauce, Cheese, Lettuce, and Pineapples in Soft and Crispy Buns & Served With Fries for a Loaded Happiness",
+      "price": 800,
+      "category": 5,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 11
+    },
+    {
+      "name": "Cruncher",
+      "subtitle": "",
+      "description": "",
+      "price": 450,
+      "category": 6,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": true,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 12
+    },
+    {
+      "name": "Monster Cruncher",
+      "subtitle": "",
+      "description": "",
+      "price": 650,
+      "category": 6,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 13
+    },
+    {
+      "name": "Classic Patty Burger",
+      "subtitle": "",
+      "description": "",
+      "price": 370,
+      "category": 6,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 14
+    },
+    {
+      "name": "Crunchy Fried Chicken",
+      "subtitle": "",
+      "description": "",
+      "price": 260,
+      "category": 7,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 15
+    },
+    {
+      "name": "Water",
+      "subtitle": "",
+      "description": "",
+      "price": 60,
+      "category": 8,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 16
+    },
+    {
+      "name": "Juices",
+      "subtitle": "",
+      "description": "",
+      "price": 60,
+      "category": 8,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 17
+    },
+    {
+      "name": "Cold Drink",
+      "subtitle": "",
+      "description": "",
+      "price": 100,
+      "category": 8,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 18
+    },
+    {
+      "name": "Sting",
+      "subtitle": "",
+      "description": "",
+      "price": 150,
+      "category": 8,
+      "imageKey": "mexican-appetizer",
+      "isBestSeller": false,
+      "isRecommended": false,
+      "rating": 4.5,
+      "toppings": [],
+      "id": 19
     }
   ],
   "promoBanners": [
@@ -467,7 +384,14 @@
       "label": "Nizami House",
       "address": "PTV Colony, Barakahu, Islamabad",
       "id": "IjiuFrs",
-      "isDefault": true
+      "isDefault": false
+    },
+    {
+      "userId": "u1",
+      "label": "Ammar's Home",
+      "address": "Zamar Valley",
+      "isDefault": true,
+      "id": "vBgsoW0"
     }
   ],
   "paymentMethods": [
@@ -497,25 +421,18 @@
       "userId": "u1",
       "type": "google",
       "label": "Google Pay"
-    }
-  ],
-  "favorites": [
-    {
-      "userId": "u1",
-      "productId": "1",
-      "id": 1
     },
     {
       "userId": "u1",
-      "productId": "1",
-      "id": 2
-    },
-    {
-      "userId": "u1",
-      "productId": "8",
-      "id": 3
+      "type": "card",
+      "label": "0000 0000 0000 0000",
+      "holderName": "Muhammad Suleman",
+      "cardNumber": "0000 0000 0000 0000",
+      "expiryDate": "04/28",
+      "id": "25Q9Q3f"
     }
   ],
+  "favorites": [],
   "notifications": [
     {
       "id": "n1",
@@ -713,7 +630,7 @@
       "paymentMethodLabel": "*** *** *** 43",
       "status": "Active",
       "placedAt": "2026-08-24T13:29:42.741Z",
-      "eta": "Mon, 24th, 7:14 PM",
+      "eta": "Mon, 24th, 7:14 PM",
       "id": "wFptYTh"
     },
     {
@@ -728,8 +645,31 @@
       "paymentMethodLabel": "",
       "status": "Active",
       "placedAt": "2026-08-24T13:32:10.099Z",
-      "eta": "Mon, 24th, 7:17 PM",
+      "eta": "Mon, 24th, 7:17 PM",
       "id": "RMSN71E"
+    },
+    {
+      "userId": "u1",
+      "imageKey": "mexican-appetizer",
+      "items": [
+        {
+          "productId": 8,
+          "name": "Chicken Primavera",
+          "price": 800,
+          "quantity": 3,
+          "toppings": []
+        }
+      ],
+      "subtotal": 2400,
+      "tax": 240,
+      "delivery": 3,
+      "total": 2643,
+      "address": "PTV Colony, Barakahu, Islamabad",
+      "paymentMethodLabel": "*** *** *** 43",
+      "status": "Active",
+      "placedAt": "2026-09-02T08:27:54.134Z",
+      "eta": "Wed, 2nd, 2:12 PM",
+      "id": "9dwWENZ"
     }
   ]
 }

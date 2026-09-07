@@ -5,6 +5,15 @@ export type Topping = {
   defaultSelected: boolean;
 };
 
+export type CategoryIcon = 'snacks' | 'meal' | 'vegan' | 'dessert' | 'drinks' | 'other';
+
+export type Category = {
+  id: string;
+  name: string;
+  icon: CategoryIcon;
+  sortOrder: number;
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -12,7 +21,7 @@ export type Product = {
   description: string;
   price: number;
   rating: number;
-  category: 'snacks' | 'meal' | 'vegan' | 'dessert' | 'drinks';
+  category: string;
   imageKey: string;
   isBestSeller: boolean;
   isRecommended: boolean;

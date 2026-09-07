@@ -1,6 +1,8 @@
 import React from 'react';
 import { Image, ImageSourcePropType, StyleProp, Text, View, ViewStyle } from 'react-native';
 
+import { formatCurrency } from '@/src/utils/currency';
+
 import { useFoodImageStyles } from './useFoodImageStyles';
 
 type Props = {
@@ -37,7 +39,7 @@ export function FoodImage({
       )}
       {showPrice && price !== undefined && (
         <View style={styles.priceOverlay}>
-          <Text style={styles.priceText}>${price.toFixed(2)}</Text>
+          <Text style={styles.priceText}>{formatCurrency(price)}</Text>
         </View>
       )}
     </View>

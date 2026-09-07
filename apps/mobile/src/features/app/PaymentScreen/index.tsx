@@ -14,6 +14,7 @@ import { useAuth } from '@features/auth/AuthContext';
 import { useCart } from '@features/cart/CartContext';
 import { computeEtaLabel } from '@features/cart/eta';
 import { computeOrderTotals } from '@features/cart/orderTotals';
+import { formatCurrency } from '@/src/utils/currency';
 import { addressesApi } from '@services/addressesApi';
 import { ordersApi } from '@services/ordersApi';
 import { paymentMethodsApi } from '@services/paymentMethodsApi';
@@ -124,7 +125,7 @@ const PaymentScreen = (): JSX.Element => {
                 </View>
               ))}
             </View>
-            <Text style={styles.orderSummaryTotal}>${totals.total.toFixed(2)}</Text>
+            <Text style={styles.orderSummaryTotal}>{formatCurrency(totals.total)}</Text>
           </View>
 
           <View style={styles.sectionHeader}>

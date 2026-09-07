@@ -1,5 +1,5 @@
 export function formatCurrency(value: number) {
-  return `$${value.toFixed(2)}`;
+  return `Rs ${Math.round(value).toLocaleString('en-US')}`;
 }
 
 export function formatDate(iso: string) {

@@ -12,8 +12,10 @@ export function useCategoryCardStyles() {
 
   return StyleSheet.create({
     container: {
+      width: scale(64),
+      flexShrink: 0,
       alignItems: 'center',
-      justifyContent: 'flex-end',
+      justifyContent: 'flex-start',
       gap: scale(theme.spacing.xs)
     },
     selectedBackdrop: {
@@ -70,6 +72,7 @@ export function useCategoryCardStyles() {
       height: '100%'
     },
     label: {
+      width: '100%',
       fontFamily: theme.typography.families.regular,
       fontSize: theme.typography.sizes.input,
       lineHeight: theme.typography.lineHeights.input,
