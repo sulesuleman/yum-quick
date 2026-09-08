@@ -1,42 +1,53 @@
 import { useState, type FormEvent } from 'react';
 
-import type { Product } from '@yumquick/api';
+import type { Category, Product } from '@yumquick/api';
 
 import { Button, Checkbox, Modal, Select, TextField } from '../../../../../components/ui';
 
-const CATEGORIES: Product['category'][] = ['snacks', 'meal', 'vegan', 'dessert', 'drinks'];
-const CATEGORY_OPTIONS = CATEGORIES.map((category) => ({ label: category, value: category }));
-
 export type AddProductModalProps = {
+  categories: Category[];
+  defaultCategoryId?: string;
+  product?: Product;
   onClose: () => void;
-  onCreate: (product: Omit<Product, 'id'>) => Promise<void>;
+  onSubmit: (product: Omit<Product, 'id'>) => Promise<void>;
 };
 
-export function AddProductModal({ onClose, onCreate }: AddProductModalProps) {
-  const [name, setName] = useState('');
-  const [subtitle, setSubtitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [category, setCategory] = useState<Product['category']>('snacks');
-  const [isBestSeller, setIsBestSeller] = useState(false);
-  const [isRecommended, setIsRecommended] = useState(false);
+export function AddProductModal({
+  categories,
+  defaultCategoryId,
+  product,
+  onClose,
+  onSubmit
+}: AddProductModalProps) {
+  const isEditing = Boolean(product);
+  const categoryOptions = categories.map((c) => ({ label: c.name, value: c.id }));
+
+  const [name, setName] = useState(product?.name ?? '');
+  const [subtitle, setSubtitle] = useState(product?.subtitle ?? '');
+  const [description, setDescription] = useState(product?.description ?? '');
+  const [price, setPrice] = useState(product ? String(product.price) : '');
+  const [category, setCategory] = useState(
+    product?.category ?? defaultCategoryId ?? categories[0]?.id ?? ''
+  );
+  const [isBestSeller, setIsBestSeller] = useState(product?.isBestSeller ?? false);
+  const [isRecommended, setIsRecommended] = useState(product?.isRecommended ?? false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
     try {
-      await onCreate({
+      await onSubmit({
         name,
         subtitle,
         description,
         price: Number(price) || 0,
         category,
-        imageKey: 'mexican-appetizer',
+        imageKey: product?.imageKey ?? 'mexican-appetizer',
         isBestSeller,
         isRecommended,
-        rating: 4.5,
-        toppings: []
+        rating: product?.rating ?? 4.5,
+        toppings: product?.toppings ?? []
       });
       onClose();
     } finally {
@@ -45,8 +56,8 @@ export function AddProductModal({ onClose, onCreate }: AddProductModalProps) {
   };
 
   return (
-    <Modal title='Add menu item' onClose={onClose}>
-      <form onSubmit={onSubmit} className='flex flex-col gap-4'>
+    <Modal title={isEditing ? 'Edit menu item' : 'Add menu item'} onClose={onClose}>
+      <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <TextField label='Name' value={name} onChange={(e) => setName(e.target.value)} required />
         <TextField
           label='Subtitle'
@@ -63,27 +74,27 @@ export function AddProductModal({ onClose, onCreate }: AddProductModalProps) {
           <TextField
             label='Price'
             type='number'
-            step='0.01'
+            step='1'
             min='0'
-            placeholder='0.00'
+            placeholder='0'
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             required
             containerClassName='flex-1'
-            icon={<span className='text-sm font-semibold'>$</span>}
+            icon={<span className='text-sm font-semibold'>Rs</span>}
           />
           <Select
             label='Category'
             value={category}
             onChange={setCategory}
-            options={CATEGORY_OPTIONS}
+            options={categoryOptions}
             containerClassName='flex-1'
           />
         </div>
 
         <div className='flex gap-5'>
           <Checkbox
-            label='Best seller'
+            label='Hot seller'
             checked={isBestSeller}
             onChange={(e) => setIsBestSeller(e.target.checked)}
           />
@@ -94,8 +105,8 @@ export function AddProductModal({ onClose, onCreate }: AddProductModalProps) {
           />
         </div>
 
-        <Button type='submit' variant='cta' fullWidth disabled={isSubmitting}>
-          {isSubmitting ? 'Adding…' : 'Add item'}
+        <Button type='submit' variant='cta' fullWidth disabled={isSubmitting || !category}>
+          {isSubmitting ? 'Saving…' : isEditing ? 'Save changes' : 'Add item'}
         </Button>
       </form>
     </Modal>

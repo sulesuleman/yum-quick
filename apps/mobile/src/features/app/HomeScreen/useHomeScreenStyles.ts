@@ -76,8 +76,30 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
 
     tabBarRow: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
       alignItems: 'flex-end'
+    },
+    // A horizontal ScrollView clips its content to its own frame, but the selected CategoryCard's
+    // decorative background bleeds above/below its own box (see BUMP/MERGE in
+    // useCategoryCardStyles.ts) to blend into the sections above/below it. Padding the ScrollView's
+    // frame open by that same amount — and pulling it back with an equal negative margin — grows the
+    // clip boundary without moving the visible content, so that bleed stops getting cut off.
+    tabBarScroll: {
+      marginTop: -scale(11),
+      paddingTop: scale(11),
+      marginBottom: -scale(24),
+      paddingBottom: scale(24)
+    },
+    // The selected CategoryCard's decorative background also bleeds sideways past its own box — up
+    // to CAP_INSET + INVERTED_RADIUS (see useCategoryCardStyles.ts), since the inverted-corner mask
+    // that curves into the section below sits even further out than the backdrop itself. Inside the
+    // row's `gap` that's harmless, but at the very first/last card that bleed falls outside the
+    // scrollable content itself, not just the viewport, so it needs real horizontal padding reserved
+    // (no margin trick needed here — a few extra px at either end of a horizontal scroll is
+    // unnoticeable, unlike shifting vertical layout would be).
+    tabBarScrollContent: {
+      flexDirection: 'row',
+      gap: scale(19),
+      paddingHorizontal: scale(22)
     },
 
     headerRow: {

@@ -4,6 +4,7 @@ export * from './StatusBadge';
 export * from './SectionHeader';
 export * from './FilterChips';
 export * from './OrderRow';
-export * from './ProductRow';
+export * from './ProductCard';
+export * from './ProductBadges';
 export * from './EmptyState';
 export * from './Pagination';

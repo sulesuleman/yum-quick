@@ -13,6 +13,7 @@ import { ImageCard } from '@components/Cards/ImageCard';
 import { Button, IconButton } from '@components/ui/button';
 import { QuantityStepper } from '@components/ui/QuantityStepper';
 import { resolveProductImage } from '@/src/constants/productImages';
+import { formatCurrency } from '@/src/utils/currency';
 import { useCart } from '@features/cart/CartContext';
 import { useFavorites } from '@features/favorites/useFavorites';
 import { productsApi } from '@services/productsApi';
@@ -148,7 +149,7 @@ export function ProductDetailsScreen() {
         </View>
 
         <View style={styles.priceRow}>
-          <Text style={styles.price}>${totalPrice.toFixed(2)}</Text>
+          <Text style={styles.price}>{formatCurrency(totalPrice)}</Text>
           <QuantityStepper
             value={quantity}
             onIncrement={() => setQuantity((prev) => prev + 1)}
@@ -187,7 +188,7 @@ export function ProductDetailsScreen() {
           iconWidth={16}
           iconHeight={16}
           onPress={handleAddToCart}
-          accessibilityLabel={`Add to Cart, total $${totalPrice.toFixed(2)}`}
+          accessibilityLabel={`Add to Cart, total ${formatCurrency(totalPrice)}`}
           testID='product-details-add-to-cart-button'
         />
       </View>

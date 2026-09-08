@@ -1,12 +1,13 @@
 import React from 'react';
 import { ImageSourcePropType, Pressable, Text, View } from 'react-native';
+import type { SvgProps } from 'react-native-svg';
 
 import StarIcon from '@/assets/star-icon.svg';
 import HeartIcon from '@/assets/heart-icon.svg';
 import CartIcon from '@/assets/cart-icon.svg';
 import { ImageCard } from '@components/Cards/ImageCard';
 import { IconButton } from '@components/ui/button/IconButton';
-import { CATEGORIES, CategoryId } from '@/src/constants/categories';
+import { formatCurrency } from '@/src/utils/currency';
 import { theme } from '@theme';
 
 import { useBestSellerCardStyles } from './useBestSellerCardStyles';
@@ -16,13 +17,14 @@ type BestSellerCardProps = {
   description: string;
   price: number;
   rating: number;
-  category: CategoryId;
+  categoryIcon?: React.FC<SvgProps>;
   image: ImageSourcePropType;
   onPress?: () => void;
   /** Explicit pixel width for a responsive N-column grid — omit to fall back to a fixed 48% (2-column) width. */
   width?: number;
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
+  onAddToCart?: () => void;
 };
 
 const RADIUS = 20;
@@ -32,23 +34,22 @@ export function BestSellerCard({
   description,
   price,
   rating,
-  category,
+  categoryIcon: CategoryIcon,
   image,
   onPress,
   width,
   isFavorite = false,
-  onToggleFavorite
+  onToggleFavorite,
+  onAddToCart
 }: BestSellerCardProps) {
   const styles = useBestSellerCardStyles();
-
-  const CategoryIcon = CATEGORIES.find((cat) => cat.id === category)?.icon;
 
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole={onPress ? 'button' : undefined}
       accessibilityLabel={
-        onPress ? `${name}, rating ${rating.toFixed(1)}, $${price.toFixed(2)}` : undefined
+        onPress ? `${name}, rating ${rating.toFixed(1)}, ${formatCurrency(price)}` : undefined
       }
       testID={`best-seller-card-${name.toLowerCase().trim().replace(/\s+/g, '-')}`}
       style={({ pressed }) => [
@@ -87,7 +88,7 @@ export function BestSellerCard({
         />
 
         <View style={styles.priceTag}>
-          <Text style={styles.priceText}>${price.toFixed(2)}</Text>
+          <Text style={styles.priceText}>{formatCurrency(price)}</Text>
         </View>
       </ImageCard>
 
@@ -103,13 +104,17 @@ export function BestSellerCard({
         <Text style={styles.description} numberOfLines={2}>
           {description}
         </Text>
-        <View
+        <IconButton
+          SvgIcon={CartIcon}
+          iconWidth={11.7}
+          iconHeight={11.7}
+          iconColor={theme.colors.text.inverse}
+          onPress={onAddToCart}
           style={styles.cartBadge}
-          importantForAccessibility='no-hide-descendants'
-          accessibilityElementsHidden
-        >
-          <CartIcon width={11.7} height={11.7} color={theme.colors.text.inverse} />
-        </View>
+          accessibilityRole='button'
+          accessibilityLabel={`Add ${name} to cart`}
+          testID={`best-seller-card-add-to-cart-${name.toLowerCase().trim().replace(/\s+/g, '-')}`}
+        />
       </View>
     </Pressable>
   );

@@ -3,6 +3,7 @@ import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { router } from 'expo-router';
 
 import { resolveProductImage } from '@/src/constants/productImages';
+import { formatCurrency } from '@/src/utils/currency';
 import { useCart } from '@features/cart/CartContext';
 import { computeOrderTotals } from '@features/cart/orderTotals';
 
@@ -41,7 +42,7 @@ export function AddToCartItem({ onCheckout }: Props) {
           <Image source={resolveProductImage(item.imageKey)} style={styles.cartItemImage} />
           <View style={styles.descriptionRow}>
             <Text style={styles.descriptionText}>{item.name}</Text>
-            <Text style={styles.priceText}>${item.unitPrice.toFixed(2)}</Text>
+            <Text style={styles.priceText}>{formatCurrency(item.unitPrice)}</Text>
           </View>
           <View style={styles.dateRow}>
             <Text style={styles.date}>{formatDate(item.addedAt)}</Text>
@@ -62,21 +63,21 @@ export function AddToCartItem({ onCheckout }: Props) {
       <View style={styles.summaryRows}>
         <View style={styles.rowSpaceBetween}>
           <Text style={styles.BottomRowText}>Subtotal</Text>
-          <Text style={styles.BottomRowText}>${totals.subtotal.toFixed(2)}</Text>
+          <Text style={styles.BottomRowText}>{formatCurrency(totals.subtotal)}</Text>
         </View>
         <View style={styles.rowSpaceBetween}>
           <Text style={styles.BottomRowText}>Tax and Fees</Text>
-          <Text style={styles.BottomRowText}>${totals.tax.toFixed(2)}</Text>
+          <Text style={styles.BottomRowText}>{formatCurrency(totals.tax)}</Text>
         </View>
         <View style={styles.rowSpaceBetween}>
           <Text style={styles.BottomRowText}>Delivery</Text>
-          <Text style={styles.BottomRowText}>${totals.delivery.toFixed(2)}</Text>
+          <Text style={styles.BottomRowText}>{formatCurrency(totals.delivery)}</Text>
         </View>
       </View>
       <View style={styles.dashedDivider} />
       <View style={styles.rowSpaceBetweenTotal}>
         <Text style={styles.BottomRowText}>Total</Text>
-        <Text style={styles.BottomRowText}>${totals.total.toFixed(2)}</Text>
+        <Text style={styles.BottomRowText}>{formatCurrency(totals.total)}</Text>
       </View>
       <Pressable
         style={styles.checkoutButton}

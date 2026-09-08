@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   shippingAddressContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     gap: theme.spacing.sm
   },
   shippingAddressLabel: {
@@ -104,7 +104,9 @@ const styles = StyleSheet.create({
     top: theme.spacing.xs,
     right: 0,
     zIndex: 1,
-    padding: 1
+    paddingTop: 1,
+    paddingHorizontal: 1,
+    paddingBottom: 15
   },
   orderItemImage: {
     width: 60,
