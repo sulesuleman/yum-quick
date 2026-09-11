@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: yumquick-mock-api
+    runtime: node
+    plan: free
+    rootDir: apps/mobile
+    buildCommand: npm install --include=dev
+    startCommand: npm run mock-api:render
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+    healthCheckPath: /products
