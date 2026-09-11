@@ -17,6 +17,7 @@ type CartState = {
   items: CartItem[];
   subtotal: number;
   addItem: (product: Product, quantity: number, toppings: Topping[]) => void;
+  updateItem: (cartItemId: string, quantity: number, toppings: Topping[], unitPrice: number) => void;
   incrementItem: (cartItemId: string) => void;
   decrementItem: (cartItemId: string) => void;
   removeItem: (cartItemId: string) => void;
@@ -71,6 +72,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const updateItem = useCallback(
+    (cartItemId: string, quantity: number, toppings: Topping[], unitPrice: number) => {
+      setItems((prev) =>
+        prev.map((item) =>
+          item.cartItemId === cartItemId ? { ...item, quantity, toppings, unitPrice } : item
+        )
+      );
+    },
+    []
+  );
+
   const incrementItem = useCallback((cartItemId: string) => {
     setItems((prev) =>
       prev.map((item) =>
@@ -105,6 +117,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       items,
       subtotal,
       addItem,
+      updateItem,
       incrementItem,
       decrementItem,
       removeItem,
@@ -117,6 +130,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       items,
       subtotal,
       addItem,
+      updateItem,
       incrementItem,
       decrementItem,
       removeItem,

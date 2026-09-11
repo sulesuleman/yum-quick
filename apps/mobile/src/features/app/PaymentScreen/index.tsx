@@ -112,9 +112,9 @@ const PaymentScreen = (): JSX.Element => {
 
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionLabel}>Order Summary</Text>
-            <TouchableOpacity style={styles.editButton} onPress={() => router.back()}>
+            {/* <TouchableOpacity style={styles.editButton} onPress={() => router.back()}>
               <Text style={styles.editButtonText}>Edit</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.orderSummaryRow}>
             <View style={styles.orderSummaryItems}>

@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import BackArrowIcon from '@/assets/back-arrow.svg';
 import HeartIcon from '@/assets/heart-icon.svg';
+import HeartIconFilled from '@/assets/heart-icon-filled.svg';
 import StarIcon from '@/assets/star-icon.svg';
 import BagIcon from '@/assets/bag-icon.svg';
 
@@ -33,20 +34,43 @@ function getInitialToppingSelection(toppings: Topping[]): Record<string, boolean
 export function ProductDetailsScreen() {
   const styles = useProductDetailsScreenStyles();
   const insets = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ id?: string }>();
-  const { addItem } = useCart();
+  const params = useLocalSearchParams<{
+    id?: string;
+    cartItemId?: string;
+    fromCart?: string;
+    returnTo?: string;
+  }>();
+  const { items, addItem, updateItem, openDrawer } = useCart();
   const { isFavorite, toggle } = useFavorites();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedToppings, setSelectedToppings] = useState<Record<string, boolean>>({});
 
+  const editingCartItem = params.cartItemId
+    ? items.find((item) => item.cartItemId === params.cartItemId)
+    : undefined;
+
   useEffect(() => {
     if (!params.id) return;
     productsApi.get(params.id).then((fetched) => {
       setProduct(fetched);
-      setSelectedToppings(getInitialToppingSelection(fetched.toppings));
+      if (editingCartItem) {
+        setQuantity(editingCartItem.quantity);
+        const editingToppingIds = new Set(editingCartItem.toppings.map((t) => t.id));
+        setSelectedToppings(
+          fetched.toppings.reduce<Record<string, boolean>>((acc, topping) => {
+            acc[topping.id] = editingToppingIds.has(topping.id);
+            return acc;
+          }, {})
+        );
+      } else {
+        setSelectedToppings(getInitialToppingSelection(fetched.toppings));
+      }
     });
+    // editingCartItem is derived from in-memory cart state already available at mount time —
+    // re-running this on every cart change would clobber the user's in-progress edits.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   if (!product) {
@@ -59,12 +83,30 @@ export function ProductDetailsScreen() {
   );
   const totalPrice = product.price * quantity + toppingsTotal;
   const productIsFavorite = isFavorite(product.id);
+  const isEditing = Boolean(editingCartItem);
 
   const toggleTopping = (id: string) =>
     setSelectedToppings((prev) => ({ ...prev, [id]: !prev[id] }));
 
-  const handleAddToCart = () => {
+  const handleSubmit = () => {
     const chosenToppings = product.toppings.filter((topping) => selectedToppings[topping.id]);
+
+    if (editingCartItem) {
+      const unitPrice = product.price + toppingsTotal;
+      updateItem(editingCartItem.cartItemId, quantity, chosenToppings, unitPrice);
+      if (params.fromCart === '1') openDrawer();
+      // `router.back()` isn't reliable here — these screens are flat siblings inside the tabs
+      // navigator (not a nested stack), so "back" can land on the tab's initial route instead of
+      // wherever this screen was actually opened from. Navigate to an explicit target instead,
+      // same pattern DeliveryAddressScreen already uses for the same reason.
+      if (params.returnTo) {
+        router.replace(params.returnTo);
+      } else {
+        router.back();
+      }
+      return;
+    }
+
     addItem(product, quantity, chosenToppings);
     router.back();
   };
@@ -97,7 +139,7 @@ export function ProductDetailsScreen() {
                   />
                 </View>
                 <IconButton
-                  SvgIcon={HeartIcon}
+                  SvgIcon={productIsFavorite ? HeartIconFilled : HeartIcon}
                   iconWidth={12}
                   iconHeight={10}
                   iconColor={theme.colors.text.inverse}
@@ -179,7 +221,7 @@ export function ProductDetailsScreen() {
 
       <View style={[styles.ctaWrapper, { bottom: insets.bottom + theme.layout.tabBarHeight + 32 }]}>
         <Button
-          title='Add to Cart'
+          title={isEditing ? 'Save Changes' : 'Add to Cart'}
           variant='cta'
           fullWidth={false}
           style={styles.ctaButton}
@@ -187,9 +229,11 @@ export function ProductDetailsScreen() {
           SvgIcon={BagIcon}
           iconWidth={16}
           iconHeight={16}
-          onPress={handleAddToCart}
-          accessibilityLabel={`Add to Cart, total ${formatCurrency(totalPrice)}`}
-          testID='product-details-add-to-cart-button'
+          onPress={handleSubmit}
+          accessibilityLabel={`${isEditing ? 'Save changes' : 'Add to Cart'}, total ${formatCurrency(totalPrice)}`}
+          testID={
+            isEditing ? 'product-details-save-changes-button' : 'product-details-add-to-cart-button'
+          }
         />
       </View>
     </View>

@@ -1,20 +1,25 @@
 import { Pressable, TextInput } from 'react-native';
 
-import SearchFilterIcon from '@/assets/search-filter-icon.svg';
-
 import { useSearchbarStyles } from './useSearchBarStyles';
 
-export function Searchbar() {
+type SearchbarProps = {
+  value?: string;
+  onChangeText?: (text: string) => void;
+  placeholder?: string;
+};
+
+export function Searchbar({ value, onChangeText, placeholder = 'Search' }: SearchbarProps) {
   const styles = useSearchbarStyles();
 
   return (
     <Pressable style={styles.container}>
-      <TextInput style={styles.input} placeholder='Search' placeholderTextColor='#aaa' />
-      <Pressable
-        style={({ pressed }) => [styles.filterButton, pressed && styles.filterButtonPressed]}
-      >
-        <SearchFilterIcon width={20} height={20} />
-      </Pressable>
+      <TextInput
+        style={styles.input}
+        placeholder={placeholder}
+        placeholderTextColor='#aaa'
+        value={value}
+        onChangeText={onChangeText}
+      />
     </Pressable>
   );
 }

@@ -57,6 +57,9 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
       paddingHorizontal: 36,
       paddingBottom: theme.layout.tabBarHeight + bottomInset + theme.spacing.md
     },
+    contentCardSelected: {
+      paddingTop: theme.spacing.md
+    },
 
     divider: {
       borderBottomWidth: 1,
@@ -104,8 +107,15 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
 
     headerRow: {
       flexDirection: 'row',
-      alignItems: 'center',
       gap: theme.spacing.sm
+    },
+    headerRowSpaced: {
+      alignItems: 'flex-start',
+      justifyContent: 'space-between'
+    },
+    headerRowEnd: {
+      alignItems: 'center',
+      justifyContent: 'flex-end'
     },
 
     iconGroup: {
@@ -214,38 +224,6 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
     },
 
     filteredView: {},
-    sortByRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingHorizontal: 36,
-      marginBottom: theme.spacing.md,
-      marginTop: 20
-    },
-    filterButton: {
-      width: 20,
-      height: 20,
-      borderRadius: 14,
-      backgroundColor: theme.colors.brand.primary
-    },
-
-    sortByLeft: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: theme.spacing.xs
-    },
-    sortByLabel: {
-      fontFamily: theme.typography.families.light,
-      fontSize: theme.typography.sizes.input,
-      color: theme.colors.text.caption,
-      lineHeight: theme.typography.lineHeights.input
-    },
-    sortByValue: {
-      fontFamily: theme.typography.families.light,
-      fontSize: theme.typography.sizes.input,
-      color: theme.colors.brand.primary,
-      lineHeight: theme.typography.lineHeights.input
-    },
 
     categoryScrollView: {
       // height: scale(75)
@@ -256,8 +234,9 @@ export function useHomeScreenStyles(bottomInset: number = 0) {
       // height: scale(75)
     },
 
-    greetingRow: {
-      marginTop: theme.spacing.md
+    greetingTextGroup: {
+      flex: 1,
+      flexShrink: 1
     },
     greetingText: {
       fontFamily: theme.typography.families.extraBold,

@@ -99,40 +99,59 @@ const OrderConfirmationScreen = (): JSX.Element => {
               <TouchableOpacity
                 style={styles.deleteButton}
                 onPress={() => removeItem(item.cartItemId)}
+                hitSlop={8}
               >
                 <TrashIcon width={12} height={13} />
               </TouchableOpacity>
-              <Image source={resolveProductImage(item.imageKey)} style={styles.orderItemImage} />
-              <View style={styles.orderItemDetails}>
-                <View style={styles.orderItemTopRow}>
-                  <Text style={styles.orderItemName}>{item.name}</Text>
+              <View style={styles.innerOrderItem}>
+                <Pressable
+                  onPress={() =>
+                    router.push({
+                      pathname: '/product-details',
+                      params: {
+                        id: item.productId,
+                        cartItemId: item.cartItemId,
+                        returnTo: '/order-confirmation'
+                      }
+                    })
+                  }
+                >
+                  <Image
+                    source={resolveProductImage(item.imageKey)}
+                    style={styles.orderItemImage}
+                  />
+                </Pressable>
+                <View style={styles.orderItemDetails}>
+                  <View style={styles.orderItemTopRow}>
+                    <Text style={styles.orderItemName}>{item.name}</Text>
+                  </View>
                   <Text style={styles.orderItemPrice}>{formatCurrency(item.unitPrice)}</Text>
-                </View>
-                <View style={styles.orderItemMetaRow}>
-                  <Text style={styles.orderItemMeta}>{formatOrderItemDate(item.addedAt)}</Text>
-                  <Text style={styles.orderItemMeta}>{item.quantity} items</Text>
-                </View>
-                <View style={styles.orderItemActionsRow}>
-                  <TouchableOpacity
-                    style={styles.cancelButton}
-                    onPress={() => removeItem(item.cartItemId)}
-                  >
-                    <Text style={styles.cancelButtonText}>Cancel Order</Text>
-                  </TouchableOpacity>
-                  <View style={styles.stepper}>
-                    <Pressable
-                      style={styles.stepperButton}
-                      onPress={() => decrementItem(item.cartItemId)}
+                  <View style={styles.orderItemMetaRow}>
+                    <Text style={styles.orderItemMeta}>{formatOrderItemDate(item.addedAt)}</Text>
+                    <Text style={styles.orderItemMeta}>{item.quantity} items</Text>
+                  </View>
+                  <View style={styles.orderItemActionsRow}>
+                    <TouchableOpacity
+                      style={styles.cancelButton}
+                      onPress={() => removeItem(item.cartItemId)}
                     >
-                      <Text style={styles.stepperButtonText}>-</Text>
-                    </Pressable>
-                    <Text style={styles.stepperCount}>{item.quantity}</Text>
-                    <Pressable
-                      style={styles.stepperButton}
-                      onPress={() => incrementItem(item.cartItemId)}
-                    >
-                      <Text style={styles.stepperButtonText}>+</Text>
-                    </Pressable>
+                      <Text style={styles.cancelButtonText}>Cancel Order</Text>
+                    </TouchableOpacity>
+                    <View style={styles.stepper}>
+                      <Pressable
+                        style={styles.stepperButton}
+                        onPress={() => decrementItem(item.cartItemId)}
+                      >
+                        <Text style={styles.stepperButtonText}>-</Text>
+                      </Pressable>
+                      <Text style={styles.stepperCount}>{item.quantity}</Text>
+                      <Pressable
+                        style={styles.stepperButton}
+                        onPress={() => incrementItem(item.cartItemId)}
+                      >
+                        <Text style={styles.stepperButtonText}>+</Text>
+                      </Pressable>
+                    </View>
                   </View>
                 </View>
               </View>

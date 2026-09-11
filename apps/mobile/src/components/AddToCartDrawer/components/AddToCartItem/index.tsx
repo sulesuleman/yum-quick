@@ -39,7 +39,22 @@ export function AddToCartItem({ onCheckout }: Props) {
       </Text>
       {items.map((item) => (
         <View style={styles.cartItem} key={item.cartItemId}>
-          <Image source={resolveProductImage(item.imageKey)} style={styles.cartItemImage} />
+          <Pressable
+            onPress={() => {
+              onCheckout();
+              router.push({
+                pathname: '/product-details',
+                params: {
+                  id: item.productId,
+                  cartItemId: item.cartItemId,
+                  returnTo: '/(app)/(tabs)',
+                  fromCart: '1'
+                }
+              });
+            }}
+          >
+            <Image source={resolveProductImage(item.imageKey)} style={styles.cartItemImage} />
+          </Pressable>
           <View style={styles.descriptionRow}>
             <Text style={styles.descriptionText}>{item.name}</Text>
             <Text style={styles.priceText}>{formatCurrency(item.unitPrice)}</Text>

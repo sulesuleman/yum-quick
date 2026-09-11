@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { useAuth } from '@features/auth/AuthContext';
 import { favoritesApi } from '@services/favoritesApi';
@@ -8,10 +9,15 @@ export function useFavorites() {
   const { userId } = useAuth();
   const [favorites, setFavorites] = useState<Favorite[]>([]);
 
-  useEffect(() => {
-    if (!userId) return;
-    favoritesApi.listForUser(userId).then(setFavorites);
-  }, [userId]);
+  // Tab screens stay mounted across navigation, so a plain mount-time fetch would go stale the
+  // moment a favorite is toggled from a different screen (e.g. Product Details). Refetching on
+  // focus keeps every screen's copy in sync with whatever last changed it.
+  useFocusEffect(
+    useCallback(() => {
+      if (!userId) return;
+      favoritesApi.listForUser(userId).then(setFavorites);
+    }, [userId])
+  );
 
   const isFavorite = useCallback(
     (productId: string) => favorites.some((f) => f.productId === productId),
