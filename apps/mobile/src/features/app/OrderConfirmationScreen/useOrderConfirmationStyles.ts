@@ -93,20 +93,19 @@ const styles = StyleSheet.create({
     color: theme.colors.background.orangeBase
   },
   orderItem: {
-    flexDirection: 'row',
+    flexDirection: "column",
     gap: theme.spacing.sm,
     paddingVertical: 18,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.background.divider
   },
+  innerOrderItem: {
+    flexDirection: 'row',
+    gap: theme.spacing.sm,
+  },
   deleteButton: {
-    position: 'absolute',
-    top: theme.spacing.xs,
-    right: 0,
-    zIndex: 1,
-    paddingTop: 1,
-    paddingHorizontal: 1,
-    paddingBottom: 15
+    padding: 1,
+    marginLeft: 'auto'
   },
   orderItemImage: {
     width: 60,
@@ -129,7 +128,8 @@ const styles = StyleSheet.create({
   orderItemPrice: {
     fontFamily: theme.typography.families.semiBold,
     fontSize: theme.typography.sizes.body1,
-    color: theme.colors.background.orangeBase
+    color: theme.colors.background.orangeBase,
+    textAlign: 'right'
   },
   orderItemMetaRow: {
     flexDirection: 'row',

@@ -98,7 +98,11 @@
       "isBestSeller": true,
       "isRecommended": true,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "garlic-mayo", "name": "Garlic Mayo", "price": 30, "defaultSelected": true },
+        { "id": "spicy-sauce", "name": "Spicy Sauce", "price": 20, "defaultSelected": true },
+        { "id": "extra-cheese", "name": "Extra Cheese", "price": 50, "defaultSelected": false }
+      ],
       "id": 1
     },
     {
@@ -111,7 +115,11 @@
       "isBestSeller": false,
       "isRecommended": false,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "ranch-dip", "name": "Ranch Dip", "price": 40, "defaultSelected": false },
+        { "id": "bbq-sauce", "name": "BBQ Sauce", "price": 30, "defaultSelected": false },
+        { "id": "extra-cheese", "name": "Extra Cheese", "price": 50, "defaultSelected": false }
+      ],
       "id": 2
     },
     {
@@ -124,7 +132,10 @@
       "isBestSeller": false,
       "isRecommended": false,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "ketchup", "name": "Ketchup", "price": 0, "defaultSelected": true },
+        { "id": "spicy-sauce", "name": "Spicy Sauce", "price": 20, "defaultSelected": false }
+      ],
       "id": 3
     },
     {
@@ -137,7 +148,11 @@
       "isBestSeller": true,
       "isRecommended": false,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "bbq-sauce", "name": "BBQ Sauce", "price": 30, "defaultSelected": true },
+        { "id": "ranch-dip", "name": "Ranch Dip", "price": 40, "defaultSelected": false },
+        { "id": "jalapenos", "name": "Jalapeños", "price": 40, "defaultSelected": false }
+      ],
       "id": 4
     },
     {
@@ -189,7 +204,10 @@
       "isBestSeller": true,
       "isRecommended": false,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "extra-cheese", "name": "Extra Cheese", "price": 60, "defaultSelected": true },
+        { "id": "sour-cream", "name": "Sour Cream", "price": 35, "defaultSelected": false }
+      ],
       "id": 8
     },
     {
@@ -202,7 +220,9 @@
       "isBestSeller": false,
       "isRecommended": true,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "extra-cheese", "name": "Extra Cheese", "price": 60, "defaultSelected": true }
+      ],
       "id": 9
     },
     {
@@ -215,7 +235,11 @@
       "isBestSeller": false,
       "isRecommended": false,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "jalapenos", "name": "Jalapeños", "price": 40, "defaultSelected": false },
+        { "id": "sour-cream", "name": "Sour Cream", "price": 35, "defaultSelected": false },
+        { "id": "extra-cheese", "name": "Extra Cheese", "price": 50, "defaultSelected": false }
+      ],
       "id": 10
     },
     {
@@ -241,7 +265,11 @@
       "isBestSeller": true,
       "isRecommended": false,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "cheese-slice", "name": "Cheese Slice", "price": 60, "defaultSelected": true },
+        { "id": "extra-patty", "name": "Extra Patty", "price": 150, "defaultSelected": false },
+        { "id": "spicy-sauce", "name": "Spicy Sauce", "price": 20, "defaultSelected": false }
+      ],
       "id": 12
     },
     {
@@ -280,7 +308,11 @@
       "isBestSeller": false,
       "isRecommended": false,
       "rating": 4.5,
-      "toppings": [],
+      "toppings": [
+        { "id": "bbq-sauce", "name": "BBQ Sauce", "price": 30, "defaultSelected": false },
+        { "id": "ranch-dip", "name": "Ranch Dip", "price": 40, "defaultSelected": false },
+        { "id": "ketchup", "name": "Ketchup", "price": 0, "defaultSelected": true }
+      ],
       "id": 15
     },
     {
@@ -390,8 +422,15 @@
       "userId": "u1",
       "label": "Ammar's Home",
       "address": "Zamar Valley",
-      "isDefault": true,
+      "isDefault": false,
       "id": "vBgsoW0"
+    },
+    {
+      "userId": "u1",
+      "label": "Hamza's House",
+      "address": "Barakahu Islamabad",
+      "isDefault": true,
+      "id": "k4mxSfx"
     }
   ],
   "paymentMethods": [
@@ -432,7 +471,28 @@
       "id": "25Q9Q3f"
     }
   ],
-  "favorites": [],
+  "favorites": [
+    {
+      "userId": "u1",
+      "productId": 1,
+      "id": 1
+    },
+    {
+      "userId": "u1",
+      "productId": 8,
+      "id": 2
+    },
+    {
+      "userId": "u1",
+      "productId": 12,
+      "id": 3
+    },
+    {
+      "userId": "u1",
+      "productId": 4,
+      "id": 4
+    }
+  ],
   "notifications": [
     {
       "id": "n1",

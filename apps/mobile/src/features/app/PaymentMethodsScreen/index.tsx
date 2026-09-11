@@ -191,8 +191,8 @@ export function PaymentMethodsScreen() {
               <TextField
                 label='CVV'
                 value={cvv}
-                onChangeText={(text) => setCvv(text.replace(/\D/g, '').slice(0, 4))}
-                placeholder='0000'
+                onChangeText={(text) => setCvv(text.replace(/\D/g, '').slice(0, 3))}
+                placeholder='000'
                 keyboardType='number-pad'
                 fullWidth={false}
                 containerStyle={styles.cvvField}

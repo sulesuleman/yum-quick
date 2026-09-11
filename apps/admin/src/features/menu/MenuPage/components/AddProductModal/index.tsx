@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from 'react';
 
-import type { Category, Product } from '@yumquick/api';
+import type { Category, Product, Topping } from '@yumquick/api';
 
 import { Button, Checkbox, Modal, Select, TextField } from '../../../../../components/ui';
+import { ToppingsEditor } from './components/ToppingsEditor';
 
 export type AddProductModalProps = {
   categories: Category[];
@@ -31,6 +32,7 @@ export function AddProductModal({
   );
   const [isBestSeller, setIsBestSeller] = useState(product?.isBestSeller ?? false);
   const [isRecommended, setIsRecommended] = useState(product?.isRecommended ?? false);
+  const [toppings, setToppings] = useState<Topping[]>(product?.toppings ?? []);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (event: FormEvent) => {
@@ -47,7 +49,7 @@ export function AddProductModal({
         isBestSeller,
         isRecommended,
         rating: product?.rating ?? 4.5,
-        toppings: product?.toppings ?? []
+        toppings
       });
       onClose();
     } finally {
@@ -104,6 +106,8 @@ export function AddProductModal({
             onChange={(e) => setIsRecommended(e.target.checked)}
           />
         </div>
+
+        <ToppingsEditor toppings={toppings} onChange={setToppings} />
 
         <Button type='submit' variant='cta' fullWidth disabled={isSubmitting || !category}>
           {isSubmitting ? 'Saving…' : isEditing ? 'Save changes' : 'Add item'}

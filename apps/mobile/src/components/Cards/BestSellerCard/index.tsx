@@ -4,6 +4,7 @@ import type { SvgProps } from 'react-native-svg';
 
 import StarIcon from '@/assets/star-icon.svg';
 import HeartIcon from '@/assets/heart-icon.svg';
+import HeartIconFilled from '@/assets/heart-icon-filled.svg';
 import CartIcon from '@/assets/cart-icon.svg';
 import { ImageCard } from '@components/Cards/ImageCard';
 import { IconButton } from '@components/ui/button/IconButton';
@@ -75,7 +76,7 @@ export function BestSellerCard({
         )}
 
         <IconButton
-          SvgIcon={HeartIcon}
+          SvgIcon={isFavorite ? HeartIconFilled : HeartIcon}
           iconWidth={11}
           iconHeight={10}
           iconColor={isFavorite ? theme.colors.text.inverse : theme.colors.brand.primary}

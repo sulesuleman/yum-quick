@@ -12,8 +12,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: theme.colors.background.card,
     borderRadius: 30,
-    paddingStart: 12,
-    paddingEnd: theme.spacing.xs,
+    paddingHorizontal: 12,
     paddingVertical: 3,
     height: 26,
     gap: theme.spacing.sm,
@@ -31,16 +30,5 @@ const styles = StyleSheet.create({
     color: theme.colors.text.placeholder,
     lineHeight: theme.typography.lineHeights.input,
     padding: 0
-  },
-  filterButton: {
-    width: 20,
-    aspectRatio: 1 / 1,
-    borderRadius: 16,
-    backgroundColor: theme.colors.brand.primary,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  filterButtonPressed: {
-    opacity: 0.7
   }
 });

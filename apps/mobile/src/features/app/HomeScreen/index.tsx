@@ -61,6 +61,7 @@ export function HomeScreen() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [promoBanners, setPromoBanners] = useState<PromoBanner[]>([]);
+  const [categorySearchQuery, setCategorySearchQuery] = useState('');
 
   useEffect(() => {
     productsApi.list().then(setProducts);
@@ -68,7 +69,9 @@ export function HomeScreen() {
     promoBannersApi.list().then(setPromoBanners);
   }, []);
 
-  const filteredItems = products.filter((p) => p.category === selectedCategory);
+  const filteredItems = products
+    .filter((p) => p.category === selectedCategory)
+    .filter((p) => p.name.toLowerCase().includes(categorySearchQuery.trim().toLowerCase()));
   const bestSellers = products.filter((p) => p.isBestSeller);
   const recommendItems = products.filter((p) => p.isRecommended);
 
@@ -99,8 +102,10 @@ export function HomeScreen() {
     promoScrollRef.current?.scrollTo({ x: index * bannerWidth, animated: true });
   };
 
-  const handleCategoryPress = (id: string) =>
+  const handleCategoryPress = (id: string) => {
+    setCategorySearchQuery('');
     setSelectedCategory((prev) => (prev === id ? null : id));
+  };
 
   const isFirstSelected = categories.length > 0 && selectedCategory === categories[0].id;
   const isLastSelected =
@@ -118,8 +123,24 @@ export function HomeScreen() {
                 { paddingTop: insets.top + 30 }
               ]}
             >
-              <View style={styles.headerRow}>
-                <Searchbar />
+              <View
+                style={[
+                  styles.headerRow,
+                  selectedCategory === null ? styles.headerRowSpaced : styles.headerRowEnd
+                ]}
+              >
+                {selectedCategory === null ? (
+                  <View style={styles.greetingTextGroup}>
+                    <Text style={styles.greetingText}>{greeting.heading}</Text>
+                    <Text style={styles.greetingSubtext}>{greeting.subtext}</Text>
+                  </View>
+                ) : (
+                  <Searchbar
+                    value={categorySearchQuery}
+                    onChangeText={setCategorySearchQuery}
+                    placeholder='Search this category'
+                  />
+                )}
                 <View style={styles.iconGroup}>
                   <IconButton
                     SvgIcon={CartIcon}
@@ -142,12 +163,6 @@ export function HomeScreen() {
                   />
                 </View>
               </View>
-              {selectedCategory === null && (
-                <View style={styles.greetingRow}>
-                  <Text style={styles.greetingText}>{greeting.heading}</Text>
-                  <Text style={styles.greetingSubtext}>{greeting.subtext}</Text>
-                </View>
-              )}
             </View>
           )
         }}
@@ -208,20 +223,13 @@ export function HomeScreen() {
             isLastSelected && styles.whiteBodyNoRightRadius
           ]}
         >
-          {selectedCategory !== null && (
-            <View style={styles.sortByRow}>
-              <View style={styles.sortByLeft}>
-                <Text style={styles.sortByLabel}>Sort By</Text>
-                <Text style={styles.sortByValue}>Popular</Text>
-              </View>
-              <IconButton icon={require('@/assets/filter-icon.png')} style={styles.filterButton} />
-            </View>
-          )}
-
           <ScrollView
             style={styles.scrollArea}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.contentCard}
+            contentContainerStyle={[
+              styles.contentCard,
+              selectedCategory !== null && styles.contentCardSelected
+            ]}
           >
             {selectedCategory === null && <View style={styles.divider} />}
 
